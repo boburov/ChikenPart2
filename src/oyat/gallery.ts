@@ -4,9 +4,8 @@ import broilerJpg from "./assets/gallery/broiler-house-1400.jpg";
 import chicks800 from "./assets/gallery/chicks-800.webp";
 import chicks1400 from "./assets/gallery/chicks-1400.webp";
 import chicksJpg from "./assets/gallery/chicks-1400.jpg";
-import facility800 from "./assets/gallery/facility-800.webp";
-import facility1400 from "./assets/gallery/facility-1400.webp";
-import facilityJpg from "./assets/gallery/facility-1400.jpg";
+import cageWebp from "./assets/gallery/cage-house-640.webp";
+import cageJpg from "./assets/gallery/cage-house-640.jpg";
 import incubatorWebp from "./assets/gallery/incubator-hall.webp";
 import incubatorJpg from "./assets/gallery/incubator-hall.jpg";
 import type { GalleryImage } from "./ui/ImageCard";
@@ -20,9 +19,9 @@ export const GALLERY: GalleryImage[] = [
     label: "Паррандачилик мажмуаси",
   },
   {
-    src: facilityJpg,
-    webpSrcSet: `${facility800} 800w, ${facility1400} 1400w`,
-    alt: "Замонавий паррандахона ичида боқилаётган товуқлар",
+    src: cageJpg,
+    webpSrcSet: `${cageWebp} 640w`,
+    alt: "Замонавий паррандахона: кўп қаватли катакларда оқ товуқлар",
     label: "Замонавий паррандахона",
   },
   {
