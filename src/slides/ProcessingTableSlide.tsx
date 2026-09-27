@@ -120,7 +120,7 @@ export function ProcessingTableSlide({ slide }: { slide: number }) {
         {gen && (
           <p className="mt-2 flex items-center gap-2 border-t border-hairline pt-3 text-[15px] font-medium text-ink-2">
             <Info size={17} className="shrink-0 text-brand-blue" />
-            Генератор ({gen.count?.value} дона, {String(gen.cost.total.value).replace('.', ',')} минг $, банк кредити) бу варақда йўқ: Жами слайдида алоҳида қатор.
+            Генератор ({gen.count?.value} та, {String(gen.cost.total.value).replace('.', ',')} минг $, банк кредити) бу варақда йўқ: Жами слайдида алоҳида қатор.
             <Src refs={[gen.cost.total.ref]} />
           </p>
         )}

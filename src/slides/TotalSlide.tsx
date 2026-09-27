@@ -33,7 +33,7 @@ export function TotalSlide({ onJump, slide }: { onJump: (index: number) => void;
         <div data-anim="rise" className="mt-3 flex items-center gap-2 text-[18px] font-medium text-ink-2">
           <Warehouse size={19} className="text-brand-blue" />
           <Num fig={SUMMARY.buildings} animate={false} className="font-semibold text-ink" /> та бино, шундан{' '}
-          <Num fig={SUMMARY.hatcheries} animate={false} className="font-semibold text-ink" /> таси инкубатория
+          <Num fig={SUMMARY.hatcheries} animate={false} className="font-semibold text-ink" /> таси инкубация цехи
         </div>
         {SUMMARY.land && (
           <div data-anim="rise" className="mt-1.5 flex items-center gap-2 text-[18px] font-medium text-ink-2">

@@ -9,7 +9,7 @@ export const data = raw as unknown as DeckData
 
 /** The joint-venture banner from the client's picture (moved here from the Барака Ҳамкор deck). */
 export const JOINT_VENTURE = {
-  label: 'Qo‘shma korxona',
+  label: 'Қўшма корхона',
   partners: [
     { flag: 'uz', name: '“KEGEYLI BARAKA NASLLI PARRANDA” H.K' },
     { flag: 'cn', name: '“BEIJING HUA DU YOUKOU POULTRY CO., LTD”' },
@@ -134,7 +134,7 @@ export interface FacilityView {
 }
 
 const OUTPUT_ROW: Record<SectionId, { label: string; unit: string }> = {
-  praroditel: { label: 'Ота-она жўжа', unit: 'дона / йил' },
+  praroditel: { label: 'Родитель жўжа', unit: 'бош / йил' },
   roditel: { label: 'Тухум', unit: 'дона / йил' },
   broiler: { label: 'Тирик вазн', unit: 'т / йил' },
   nesushka: { label: 'Тухум', unit: 'дона / йил' },
@@ -274,11 +274,20 @@ const project = data.project
 const LINE_STEPS = splitRound(project.lines.map((l) => val(l.cost.total)), MLN_STEP)
 const lineSteps = (id: LineId) => LINE_STEPS[project.lines.findIndex((l) => l.id === id)]
 
+// Прародитель's product is родитель chicks: «3 млн бош родитель жўжа», never «3 млн» alone
+// under the Прародитель title (the client read that as 3 млн прародитель birds).
 const OUTPUT_UNIT: Record<SectionId, string> = {
-  praroditel: 'ота-она жўжа / йил',
+  praroditel: 'бош родитель жўжа / йил',
   roditel: 'тухум / йил',
   broiler: 'гўшт (тирик вазнда) / йил',
   nesushka: 'тухум / йил',
+}
+
+const FLOCK_LABEL: Record<SectionId, string> = {
+  praroditel: 'Прародитель галаси',
+  roditel: 'Родитель галаси',
+  broiler: 'Йилига парранда',
+  nesushka: 'Тухум товуқлари',
 }
 
 function sectionView(section: Section, slide: number): SectionView {
@@ -297,7 +306,19 @@ function sectionView(section: Section, slide: number): SectionView {
     const { fig, prefix } = short(val(t.birdsPerYear), [t.birdsPerYear.ref])
     birds = { key: 'birds', label: 'Йилига парранда', fig, prefix, unit: 'бош', hint: `${formatNumber(val(t.birdsPerBatch))} × 6 боқиш` }
   } else {
-    birds = { key: 'birds', label: 'Жами бош', fig: exact(val(t.birds), [t.birds!.ref]), unit: 'бош' }
+    // The generation's own flock («Прародитель галаси 60 000 бош»), with the рем молодняк farms
+    // (young replacement stock) beside it rather than folded into one «Жами бош 90 000».
+    const farms = section.facilities.filter((f) => f.kind === 'farm' && f.birds?.value)
+    const young = farms.filter((f) => f.name.includes('рем молодняк'))
+    const main = farms.filter((f) => !young.includes(f))
+    const heads = (fs: Facility[]) => fs.reduce((a, f) => a + val(f.birds), 0)
+    birds = {
+      key: 'birds',
+      label: FLOCK_LABEL[section.id],
+      fig: exact(heads(main), main.map((f) => f.birds!.ref)),
+      unit: 'бош',
+      hint: young.length ? `+ ${formatNumber(heads(young))} рем молодняк` : undefined,
+    }
   }
 
   return {
@@ -318,7 +339,7 @@ function sectionView(section: Section, slide: number): SectionView {
         label: 'Бинолар',
         fig: exact(val(t.buildings), [t.buildings.ref]),
         unit: 'та',
-        hint: hatcheries ? `${hatcheries} таси инкубатория` : undefined,
+        hint: hatcheries ? `${hatcheries} таси инкубация цехи` : undefined,
       },
     ],
     financing: financing(t.cost.total, t.bank.total, t.own.total, lineSteps(section.id)),
@@ -337,7 +358,7 @@ const lineShares = splitRound(project.lines.map((l) => val(l.cost.total)), val(p
 const feedReserve = project.lines.find((l) => l.id === 'feedReserve')
 
 /** What a line without a slide of its own consists of (the дастгох sheet's items). */
-const LINE_HINT: Partial<Record<LineId, string>> = { processing: 'сўйиш цехи, музлатгич, ем завод' }
+const LINE_HINT: Partial<Record<LineId, string>> = { processing: 'сўйиш цехи, музлаткич, ем завод' }
 
 export const SUMMARY = {
   /** The client's grand totals: the four sections, processing, the feed reserve and the generator. */
@@ -347,7 +368,8 @@ export const SUMMARY = {
   byLine: project.lines.map((l, i) => ({
     id: l.id,
     title: l.title,
-    hint: l.count ? `${formatNumber(l.count.value)} ${l.count.unit}` : LINE_HINT[l.id],
+    // «22 та», as counts read everywhere else (the sheet's text says «22 дона»)
+    hint: l.count ? `${formatNumber(l.count.value)} та` : LINE_HINT[l.id],
     total: mln(LINE_STEPS[i], [l.cost.total.ref], true),
     share: exact(lineShares[i], [l.cost.total.ref, project.cost.total.ref]),
     exact: { total: val(l.cost.total), bank: val(l.bank.total), own: val(l.own.total) },
@@ -411,14 +433,14 @@ function processingView() {
 
   return {
     title: 'Қайта ишлаш',
-    subtitle: 'Сўйиш, музлатгич, ем завод ва транспорт',
+    subtitle: 'Сўйиш, музлаткич, ем завод ва транспорт',
     countries: countries.join(', '),
     countriesSrc: items.map((i) => i.country.ref),
     positions: items.length,
     hero: { label: 'Сўйиш цехи қуввати', fig: exact(leadingNumber(slaughter.capacity?.value), [slaughter.capacity?.ref ?? slaughter.name.ref]), unit: 'бош / соат' },
     stats: [
       { key: 'feedmill', label: 'Ем завод', fig: exact(leadingNumber(feedmill.capacity?.value), [feedmill.capacity?.ref ?? feedmill.name.ref]), unit: 'т / соат' },
-      { key: 'cold', label: 'Музлатгич', fig: exact(leadingNumber(cold.capacity?.value), [cold.capacity?.ref ?? cold.name.ref]), unit: 'т' },
+      { key: 'cold', label: 'Музлаткич', fig: exact(leadingNumber(cold.capacity?.value), [cold.capacity?.ref ?? cold.name.ref]), unit: 'т' },
       { key: 'transport', label: 'Махсус транспорт', fig: exact(transport.reduce((a, i) => a + val(i.count), 0), transport.map((i) => i.count.ref)), unit: 'та' },
     ],
     financing: financing(proc.cost.total, proc.bank.total, proc.own.total, steps),
