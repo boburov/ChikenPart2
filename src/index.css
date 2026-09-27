@@ -19,6 +19,30 @@
   --font-sans: "Onest Variable", "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --ease-brand: cubic-bezier(0.22, 1, 0.36, 1);
+
+  /* Tokens of the WOD-188-2 poster (src/oyat, from github.com/boburov/chicken-oyatbek). */
+  --color-navy: #123b8f;
+  --color-navy-deep: #0c2a6b;
+  --color-accent: #176bff;
+  --color-violet: #7b3ff2;
+  --color-violet-soft: #bda7ff;
+  --color-mist: #eef3ff;
+  --color-line: #e3e9f5;
+  --color-muted: #667085;
+  --shadow-card: inset 0 1px 0 rgb(255 255 255 / 0.9), 0 10px 30px -12px rgb(18 59 143 / 0.22), 0 2px 6px -2px rgb(18 59 143 / 0.08);
+  --shadow-glow: 0 0 0 1px rgb(23 107 255 / 0.18), 0 12px 32px -10px rgb(23 107 255 / 0.45);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-float: float 10s ease-in-out infinite;
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    50% {
+      transform: translate3d(0, -8px, 0);
+    }
+  }
   --ease-spring: cubic-bezier(0.34, 1.36, 0.64, 1);
 }
 
@@ -236,4 +260,28 @@ html.print-preview .slide [data-anim] {
 }
 html.print-preview .no-print {
   display: none !important;
+}
+
+/* ---------- WOD-188-2 poster (src/oyat) ---------- */
+
+/* Blue → purple gradient text for headline figures. */
+@utility text-grad {
+  background: linear-gradient(95deg, var(--color-navy) 0%, var(--color-accent) 55%, var(--color-violet) 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* Blue → purple fill. */
+@utility bg-grad {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-violet));
+}
+
+/* Dotted decoration. Size the element to (columns × gap) by (rows × gap). */
+@utility dot-pattern {
+  --dot-gap: 1rem;
+  --dot-radius: 0.15625rem;
+  --dot-color: rgb(23 107 255 / 0.45);
+  background-image: radial-gradient(circle at center, var(--dot-color) var(--dot-radius), transparent calc(var(--dot-radius) + 0.04rem));
+  background-size: var(--dot-gap) var(--dot-gap);
 }

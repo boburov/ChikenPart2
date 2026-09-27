@@ -328,7 +328,7 @@ function sectionView(section: Section, slide: number): SectionView {
   }
 }
 
-// Slide 3 is the company overview (CompanySlide), so the sections after Прародитель move one down.
+// Slide 3 is the WOD-188-2 poster (WodSlide), so the sections after Прародитель move one down.
 export const SECTIONS: SectionView[] = data.sections.map((sec, i) => sectionView(sec, i === 0 ? 2 : i + 3))
 
 const sum = data.summary
@@ -487,7 +487,7 @@ export const SLIDES: { id: SlideId; title: string }[] = [
   { id: 'cover', title: 'Муқова' },
   ...SECTIONS.flatMap((sec, i) => [
     { id: sec.id as SlideId, title: sec.title },
-    ...(i === 0 ? [{ id: 'company' as SlideId, title: 'Корхона' }] : []),
+    ...(i === 0 ? [{ id: 'company' as SlideId, title: 'WOD-188-2 товуқ зоти' }] : []),
   ]),
   { id: 'processing', title: 'Қайта ишлаш' },
   { id: 'processing-table', title: 'Қайта ишлаш: дастгоҳлар' },
