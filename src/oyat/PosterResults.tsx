@@ -55,7 +55,7 @@ export function PosterResults() {
         Эришиладиган натижалар
       </motion.h2>
 
-      <div className="mt-2 grid h-[7.5rem] items-stretch gap-2.5" style={{ gridTemplateColumns: columns }}>
+      <div className="mt-2 grid h-[8.5rem] items-stretch gap-2.5" style={{ gridTemplateColumns: columns }}>
         <OutputTiles poster startAfter={START + 0.3} />
         {cells.map((cell) =>
           cell === "export" ? (
