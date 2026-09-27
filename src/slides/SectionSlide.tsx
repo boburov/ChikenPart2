@@ -1,4 +1,4 @@
-import { Cog, MapPin } from 'lucide-react'
+import { Cog, LandPlot, MapPin } from 'lucide-react'
 import { DECK, type CostRow, type SectionView } from '../data/deck'
 import { PHOTOS } from '../data/photos'
 import type { SectionId } from '../data/types'
@@ -35,6 +35,11 @@ export function SectionSlide({ s }: { s: SectionView }) {
             <Cog size={19} className="text-brand-blue" /> Дастгоҳлар: {s.country}
             <Src refs={s.countrySrc} />
           </span>
+          {s.land && (
+            <span className="flex items-center gap-2">
+              <LandPlot size={19} className="text-brand-blue" /> Ер майдони: <Num fig={s.land} animate={false} className="font-semibold text-ink" /> га
+            </span>
+          )}
         </div>
       </div>
 

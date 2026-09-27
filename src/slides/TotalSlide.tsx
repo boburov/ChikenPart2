@@ -1,4 +1,4 @@
-import { ArrowUpRight, Info, Warehouse, Wheat } from 'lucide-react'
+import { ArrowUpRight, Info, LandPlot, Warehouse, Wheat } from 'lucide-react'
 import { SECTIONS, SUMMARY } from '../data/deck'
 import { Card, IconTile } from '../components/Blocks'
 import { FundsLegend, StackedBars } from '../components/Charts'
@@ -35,6 +35,12 @@ export function TotalSlide({ onJump, slide }: { onJump: (index: number) => void;
           <Num fig={SUMMARY.buildings} animate={false} className="font-semibold text-ink" /> та бино, шундан{' '}
           <Num fig={SUMMARY.hatcheries} animate={false} className="font-semibold text-ink" /> таси инкубатория
         </div>
+        {SUMMARY.land && (
+          <div data-anim="rise" className="mt-1.5 flex items-center gap-2 text-[18px] font-medium text-ink-2">
+            <LandPlot size={19} className="text-brand-blue" />
+            Ер майдони: <Num fig={SUMMARY.land} animate={false} className="font-semibold text-ink" /> га
+          </div>
+        )}
       </div>
 
       <div className="col-span-8 grid grid-cols-[1.25fr_1fr_1fr_1.1fr] gap-5">

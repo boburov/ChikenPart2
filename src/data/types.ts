@@ -2,6 +2,14 @@
 
 export type Unit = 'kUSD' | 'USD' | 'kg' | 'pcs'
 
+/** Land in hectares. Not in the spreadsheet: `ref` names the source (the client). */
+export interface Land {
+  value: number
+  unit: 'ha'
+  ref: string
+  sumOf?: string[]
+}
+
 /** One spreadsheet cell: its value and where it came from. */
 export interface Cell<T = number> {
   value: T | null
@@ -36,6 +44,7 @@ interface Block {
   birds?: Cell
   birdsPerBatch?: Cell
   birdsPerYear?: Cell
+  land?: Land
 }
 
 export interface Facility extends Block {
@@ -84,5 +93,6 @@ export interface DeckData {
     bank: Record<keyof Money, Summed>
     buildings: Summed
     hatcheries: { value: number; refs: string[] }
+    land: Land
   }
 }

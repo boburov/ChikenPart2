@@ -330,6 +330,30 @@ def money(sheet, row):
     return {key: sheet.num(f"{col}{row}") for col, key in COST_COLS.items()}
 
 
+# Land for each facility, in hectares. Not in the spreadsheet: the client sent it on 27.09.2026.
+# Incubators got no figure. Прародитель 2-фабрика = 2 га, confirmed by the client on 27.09.2026.
+LAND_SOURCE = "мижоз маълумоти, 27.09.2026"
+LAND = {
+    "Прородитель!B10": 3,
+    "Прородитель!B16": 2,
+    "Родилеь!B10": 8.4,
+    "Родилеь!B13": 15,
+    **{f"броллер!B{r}": 3 for r in (10, 13, 16, 19, 22)},
+    **{f"Несушка!B{r}": 3 for r in (10, 13, 16)},
+}
+LAND_FLAG = {
+    "level": "client",
+    "refs": sorted(LAND),
+    "text": "Land areas (ер майдони) are not in the spreadsheet; the client gave them on 27.09.2026 "
+            "(Несушка 3 × 3 га, Бройлер 5 × 3 га, Прародитель 3 + 2 га, Родитель 8,4 + 15 га; incubators: none).",
+    "resolution": "Shown per facility, per section and in total, with the source «мижоз маълумоти».",
+}
+
+
+def land_of(ref):
+    return {"value": LAND[ref], "unit": "ha", "ref": LAND_SOURCE} if ref in LAND else None
+
+
 def facility(sheet, section, base, warnings):
     ref = sheet.ref(f"B{base}")
     expected, shown = FACILITIES[ref]
@@ -350,6 +374,7 @@ def facility(sheet, section, base, warnings):
         "output": sheet.num(f"F{base}"),
         "revenue": sheet.num(f"G{base}"),
         "supplier": sheet.text(f"H{base}", SUPPLIERS.get(supplier_raw, supplier_raw)),
+        **({"land": land_of(ref)} if ref in LAND else {}),
         **{key: money(sheet, base + offset) for key, offset in MONEY_ROWS.items()},
     }
 
@@ -363,6 +388,8 @@ def section_json(sheet, section, warnings):
             headers[cell] = sheet.text(cell, shown)
     title_raw = sheet.v["B2"].value
     company = re.search(r'"([^"]+)"', title_raw).group(1)
+    facilities = [facility(sheet, section, base, warnings) for base in section["rows"]]
+    with_land = [f for f in facilities if f.get("land")]
     return {
         "id": section["id"],
         "title": section["title"],
@@ -380,9 +407,11 @@ def section_json(sheet, section, warnings):
             "output": sheet.num("F7"),
             "revenue": sheet.num("G7"),
             "country": sheet.text("H7"),
+            **({"land": {"value": round(sum(f["land"]["value"] for f in with_land), 2), "unit": "ha",
+                         "sumOf": [f["nameRef"]["ref"] for f in with_land], "ref": LAND_SOURCE}} if with_land else {}),
             **{key: money(sheet, 7 + offset) for key, offset in MONEY_ROWS.items()},
         },
-        "facilities": [facility(sheet, section, base, warnings) for base in section["rows"]],
+        "facilities": facilities,
     }
 
 
@@ -397,6 +426,8 @@ def summary_json(sections):
         **{key: {col: total((key, col)) for col in COST_COLS.values()} for key in MONEY_ROWS},
         "buildings": total(("buildings",)),
         "hatcheries": {"value": len(hatcheries), "refs": hatcheries},
+        "land": {"value": round(sum(s["totals"].get("land", {}).get("value", 0) for s in sections), 2), "unit": "ha",
+                 "sumOf": [ref for s in sections for ref in s["totals"].get("land", {}).get("sumOf", [])], "ref": LAND_SOURCE},
         "outputs": [{"section": s["id"], **s["totals"]["output"], "unit": s["units"]["output"]["unit"]} for s in sections],
         "revenues": [{"section": s["id"], **s["totals"]["revenue"], "unit": s["units"]["revenue"]["unit"]} for s in sections],
     }
@@ -544,6 +575,15 @@ def write_markdown(data, checks, flags, merged, warnings):
         f"| buildings | {fmt(s['buildings']['value'])} | {', '.join(s['buildings']['sumOf'])} |",
         f"| incubators among them | {s['hatcheries']['value']} | {', '.join(s['hatcheries']['refs'])} |",
         "",
+        f"## Ер майдони ({LAND_SOURCE}, not in the spreadsheet)",
+        "",
+        "| Section | Facility | Land, га |",
+        "|---|---|---:|",
+        *[f"| {sec['title']} | {f['name']} | {fmt(f['land']['value']) if f.get('land') else '—'} |"
+          for sec in data["sections"] for f in sec["facilities"]],
+        *[f"| **{sec['title']}** | **жами** | **{fmt(sec['totals']['land']['value'])}** |" for sec in data["sections"] if sec["totals"].get("land")],
+        f"| **Жами** | | **{fmt(s['land']['value'])}** |",
+        "",
         "## Full list (one line per value)",
         "",
         *full_list_md([{**sec, "birds_keys": order[sec["id"]]["birds"]} for sec in data["sections"]]),
@@ -599,7 +639,7 @@ def main():
         },
         "sections": sections,
         "summary": summary_json(sections),
-        "flags": flags + STATIC_FLAGS,
+        "flags": flags + STATIC_FLAGS + [LAND_FLAG],
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

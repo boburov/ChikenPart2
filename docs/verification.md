@@ -1,6 +1,6 @@
 # Кегейли.xlsx → kegeyli.json: check table
 
-Source `data/Кегейли.xlsx` · SHA-256 `71110830c082c5eb…` · extracted 2026-09-27T21:18:41
+Source `data/Кегейли.xlsx` · SHA-256 `71110830c082c5eb…` · extracted 2026-09-27T21:40:12
 
 Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes from the JSON the slides use.
 
@@ -35,6 +35,7 @@ Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes 
 | 11 | text | *!J4 | The cost group header repeats «Лойиҳа йўналиши» from B4. | Shown as «Харажатлар таркиби». |
 | 12 | text | B10:B22 | Building sizes (100*18, 90*14,5, 110*18) have no unit. | Shown in metres (100 × 18 м). |
 | 13 | text | sheet names, B2, B7, B10:B22, F5, H10:H22, M5 | Spelling: Родилеь, броллер, Прородитель, Кеегейли, Гунажу, Трик вазнда, ота на, доллрдан, Дастгох, Лойиха. | Fixed on the slides; the sheet's text is kept in the JSON as sheetText. |
+| 14 | client | Несушка!B10, Несушка!B13, Несушка!B16, Прородитель!B10, Прородитель!B16, Родилеь!B10, Родилеь!B13, броллер!B10, броллер!B13, броллер!B16, броллер!B19, броллер!B22 | Land areas (ер майдони) are not in the spreadsheet; the client gave them on 27.09.2026 (Несушка 3 × 3 га, Бройлер 5 × 3 га, Прародитель 3 + 2 га, Родитель 8,4 + 15 га; incubators: none). | Shown per facility, per section and in total, with the source «мижоз маълумоти». |
 
 ## Merged cells
 
@@ -202,6 +203,30 @@ Units: I–M in **kUSD** · G revenue in **USD** · F output in **pcs** (table e
 | bank · feed | 0 | Прородитель!M9, Родилеь!M9, броллер!M9, Несушка!M9 |
 | buildings | 59 | Прородитель!C7, Родилеь!C7, броллер!C7, Несушка!C7 |
 | incubators among them | 2 | Прородитель!B13, Родилеь!B16 |
+
+## Ер майдони (мижоз маълумоти, 27.09.2026, not in the spreadsheet)
+
+| Section | Facility | Land, га |
+|---|---|---:|
+| Прародитель | 1-фабрика — прародитель | 3 |
+| Прародитель | Инкубатория | — |
+| Прародитель | 2-фабрика — рем молодняк | 2 |
+| Родитель | 1-фабрика — родитель (рем молодняк) | 8.4 |
+| Родитель | 2-фабрика — родитель | 15 |
+| Родитель | Инкубатория | — |
+| Бройлер | 1-фабрика | 3 |
+| Бройлер | 2-фабрика | 3 |
+| Бройлер | 3-фабрика | 3 |
+| Бройлер | 4-фабрика | 3 |
+| Бройлер | 5-фабрика | 3 |
+| Несушка | 1-фабрика | 3 |
+| Несушка | 2-фабрика | 3 |
+| Несушка | 3-фабрика — рем молодняк | 3 |
+| **Прародитель** | **жами** | **5** |
+| **Родитель** | **жами** | **23.4** |
+| **Бройлер** | **жами** | **15** |
+| **Несушка** | **жами** | **9** |
+| **Жами** | | **52.4** |
 
 ## Full list (one line per value)
 

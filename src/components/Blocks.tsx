@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { MapPin, Truck, type LucideIcon } from 'lucide-react'
+import { LandPlot, MapPin, Truck, type LucideIcon } from 'lucide-react'
 import type { FacilityView, GroupRow, GroupView } from '../data/deck'
 import { SplitBar } from './Charts'
 import { FACILITY_ICON } from './icons'
@@ -54,7 +54,7 @@ export function PhotoSlot({ src, icon: Icon, alt, className = '' }: { src: strin
 /** One farm or incubator. Money is exact, in thousand $, like the spreadsheet. */
 export function FacilityCard({ f }: { f: FacilityView }) {
   return (
-    <article data-anim="rise" className="glass-strong flex min-h-0 flex-col rounded-[22px] p-5">
+    <article data-anim="rise" className="glass-strong flex min-h-0 flex-col rounded-[22px] px-5 pt-4 pb-4">
       <div className="flex items-start gap-3">
         <IconTile icon={FACILITY_ICON[f.kind]} size={42} />
         <div className="min-w-0">
@@ -65,6 +65,12 @@ export function FacilityCard({ f }: { f: FacilityView }) {
           <div className="mt-1 text-[14px] font-medium text-ink-2">
             <Num fig={f.buildings} animate={false} /> та бино{f.size && ` · ${f.size}`}
           </div>
+          {f.land && (
+            <div className="mt-0.5 flex items-center gap-1.5 text-[14px] font-medium text-ink-2">
+              <LandPlot size={14} className="shrink-0 text-brand-blue" />
+              Ер майдони: <Num fig={f.land} animate={false} className="font-[700] text-ink" /> га
+            </div>
+          )}
         </div>
       </div>
 
@@ -127,14 +133,14 @@ function GroupTable({ rows, count }: { rows: GroupRow[]; count: number }) {
       <tbody>
         {rows.map((r) => (
           <tr key={r.label} className={`border-t border-hairline ${r.strong ? 'font-[740]' : ''} text-ink`}>
-            <td className="py-[4px] pr-2 text-[15px] leading-tight text-ink-2">
+            <td className="py-[3px] pr-2 text-[15px] leading-tight text-ink-2">
               {r.label}
               <span className="block text-[12px] leading-none text-ink-3">{r.unit}</span>
             </td>
-            <td className="py-[4px] text-right">
+            <td className="py-[3px] text-right">
               <Num fig={r.each} animate={false} />
             </td>
-            <td className="py-[4px] text-right">
+            <td className="py-[3px] text-right">
               <Num fig={r.total} />
             </td>
           </tr>

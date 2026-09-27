@@ -3,7 +3,7 @@
 import raw from './kegeyli.json'
 import { formatNumber } from '../lib/format'
 import { splitRound } from '../lib/round'
-import type { Cell, CostKey, DeckData, Facility, Money, Section, SectionId, Summed, Totals, Unit } from './types'
+import type { Cell, CostKey, DeckData, Facility, Land, Money, Section, SectionId, Summed, Totals, Unit } from './types'
 
 export const data = raw as unknown as DeckData
 
@@ -35,6 +35,9 @@ const refsOf = (c: Source) => ('ref' in c ? [c.ref] : c.sumOf)
 const MLN_STEP = 10
 const mln = (steps: number, src: string[], trim = false): Fig => ({ value: steps / 100, decimals: 2, trim, src })
 const exact = (value: number, src: string[]): Fig => ({ value, decimals: 0, src })
+
+/** Land area, e.g. 8,4 га or 15 га. The source is the client, not the spreadsheet. */
+const hectares = (land?: Land): Fig | undefined => (land ? { value: land.value, decimals: 1, trim: true, src: [land.ref] } : undefined)
 
 const thousands = (cell: Cell, unit: Unit) => (unit === 'USD' ? val(cell) / 1000 : val(cell))
 
@@ -114,6 +117,7 @@ export interface FacilityView {
   supplier: string
   supplierSrc: string[]
   buildings: Fig
+  land?: Fig
   rows: FacilityRow[]
   /** Exact, in thousand $: the facility cards are the "table" part of a slide. */
   cost: { total: Fig; bank: Fig; own: Fig }
@@ -154,6 +158,7 @@ function facilityView(section: Section, f: Facility): FacilityView {
     supplier: f.supplier.value ?? '',
     supplierSrc: [f.supplier.ref],
     buildings: exact(val(f.buildings), [f.buildings.ref]),
+    land: hectares(f.land),
     rows,
     cost: {
       total: exact(val(f.cost.total), [f.cost.total.ref]),
@@ -210,6 +215,7 @@ function groupView(section: Section): GroupView | undefined {
     supplier: fs[0].supplier.value ?? '',
     supplierSrc: fs.map((f) => f.supplier.ref),
     production: [
+      ...(fs[0].land && t.land ? [row('Ер майдони', 'га', (b) => b.land)] : []),
       row('Бинолар', 'та', (b) => b.buildings),
       row('Бир боқишда', 'бош', (b) => b.birdsPerBatch),
       row('Йилига (6 боқиш)', 'бош', (b) => b.birdsPerYear),
@@ -241,6 +247,7 @@ export interface SectionView {
   subtitle: string
   country: string
   countrySrc: string[]
+  land?: Fig
   output: { label: string; fig: Fig; prefix: string; unit: string }
   revenue: Fig
   stats: Stat[]
@@ -283,6 +290,7 @@ function sectionView(section: Section, slide: number): SectionView {
     subtitle: section.subtitle,
     country: t.country.value ?? '',
     countrySrc: [t.country.ref],
+    land: hectares(t.land),
     output: { label: 'Йиллик ишлаб чиқариш', ...output, unit: OUTPUT_UNIT[section.id] },
     revenue,
     stats: [
@@ -323,6 +331,7 @@ export const SUMMARY = {
   })),
   buildings: exact(sum.buildings.value, sum.buildings.sumOf),
   hatcheries: exact(sum.hatcheries.value, sum.hatcheries.refs),
+  land: hectares(sum.land),
   /** Bank credit for the feed reserve. Not in the sheets: 6 mln $, given by the client. */
   feedReserve: mln(FEED_RESERVE_STEPS, [], true),
   totalCredit: mln(Math.round(totalFinancing.bank.value * 100) + FEED_RESERVE_STEPS, totalFinancing.bank.src, true),
