@@ -592,3 +592,48 @@ Agar bu fabrikalarga haqiqatan pul sarflash rejalashtirilgan bo'lsa, summalarni 
 <sub>session `11be82df` · branch `HEAD` · 12 ta qadam</sub>
 
 ---
+
+## 2026-09-27 21:51 — bu yerdagi malumotlarni qayerdan olyapsan
+
+**So'rov**
+
+> bu yerdagi malumotlarni qayerdan olyapsan
+
+**Natija**
+
+Hammasi bitta fayldan olinadi: `~/Desktop/ChickenPart3/data/Смета БХП.xlsx`. Bu siz yuborgan `~/Downloads/Смета БХП.xlsx` ning nusxasi, **`броллер`** varag'i, 10–27 qatorlar. Qo'lda kiritilgan raqam yo'q.
+
+Jarayon:
+- `scripts/extract.py` Excelni o'qiydi.
+- U `src/data/bhp.json` ni yozadi, har bir raqam o'z katagi bilan.
+- Slaydlar shu JSON dan chiziladi.
+
+**Ustun → Excel katagi:**
+
+| Jadvalda | Excelda | Misol: Жалақудуқ 1-фабрика |
+|---|---|---|
+| Объект | B ustuni (matni tozalangan) | `B10` |
+| Бино | C | `C10` = 7 |
+| Бир бинода | D | `D10` = 80 000 |
+| Парранда | E (= D × C × 6 / 1000) | `E10` = 3 360 |
+| Гўшт | F (= E × 2,5) | `F10` = 8 400 |
+| Тушум | G (= F × 1,8) | `G10` = 15 120 |
+| Қиймати | fabrika qatoridagi I | `I10` = 4 500 |
+| Банк | «банк кредити» qatoridagi I | `I12` = 2 500 |
+| Ўз маблағи | «ўз маблағи» qatoridagi I | `I11` = 2 000 |
+
+**Uchta Асака fabrikasi:** 0 lar `I22` va `I24` dan olingan. Ikkalasi ham Excelda 0 ga teng. `I23` bo'sh, uni ham 0 deb ko'rsatdim.
+
+**«Жами» qatori** varaqdagi 7-qatordan olinadi: `E7`, `F7`, `G7`, `I7`, `I8`, `I9`. Faqat bitta istisno bor: Excelda `C7` = **47**, lekin formulasi 24- va 25-qatorlarni tashlab ketgan. Shuning uchun barcha qatorlar yig'indisini, **62** ni ko'rsatdim.
+
+**Excelda to'g'ridan-to'g'ri yozilmagan ikki narsa:**
+- **«Ҳолати» ustuni:** «мавжуд» H ustunidan olingan. «янги» va «қайта жиҳозлаш» ni esa men xarajatlarga qarab ajratdim: qurilish xarajati bor bo'lsa, «янги». Qurilish 0, lekin dastgoh bor bo'lsa, «қайта жиҳозлаш» (Асака 4-фабрика: `J25` = 0, `K25` = 1 350).
+- **«100 × 18 м»:** o'lcham B ustunidagi «(бир бино ўлчами 100*18)» matnidan olingan. «м» (metr) birligini men qo'shdim, Excelda birlik yo'q.
+
+Slaydda **S** tugmasini bossangiz, har bir raqam ustida uning katagi chiqadi, masalan `броллер!
+
+…(qisqartirildi)
+
+<sub>session `11be82df` · branch `HEAD` · 0 ta qadam</sub>
+
+---
