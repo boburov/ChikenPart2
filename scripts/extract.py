@@ -79,6 +79,12 @@ SECTIONS = [
 # Sums of "birds per building" across facilities: not a real total, never shown.
 HIDDEN = {"Прородитель!D7", "Родилеь!D7"}
 
+# Changes the client asked for on top of the sheet. Money moves from one cell to another,
+# then every formula on that sheet is recalculated, so all totals and slides follow.
+# Example: {"sheet": "Прородитель", "move": 1000, "from": "L12", "to": "L11", "why": "..."}.
+# Empty since the 27.09.2026 file: the client made the change in the sheet itself (1 800 moved in L11/L12).
+ADJUSTMENTS: list[dict] = []
+
 # Spelling fixes applied to every text shown on the slides. The sheet's own text is
 # kept next to it in the JSON as "sheetText".
 WORD_FIXES = [
@@ -207,6 +213,7 @@ class Sheet:
     def __init__(self, wb_formulas, wb_values, name):
         self.name, self.f, self.v = name, wb_formulas[name], wb_values[name]
         self.corrected = {}
+        self.notes = {}
 
     def ref(self, cell):
         return f"{self.name}!{cell}"
@@ -224,7 +231,7 @@ class Sheet:
             item["formula"] = self.formula(cell)
         if cell in self.corrected:
             item["sheetValue"] = self.v[cell].value
-            item["note"] = "Typed-in value in the sheet; using J+K+L+M of the same row"
+            item["note"] = self.notes.get(cell, "Typed-in value in the sheet; using J+K+L+M of the same row")
         if self.ref(cell) in HIDDEN:
             item["hidden"] = True
             item["note"] = "Sum of birds per building across facilities; not shown"
@@ -267,6 +274,36 @@ def find_typed_in_totals(sheet, rows):
                 sheet.corrected[f"I{r}"] = parts
                 found.append({"ref": sheet.ref(f"I{r}"), "sheetValue": sheet.v[f"I{r}"].value, "value": parts})
     return found
+
+
+def apply_adjustments(sheet):
+    """Moves money between two cells as the client asked, then recalculates every formula on the sheet."""
+    flags = []
+    for adj in (a for a in ADJUSTMENTS if a["sheet"] == sheet.name):
+        before = {c: sheet.value(c) or 0 for c in (adj["from"], adj["to"])}
+        sheet.corrected[adj["from"]] = before[adj["from"]] - adj["move"]
+        sheet.corrected[adj["to"]] = before[adj["to"]] + adj["move"]
+        for cell in (adj["from"], adj["to"]):
+            sheet.notes[cell] = adj["why"]
+        for _ in range(20):  # formulas only add and multiply, so this settles in a few passes
+            changed = False
+            for row in sheet.f.iter_rows():
+                for c in row:
+                    formula = sheet.formula(c.coordinate)
+                    if not formula:
+                        continue
+                    value = eval(re.sub(r"[A-Z]+\d+", lambda m: str(sheet.value(m.group(0)) or 0), formula[1:]))  # noqa: S307
+                    if value != (sheet.value(c.coordinate) or 0):
+                        sheet.corrected[c.coordinate] = value
+                        sheet.notes[c.coordinate] = f"Recalculated after moving {fmt(adj['move'])} from {adj['from']} to {adj['to']}"
+                        changed = True
+            if not changed:
+                break
+        flags.append({"level": "adjustment", "refs": [sheet.ref(adj["from"]), sheet.ref(adj["to"])],
+                      "text": f"{adj['why']}. {adj['from']}: {fmt(before[adj['from']])} → {fmt(sheet.value(adj['from']))}; "
+                              f"{adj['to']}: {fmt(before[adj['to']])} → {fmt(sheet.value(adj['to']))}. Every total on the sheet is recalculated.",
+                      "resolution": f"Section: bank {fmt(sheet.v['I9'].value)} → {fmt(sheet.value('I9'))}, own {fmt(sheet.v['I8'].value)} → {fmt(sheet.value('I8'))} thousand $."})
+    return flags
 
 
 def check_sums(sheet, rows):
@@ -532,13 +569,18 @@ def main():
         if stale:
             sys.exit("Saved values don't match the formulas. Open the file in Excel, save it, and run again:\n" + "\n".join(stale))
         checks.append(f"`{sheet.name}`: all {count} formulas give the value Excel saved.")
-        for fix in find_typed_in_totals(sheet, section["rows"]):
+        typed_fixes = find_typed_in_totals(sheet, section["rows"])
+        for fix in typed_fixes:
             flags.append({"level": "error", "refs": [fix["ref"]],
                           "text": f"Typed-in {fmt(fix['sheetValue'])} where J+K+L+M of the same row gives {fmt(fix['value'])}; the two sub-rows then don't add up to the facility row.",
                           "resolution": f"Using {fmt(fix['value'])}. Section totals (rows 7–9) are built from J–M, so they don't change."})
+        adjustments = apply_adjustments(sheet)
+        flags.extend(adjustments)
         bad = check_sums(sheet, section["rows"])
-        fixed = f" (after the fix in {', '.join(sheet.corrected)})" if sheet.corrected else ""
-        checks.append(f"`{sheet.name}`: own + bank = facility, facilities = total, I = J+K+L+M on every row{fixed}: "
+        done = [f"the fix in {', '.join(f['ref'].split('!')[1] for f in typed_fixes)}"] if typed_fixes else []
+        done += ["the client's adjustment"] if adjustments else []
+        after = f" (after {' and '.join(done)})" if done else ""
+        checks.append(f"`{sheet.name}`: own + bank = facility, facilities = total, I = J+K+L+M on every row{after}: "
                       + ("all pass." if not bad else "FAIL — " + "; ".join(bad)))
         merged[sheet.name] = [f"{r} («{norm(sheet.v[str(r).split(':')[0]].value or '')[:40]}»)"
                               for r in sorted(sheet.f.merged_cells.ranges, key=str)]

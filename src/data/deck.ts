@@ -306,10 +306,12 @@ function sectionView(section: Section, slide: number): SectionView {
 export const SECTIONS: SectionView[] = data.sections.map((sec, i) => sectionView(sec, i + 2))
 
 const sum = data.summary
+const FEED_RESERVE_STEPS = 600 // 6 mln $ in 10 thousand $ steps
+const totalFinancing = financing(sum.cost.total, sum.bank.total, sum.own.total)
 const sectionShares = splitRound(SECTIONS.map((x) => x.financing.exact.total), sum.cost.total.value / 100)
 
 export const SUMMARY = {
-  financing: financing(sum.cost.total, sum.bank.total, sum.own.total),
+  financing: totalFinancing,
   costs: costRows(sum.cost, sum.bank, sum.own),
   /** Project cost per section, with its share of the four-section total. */
   bySection: SECTIONS.map((x, i) => ({
@@ -321,6 +323,9 @@ export const SUMMARY = {
   })),
   buildings: exact(sum.buildings.value, sum.buildings.sumOf),
   hatcheries: exact(sum.hatcheries.value, sum.hatcheries.refs),
+  /** Bank credit for the feed reserve. Not in the sheets: 6 mln $, given by the client. */
+  feedReserve: mln(FEED_RESERVE_STEPS, [], true),
+  totalCredit: mln(Math.round(totalFinancing.bank.value * 100) + FEED_RESERVE_STEPS, totalFinancing.bank.src, true),
 }
 
 export type SlideId = 'cover' | SectionId | 'total'

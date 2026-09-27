@@ -1,8 +1,8 @@
 {
   "meta": {
     "source": "data/Кегейли.xlsx",
-    "sha256": "66ea0a88b12253e2e63bd0c742d3d74b8d3cfc0cab1d23fb09a3d45394b4c44e",
-    "extractedAt": "2026-09-27T19:57:27",
+    "sha256": "71110830c082c5ebb378e577853e5041673b8e78f632be92b513391db8d25a54",
+    "extractedAt": "2026-09-27T21:18:41",
     "company": "Кегейли Барака Наслли Парранда",
     "units": {
       "kUSD": "thousand US dollars",
@@ -140,12 +140,12 @@
         },
         "cost": {
           "total": {
-            "value": 8980,
+            "value": 9520,
             "ref": "Прородитель!I7",
-            "formula": "=+I10+I13+I16+I19+I22"
+            "formula": "=I16+I13+I10"
           },
           "construction": {
-            "value": 2752,
+            "value": 3292,
             "ref": "Прородитель!J7",
             "formula": "=+J10+J13+J16+J19+J22"
           },
@@ -167,14 +167,14 @@
         },
         "own": {
           "total": {
-            "value": 950,
+            "value": 3290,
             "ref": "Прородитель!I8",
             "formula": "=+J8+K8+L8+M8"
           },
           "construction": {
-            "value": 950,
+            "value": 1490,
             "ref": "Прородитель!J8",
-            "formula": "=+J11+J14+J17+J20+J23"
+            "formula": "=J11+J14+J17"
           },
           "equipment": {
             "value": 0,
@@ -182,7 +182,7 @@
             "formula": "=+K11+K14+K17+K20+K23"
           },
           "chickens": {
-            "value": 0,
+            "value": 1800,
             "ref": "Прородитель!L8",
             "formula": "=+L11+L14+L17+L20+L23"
           },
@@ -194,14 +194,14 @@
         },
         "bank": {
           "total": {
-            "value": 8030,
+            "value": 6230,
             "ref": "Прородитель!I9",
             "formula": "=+J9+K9+L9+M9"
           },
           "construction": {
             "value": 1802,
             "ref": "Прородитель!J9",
-            "formula": "=+J12+J15+J18+J21+J24"
+            "formula": "=J12+J15+J18"
           },
           "equipment": {
             "value": 2628,
@@ -209,9 +209,9 @@
             "formula": "=+K12+K15+K18+K21+K24"
           },
           "chickens": {
-            "value": 3600,
+            "value": 1800,
             "ref": "Прородитель!L9",
-            "formula": "=+L12+L15+L18+L21+L24"
+            "formula": "=L12+L15+L18"
           },
           "feed": {
             "value": 0,
@@ -258,12 +258,12 @@
           },
           "cost": {
             "total": {
-              "value": 6537,
+              "value": 6717,
               "ref": "Прородитель!I10",
               "formula": "=+J10+K10+L10+M10"
             },
             "construction": {
-              "value": 1452,
+              "value": 1632,
               "ref": "Прородитель!J10",
               "formula": "=+J11+J12"
             },
@@ -285,12 +285,12 @@
           },
           "own": {
             "total": {
-              "value": 400,
+              "value": 2380,
               "ref": "Прородитель!I11",
               "formula": "=+J11+K11+L11+M11"
             },
             "construction": {
-              "value": 400,
+              "value": 580,
               "ref": "Прородитель!J11"
             },
             "equipment": {
@@ -298,7 +298,7 @@
               "ref": "Прородитель!K11"
             },
             "chickens": {
-              "value": null,
+              "value": 1800,
               "ref": "Прородитель!L11"
             },
             "feed": {
@@ -308,7 +308,7 @@
           },
           "bank": {
             "total": {
-              "value": 6137,
+              "value": 4337,
               "ref": "Прородитель!I12",
               "formula": "=+J12+K12+L12+M12"
             },
@@ -321,8 +321,9 @@
               "ref": "Прородитель!K12"
             },
             "chickens": {
-              "value": 3600,
-              "ref": "Прородитель!L12"
+              "value": 1800,
+              "ref": "Прородитель!L12",
+              "formula": "=3600-1800"
             },
             "feed": {
               "value": null,
@@ -366,12 +367,12 @@
           },
           "cost": {
             "total": {
-              "value": 1200,
+              "value": 1380,
               "ref": "Прородитель!I13",
               "formula": "=+J13+K13+L13+M13"
             },
             "construction": {
-              "value": 600,
+              "value": 780,
               "ref": "Прородитель!J13",
               "formula": "=+J14+J15"
             },
@@ -393,12 +394,12 @@
           },
           "own": {
             "total": {
-              "value": 300,
+              "value": 480,
               "ref": "Прородитель!I14",
               "formula": "=+J14+K14+L14+M14"
             },
             "construction": {
-              "value": 300,
+              "value": 480,
               "ref": "Прородитель!J14"
             },
             "equipment": {
@@ -475,12 +476,12 @@
           },
           "cost": {
             "total": {
-              "value": 1243,
+              "value": 1423,
               "ref": "Прородитель!I16",
               "formula": "=+J16+K16+L16+M16"
             },
             "construction": {
-              "value": 700,
+              "value": 880,
               "ref": "Прородитель!J16",
               "formula": "=+J17+J18"
             },
@@ -502,13 +503,14 @@
           },
           "own": {
             "total": {
-              "value": 250,
+              "value": 430,
               "ref": "Прородитель!I17",
               "formula": "=+J17+K17+L17+M17"
             },
             "construction": {
-              "value": 250,
-              "ref": "Прородитель!J17"
+              "value": 430,
+              "ref": "Прородитель!J17",
+              "formula": "=250+180"
             },
             "equipment": {
               "value": null,
@@ -675,19 +677,19 @@
         },
         "cost": {
           "total": {
-            "value": 13730,
+            "value": 14270,
             "ref": "Родилеь!I7",
-            "formula": "=+I10+I13+I16+I19+I22"
+            "formula": "=+I10+I13+I16"
           },
           "construction": {
-            "value": 7850,
+            "value": 8390,
             "ref": "Родилеь!J7",
-            "formula": "=+J10+J13+J16+J19+J22"
+            "formula": "=+J10+J13+J16"
           },
           "equipment": {
             "value": 3360,
             "ref": "Родилеь!K7",
-            "formula": "=+K10+K13+K16+K19+K22"
+            "formula": "=+K10+K13+K16"
           },
           "chickens": {
             "value": 1260,
@@ -702,19 +704,19 @@
         },
         "own": {
           "total": {
-            "value": 3160,
+            "value": 3700,
             "ref": "Родилеь!I8",
             "formula": "=+J8+K8+L8+M8"
           },
           "construction": {
-            "value": 1900,
+            "value": 2440,
             "ref": "Родилеь!J8",
-            "formula": "=+J11+J14+J17+J20+J23"
+            "formula": "=+J11+J14+J17"
           },
           "equipment": {
             "value": 0,
             "ref": "Родилеь!K8",
-            "formula": "=+K11+K14+K17+K20+K23"
+            "formula": "=+K11+K14+K17"
           },
           "chickens": {
             "value": 0,
@@ -736,12 +738,12 @@
           "construction": {
             "value": 5950,
             "ref": "Родилеь!J9",
-            "formula": "=+J12+J15+J18+J21+J24"
+            "formula": "=+J12+J15+J18"
           },
           "equipment": {
             "value": 3360,
             "ref": "Родилеь!K9",
-            "formula": "=+K12+K15+K18+K21+K24"
+            "formula": "=+K12+K15+K18"
           },
           "chickens": {
             "value": 1260,
@@ -793,12 +795,12 @@
           },
           "cost": {
             "total": {
-              "value": 3980,
+              "value": 4160,
               "ref": "Родилеь!I10",
               "formula": "=+J10+K10+L10+M10"
             },
             "construction": {
-              "value": 2900,
+              "value": 3080,
               "ref": "Родилеь!J10",
               "formula": "=+J11+J12"
             },
@@ -820,12 +822,12 @@
           },
           "own": {
             "total": {
-              "value": 600,
+              "value": 780,
               "ref": "Родилеь!I11",
               "formula": "=+J11+K11+L11+M11"
             },
             "construction": {
-              "value": 600,
+              "value": 780,
               "ref": "Родилеь!J11"
             },
             "equipment": {
@@ -902,12 +904,12 @@
           },
           "cost": {
             "total": {
-              "value": 8850,
+              "value": 9030,
               "ref": "Родилеь!I13",
               "formula": "=+J13+K13+L13+M13"
             },
             "construction": {
-              "value": 4350,
+              "value": 4530,
               "ref": "Родилеь!J13",
               "formula": "=+J14+J15"
             },
@@ -929,13 +931,12 @@
           },
           "own": {
             "total": {
-              "value": 2260,
+              "value": 2440,
               "ref": "Родилеь!I14",
-              "sheetValue": 100,
-              "note": "Typed-in value in the sheet; using J+K+L+M of the same row"
+              "formula": "=+J14+K14+L14+M14"
             },
             "construction": {
-              "value": 1000,
+              "value": 1180,
               "ref": "Родилеь!J14"
             },
             "equipment": {
@@ -1011,12 +1012,12 @@
           },
           "cost": {
             "total": {
-              "value": 900,
+              "value": 1080,
               "ref": "Родилеь!I16",
               "formula": "=+J16+K16+L16+M16"
             },
             "construction": {
-              "value": 600,
+              "value": 780,
               "ref": "Родилеь!J16",
               "formula": "=+J17+J18"
             },
@@ -1038,12 +1039,12 @@
           },
           "own": {
             "total": {
-              "value": 300,
+              "value": 480,
               "ref": "Родилеь!I17",
               "formula": "=+J17+K17+L17+M17"
             },
             "construction": {
-              "value": 300,
+              "value": 480,
               "ref": "Родилеь!J17"
             },
             "equipment": {
@@ -1184,7 +1185,7 @@
         "buildings": {
           "value": 15,
           "ref": "броллер!C7",
-          "formula": "=+C10+C13+C16+C19+C22+C23"
+          "formula": "=+C10+C13+C16+C19+C22"
         },
         "birdsPerBatch": {
           "value": 1050000,
@@ -1212,12 +1213,12 @@
         },
         "cost": {
           "total": {
-            "value": 10370,
+            "value": 11270,
             "ref": "броллер!I7",
             "formula": "=+I10+I13+I16+I19+I22"
           },
           "construction": {
-            "value": 3630,
+            "value": 4530,
             "ref": "броллер!J7",
             "formula": "=+J10+J13+J16+J19+J22"
           },
@@ -1239,56 +1240,56 @@
         },
         "own": {
           "total": {
-            "value": 4515,
+            "value": 5415,
             "ref": "броллер!I8",
-            "formula": "=+I11+I14+I17+I20+I23"
+            "formula": "=+J8+K8+L8+M8"
           },
           "construction": {
-            "value": 1000,
+            "value": 1900,
             "ref": "броллер!J8",
-            "formula": "=+J11+J14+J17+J20+J23"
+            "formula": "=J11+J14+J17+J20+J23"
           },
           "equipment": {
             "value": 0,
             "ref": "броллер!K8",
-            "formula": "=+K11+K14+K17+K20+K23"
+            "formula": "=K11+K14+K17+K20+K23"
           },
           "chickens": {
             "value": 630,
             "ref": "броллер!L8",
-            "formula": "=+L11+L14+L17+L20+L23"
+            "formula": "=L11+L14+L17+L20+L23"
           },
           "feed": {
             "value": 2885,
             "ref": "броллер!M8",
-            "formula": "=+M11+M14+M17+M20+M23"
+            "formula": "=M11+M14+M17+M20+M23"
           }
         },
         "bank": {
           "total": {
             "value": 5855,
             "ref": "броллер!I9",
-            "formula": "=+I12+I15+I18+I21+I24"
+            "formula": "=+J9+K9+L9+M9"
           },
           "construction": {
             "value": 2630,
             "ref": "броллер!J9",
-            "formula": "=+J12+J15+J18+J21+J24"
+            "formula": "=J24+J21+J18+J15+J12"
           },
           "equipment": {
             "value": 3225,
             "ref": "броллер!K9",
-            "formula": "=+K12+K15+K18+K21+K24"
+            "formula": "=K24+K21+K18+K15+K12"
           },
           "chickens": {
             "value": 0,
             "ref": "броллер!L9",
-            "formula": "=+L12+L15+L18+L21+L24"
+            "formula": "=L24+L21+L18+L15+L12"
           },
           "feed": {
             "value": 0,
             "ref": "броллер!M9",
-            "formula": "=+M12+M15+M18+M21+M24"
+            "formula": "=M24+M21+M18+M15+M12"
           }
         }
       },
@@ -1334,12 +1335,12 @@
           },
           "cost": {
             "total": {
-              "value": 2074,
+              "value": 2254,
               "ref": "броллер!I10",
               "formula": "=+J10+K10+L10+M10"
             },
             "construction": {
-              "value": 726,
+              "value": 906,
               "ref": "броллер!J10",
               "formula": "=+J11++J12"
             },
@@ -1361,12 +1362,12 @@
           },
           "own": {
             "total": {
-              "value": 903,
+              "value": 1083,
               "ref": "броллер!I11",
               "formula": "=+J11+K11+L11+M11"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "броллер!J11"
             },
             "equipment": {
@@ -1386,7 +1387,7 @@
             "total": {
               "value": 1171,
               "ref": "броллер!I12",
-              "formula": "=+J12+K12"
+              "formula": "=+J12+K12+L12+M12"
             },
             "construction": {
               "value": 526,
@@ -1446,12 +1447,12 @@
           },
           "cost": {
             "total": {
-              "value": 2074,
+              "value": 2254,
               "ref": "броллер!I13",
               "formula": "=+J13+K13+L13+M13"
             },
             "construction": {
-              "value": 726,
+              "value": 906,
               "ref": "броллер!J13",
               "formula": "=+J14+J15"
             },
@@ -1473,12 +1474,12 @@
           },
           "own": {
             "total": {
-              "value": 903,
+              "value": 1083,
               "ref": "броллер!I14",
               "formula": "=+J14+K14+L14+M14"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "броллер!J14"
             },
             "equipment": {
@@ -1498,7 +1499,7 @@
             "total": {
               "value": 1171,
               "ref": "броллер!I15",
-              "formula": "=+J15+K15"
+              "formula": "=+J15+K15+L15+M15"
             },
             "construction": {
               "value": 526,
@@ -1558,12 +1559,12 @@
           },
           "cost": {
             "total": {
-              "value": 2074,
+              "value": 2254,
               "ref": "броллер!I16",
               "formula": "=+I17+I18"
             },
             "construction": {
-              "value": 726,
+              "value": 906,
               "ref": "броллер!J16",
               "formula": "=+J17+J18"
             },
@@ -1585,12 +1586,12 @@
           },
           "own": {
             "total": {
-              "value": 903,
+              "value": 1083,
               "ref": "броллер!I17",
               "formula": "=+J17+K17+L17+M17"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "броллер!J17"
             },
             "equipment": {
@@ -1610,7 +1611,7 @@
             "total": {
               "value": 1171,
               "ref": "броллер!I18",
-              "formula": "=+J18+K18"
+              "formula": "=+J18+K18+L18+M18"
             },
             "construction": {
               "value": 526,
@@ -1670,12 +1671,12 @@
           },
           "cost": {
             "total": {
-              "value": 2074,
+              "value": 2254,
               "ref": "броллер!I19",
               "formula": "=+I20+I21"
             },
             "construction": {
-              "value": 726,
+              "value": 906,
               "ref": "броллер!J19",
               "formula": "=+J21+J20"
             },
@@ -1697,12 +1698,12 @@
           },
           "own": {
             "total": {
-              "value": 903,
+              "value": 1083,
               "ref": "броллер!I20",
               "formula": "=+J20+K20+L20+M20"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "броллер!J20"
             },
             "equipment": {
@@ -1722,7 +1723,7 @@
             "total": {
               "value": 1171,
               "ref": "броллер!I21",
-              "formula": "=+J21+K21"
+              "formula": "=+J21+K21+L21+M21"
             },
             "construction": {
               "value": 526,
@@ -1782,12 +1783,12 @@
           },
           "cost": {
             "total": {
-              "value": 2074,
+              "value": 2254,
               "ref": "броллер!I22",
               "formula": "=+I23+I24"
             },
             "construction": {
-              "value": 726,
+              "value": 906,
               "ref": "броллер!J22",
               "formula": "=+J24+J23"
             },
@@ -1809,12 +1810,12 @@
           },
           "own": {
             "total": {
-              "value": 903,
+              "value": 1083,
               "ref": "броллер!I23",
               "formula": "=+J23+K23+L23+M23"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "броллер!J23"
             },
             "equipment": {
@@ -1834,7 +1835,7 @@
             "total": {
               "value": 1171,
               "ref": "броллер!I24",
-              "formula": "=+J24+K24"
+              "formula": "=+J24+K24+L24+M24"
             },
             "construction": {
               "value": 526,
@@ -1978,12 +1979,12 @@
         },
         "cost": {
           "total": {
-            "value": 3360,
+            "value": 3900,
             "ref": "Несушка!I7",
             "formula": "=+I10+I13+I16"
           },
           "construction": {
-            "value": 1200,
+            "value": 1740,
             "ref": "Несушка!J7",
             "formula": "=+J10+J13+J16"
           },
@@ -2005,12 +2006,12 @@
         },
         "own": {
           "total": {
-            "value": 600,
+            "value": 1140,
             "ref": "Несушка!I8",
             "formula": "=+J8+K8+L8+M8"
           },
           "construction": {
-            "value": 600,
+            "value": 1140,
             "ref": "Несушка!J8",
             "formula": "=+J11+J14+J17+J20+J23"
           },
@@ -2096,12 +2097,12 @@
           },
           "cost": {
             "total": {
-              "value": 1300,
+              "value": 1480,
               "ref": "Несушка!I10",
               "formula": "=+J10+K10+L10+M10"
             },
             "construction": {
-              "value": 400,
+              "value": 580,
               "ref": "Несушка!J10",
               "formula": "=+J11+J12"
             },
@@ -2123,12 +2124,12 @@
           },
           "own": {
             "total": {
-              "value": 200,
+              "value": 380,
               "ref": "Несушка!I11",
               "formula": "=+J11+K11+L11+M11"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "Несушка!J11"
             },
             "equipment": {
@@ -2205,12 +2206,12 @@
           },
           "cost": {
             "total": {
-              "value": 1300,
+              "value": 1480,
               "ref": "Несушка!I13",
               "formula": "=+J13+K13+L13+M13"
             },
             "construction": {
-              "value": 400,
+              "value": 580,
               "ref": "Несушка!J13",
               "formula": "=+J14+J15"
             },
@@ -2232,13 +2233,12 @@
           },
           "own": {
             "total": {
-              "value": 200,
+              "value": 380,
               "ref": "Несушка!I14",
-              "sheetValue": 100,
-              "note": "Typed-in value in the sheet; using J+K+L+M of the same row"
+              "formula": "=+J14+K14+L14+M14"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "Несушка!J14"
             },
             "equipment": {
@@ -2315,12 +2315,12 @@
           },
           "cost": {
             "total": {
-              "value": 760,
+              "value": 940,
               "ref": "Несушка!I16",
               "formula": "=+J16+K16+L16+M16"
             },
             "construction": {
-              "value": 400,
+              "value": 580,
               "ref": "Несушка!J16",
               "formula": "=+J17+J18"
             },
@@ -2342,12 +2342,12 @@
           },
           "own": {
             "total": {
-              "value": 200,
+              "value": 380,
               "ref": "Несушка!I17",
               "formula": "=+J17+K17+L17+M17"
             },
             "construction": {
-              "value": 200,
+              "value": 380,
               "ref": "Несушка!J17"
             },
             "equipment": {
@@ -2394,7 +2394,7 @@
     "note": "Computed from the four section sheets only. Revenue is listed, not summed: part of one section's output is another section's input.",
     "cost": {
       "total": {
-        "value": 36440,
+        "value": 38960,
         "sumOf": [
           "Прородитель!I7",
           "Родилеь!I7",
@@ -2403,7 +2403,7 @@
         ]
       },
       "construction": {
-        "value": 15432,
+        "value": 17952,
         "sumOf": [
           "Прородитель!J7",
           "Родилеь!J7",
@@ -2441,7 +2441,7 @@
     },
     "own": {
       "total": {
-        "value": 9225,
+        "value": 13545,
         "sumOf": [
           "Прородитель!I8",
           "Родилеь!I8",
@@ -2450,7 +2450,7 @@
         ]
       },
       "construction": {
-        "value": 4450,
+        "value": 6970,
         "sumOf": [
           "Прородитель!J8",
           "Родилеь!J8",
@@ -2468,7 +2468,7 @@
         ]
       },
       "chickens": {
-        "value": 630,
+        "value": 2430,
         "sumOf": [
           "Прородитель!L8",
           "Родилеь!L8",
@@ -2488,7 +2488,7 @@
     },
     "bank": {
       "total": {
-        "value": 27215,
+        "value": 25415,
         "sumOf": [
           "Прородитель!I9",
           "Родилеь!I9",
@@ -2515,7 +2515,7 @@
         ]
       },
       "chickens": {
-        "value": 5760,
+        "value": 3960,
         "sumOf": [
           "Прородитель!L9",
           "Родилеь!L9",
@@ -2611,22 +2611,6 @@
     ]
   },
   "flags": [
-    {
-      "level": "error",
-      "refs": [
-        "Родилеь!I14"
-      ],
-      "text": "Typed-in 100 where J+K+L+M of the same row gives 2 260; the two sub-rows then don't add up to the facility row.",
-      "resolution": "Using 2 260. Section totals (rows 7–9) are built from J–M, so they don't change."
-    },
-    {
-      "level": "error",
-      "refs": [
-        "Несушка!I14"
-      ],
-      "text": "Typed-in 100 where J+K+L+M of the same row gives 200; the two sub-rows then don't add up to the facility row.",
-      "resolution": "Using 200. Section totals (rows 7–9) are built from J–M, so they don't change."
-    },
     {
       "level": "unit",
       "refs": [

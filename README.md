@@ -42,8 +42,11 @@ Excel saved, and writes:
 - `docs/verification.md`: the same values laid out like the sheet, to check against Excel
 
 It stops with a message if the sheet layout changed or the file wasn't recalculated in Excel.
-Two hand-typed cells in the sheet (`Родилеь!I14`, `Несушка!I14`) are replaced by J+K+L+M
-of their row; see the Flags table in `docs/verification.md`.
+If a money row's typed-in total doesn't match J+K+L+M, the extractor uses J+K+L+M and lists it
+in the Flags table of `docs/verification.md` (the 27.09.2026 file has none).
+
+To move money between bank credit and own funds without editing the sheet, add an entry to
+`ADJUSTMENTS` in `scripts/extract.py`; every total on that sheet is recalculated.
 
 ## Photos
 

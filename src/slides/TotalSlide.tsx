@@ -1,4 +1,4 @@
-import { ArrowUpRight, Info, Warehouse } from 'lucide-react'
+import { ArrowUpRight, Info, Warehouse, Wheat } from 'lucide-react'
 import { SECTIONS, SUMMARY } from '../data/deck'
 import { Card, IconTile } from '../components/Blocks'
 import { FundsLegend, StackedBars } from '../components/Charts'
@@ -23,7 +23,7 @@ export function TotalSlide({ onJump, slide }: { onJump: (index: number) => void;
   const notes = singleSourceNotes()
   return (
     <div className="absolute inset-x-16 top-[124px] bottom-[76px] grid grid-cols-12 grid-rows-[188px_minmax(0,1fr)_252px] gap-6">
-      <div className="col-span-5 flex flex-col justify-end pb-1">
+      <div className="col-span-4 flex flex-col justify-end pb-1">
         <div data-anim="rise" className="eyebrow">
           {String(slide).padStart(2, '0')} · Тўрт йўналиш бўйича
         </div>
@@ -37,12 +37,12 @@ export function TotalSlide({ onJump, slide }: { onJump: (index: number) => void;
         </div>
       </div>
 
-      <div className="col-span-7 grid grid-cols-[1.25fr_1fr_1fr] gap-5">
+      <div className="col-span-8 grid grid-cols-[1.25fr_1fr_1fr_1.1fr] gap-5">
         <div data-anim="rise" className="glass-strong flex flex-col justify-between rounded-[24px] p-6">
           <div className="text-[17px] font-semibold text-ink-2">Лойиҳа қиймати</div>
           <div className="flex items-baseline gap-2 whitespace-nowrap">
-            <Num fig={f.total} className="text-[76px] font-[800] leading-none tracking-[-0.035em] text-ink" />
-            <span className="text-[24px] font-semibold text-ink-2">млн $</span>
+            <Num fig={f.total} className="text-[70px] font-[800] leading-none tracking-[-0.035em] text-ink" />
+            <span className="text-[22px] font-semibold text-ink-2">млн $</span>
           </div>
         </div>
         {(['bank', 'own'] as const).map((k) => (
@@ -62,6 +62,23 @@ export function TotalSlide({ onJump, slide }: { onJump: (index: number) => void;
             </div>
           </div>
         ))}
+        <div data-anim="rise" className="flex flex-col justify-between rounded-[24px] bg-brand-deep p-6 text-white shadow-[0_18px_40px_-18px_#123b8fcc]">
+          <div className="flex items-center gap-2 text-[17px] font-semibold text-white/75">
+            <Wheat size={18} />
+            Озуқа заҳираси учун
+          </div>
+          <div>
+            <div className="flex items-baseline gap-2 whitespace-nowrap">
+              <Num fig={SUMMARY.feedReserve} className="text-[46px] font-[800] leading-none tracking-[-0.03em]" />
+              <span className="text-[19px] font-semibold text-white/75">млн $</span>
+            </div>
+            <div className="mt-2 text-[15px] font-medium leading-snug text-white/75">
+              қўшимча банк кредити
+              <br />
+              Жами кредит: <Num fig={SUMMARY.totalCredit} animate={false} className="font-semibold text-white" /> млн $
+            </div>
+          </div>
+        </div>
       </div>
 
       <Card className="col-span-6" title="Йўналишлар бўйича" aside={<FundsLegend />}>
