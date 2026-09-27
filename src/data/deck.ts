@@ -3,7 +3,7 @@
 import raw from './kegeyli.json'
 import { formatNumber } from '../lib/format'
 import { splitRound } from '../lib/round'
-import type { Cell, CostKey, DeckData, Facility, Land, LineId, Money, Section, SectionId, Summed, Totals, Unit } from './types'
+import type { Cell, CostKey, DeckData, Facility, Land, LineId, Money, ProcessingGroup, ProcessingItem, ProcessingMoney, Section, SectionId, Summed, Totals, Unit } from './types'
 
 export const data = raw as unknown as DeckData
 
@@ -363,12 +363,133 @@ export const SUMMARY = {
   totalCredit: { ...totalFinancing.bank, trim: true, src: [project.totalCredit.ref] },
 }
 
-export type SlideId = 'cover' | SectionId | 'company' | 'total'
+// ---------- Қайта ишлаш (the дастгох sheet), just before Жами ----------
+
+const proc = data.processing
+export const PROCESSING_GROUPS: ProcessingGroup[] = ['slaughter', 'cold', 'feedmill', 'transport']
+
+/** Thousand $ as the sheet has it: 292,5 or 1 200. */
+const kusd = (value: number, src: string[]): Fig => ({ value, decimals: 1, trim: true, src })
+/** The first number in a capacity text: «3 000 бош/соат» → 3000, «20 т/соат» → 20. */
+const leadingNumber = (text?: string | null) => Number((text ?? '').match(/^[\d\s]+/)?.[0].replace(/\s/g, '') ?? 0)
+
+export interface ProcessingBar {
+  key: string
+  label: string
+  total: Fig
+  share: Fig
+  exact: { total: number; bank: number; own: number }
+}
+
+/** Rows rounded to 0,01 млн $ so they add up to the page total, and shares to 100%. */
+function processingBars(rows: { key: string; label: string; cost: Cell[]; bank: Cell[]; own: Cell[] }[], target: number): ProcessingBar[] {
+  const sum = (cells: Cell[]) => cells.reduce((a, c) => a + val(c), 0)
+  const totals = rows.map((r) => sum(r.cost))
+  const steps = splitRound(totals, MLN_STEP, target)
+  const shares = splitRound(totals, totals.reduce((a, b) => a + b, 0) / 100)
+  return rows.map((r, i) => ({
+    key: r.key,
+    label: r.label,
+    total: mln(steps[i], r.cost.map((c) => c.ref)),
+    share: exact(shares[i], r.cost.map((c) => c.ref)),
+    exact: { total: totals[i], bank: sum(r.bank), own: sum(r.own) },
+  }))
+}
+
+function processingView() {
+  // Rounded to the same 0,01 млн $ as the Қайта ишлаш line on the Жами slide (5 657 → 5,66).
+  const steps = lineSteps('processing')
+  const items = proc.items
+  const inGroup = (g: ProcessingGroup) => items.filter((i) => i.group === g)
+  const first = (g: ProcessingGroup) => inGroup(g)[0]
+  const slaughter = first('slaughter')
+  const feedmill = first('feedmill')
+  const cold = first('cold')
+  const transport = inGroup('transport')
+  const countries = [...new Set(items.map((i) => i.country.value ?? '').filter(Boolean))]
+  const pick = (key: 'cost' | 'bank' | 'own', col: keyof ProcessingMoney) => (list: ProcessingItem[]) => list.map((i) => i[key][col])
+
+  return {
+    title: 'Қайта ишлаш',
+    subtitle: 'Сўйиш, музлатгич, ем завод ва транспорт',
+    countries: countries.join(', '),
+    countriesSrc: items.map((i) => i.country.ref),
+    positions: items.length,
+    hero: { label: 'Сўйиш цехи қуввати', fig: exact(leadingNumber(slaughter.capacity?.value), [slaughter.capacity?.ref ?? slaughter.name.ref]), unit: 'бош / соат' },
+    stats: [
+      { key: 'feedmill', label: 'Ем завод', fig: exact(leadingNumber(feedmill.capacity?.value), [feedmill.capacity?.ref ?? feedmill.name.ref]), unit: 'т / соат' },
+      { key: 'cold', label: 'Музлатгич', fig: exact(leadingNumber(cold.capacity?.value), [cold.capacity?.ref ?? cold.name.ref]), unit: 'т' },
+      { key: 'transport', label: 'Махсус транспорт', fig: exact(transport.reduce((a, i) => a + val(i.count), 0), transport.map((i) => i.count.ref)), unit: 'та' },
+    ],
+    financing: financing(proc.cost.total, proc.bank.total, proc.own.total, steps),
+    costs: processingBars(
+      (['construction', 'equipment'] as const).map((col) => ({
+        key: col,
+        label: col === 'construction' ? 'Қурилиш' : 'Дастгоҳ',
+        cost: [proc.cost[col]],
+        bank: [proc.bank[col]],
+        own: [proc.own[col]],
+      })),
+      steps,
+    ),
+    groups: processingBars(
+      PROCESSING_GROUPS.map((g) => ({
+        key: g,
+        label: proc.groups[g],
+        cost: pick('cost', 'total')(inGroup(g)),
+        bank: pick('bank', 'total')(inGroup(g)),
+        own: pick('own', 'total')(inGroup(g)),
+      })),
+      steps,
+    ),
+    table: PROCESSING_GROUPS.map((g) => {
+      const list = inGroup(g)
+      const col = (key: 'cost' | 'bank' | 'own', c: keyof ProcessingMoney) => {
+        const cells = pick(key, c)(list)
+        return kusd(cells.reduce((a, x) => a + val(x), 0), cells.map((x) => x.ref))
+      }
+      return {
+        key: g,
+        label: proc.groups[g],
+        subtotal: [col('cost', 'construction'), col('cost', 'equipment'), col('cost', 'total'), col('bank', 'total'), col('own', 'total')],
+        rows: list.map((i) => ({
+          key: String(i.row),
+          name: i.name.value ?? '',
+          nameSrc: [i.name.ref],
+          count: exact(val(i.count), [i.count.ref]),
+          capacity: i.capacity ? { text: i.capacity.value ?? '', src: [i.capacity.ref] } : null,
+          country: { text: i.country.value ?? '', src: [i.country.ref] },
+          money: [
+            kusd(val(i.cost.construction), [i.cost.construction.ref]),
+            kusd(val(i.cost.equipment), [i.cost.equipment.ref]),
+            kusd(val(i.cost.total), [i.cost.total.ref]),
+            kusd(val(i.bank.total), [i.bank.total.ref]),
+            kusd(val(i.own.total), [i.own.total.ref]),
+          ],
+        })),
+      }
+    }),
+    total: [
+      kusd(val(proc.cost.construction), [proc.cost.construction.ref]),
+      kusd(val(proc.cost.equipment), [proc.cost.equipment.ref]),
+      kusd(val(proc.cost.total), [proc.cost.total.ref]),
+      kusd(val(proc.bank.total), [proc.bank.total.ref]),
+      kusd(val(proc.own.total), [proc.own.total.ref]),
+    ],
+    generator: project.lines.find((l) => l.id === 'generator'),
+  }
+}
+
+export const PROCESSING = processingView()
+
+export type SlideId = 'cover' | SectionId | 'company' | 'total' | 'processing' | 'processing-table'
 export const SLIDES: { id: SlideId; title: string }[] = [
   { id: 'cover', title: 'Муқова' },
   ...SECTIONS.flatMap((sec, i) => [
     { id: sec.id as SlideId, title: sec.title },
     ...(i === 0 ? [{ id: 'company' as SlideId, title: 'Корхона' }] : []),
   ]),
+  { id: 'processing', title: 'Қайта ишлаш' },
+  { id: 'processing-table', title: 'Қайта ишлаш: дастгоҳлар' },
   { id: 'total', title: 'Жами' },
 ]

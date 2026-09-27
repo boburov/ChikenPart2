@@ -7,13 +7,15 @@ import {
   Factory,
   Hammer,
   Landmark,
+  Snowflake,
+  Truck,
   Wallet,
   Warehouse,
   Wheat,
   Zap,
   type LucideIcon,
 } from 'lucide-react'
-import type { SectionId, CostKey, LineId } from '../data/types'
+import type { SectionId, CostKey, LineId, ProcessingGroup } from '../data/types'
 
 export const SECTION_ICON: Record<SectionId, LucideIcon> = {
   praroditel: Dna,
@@ -35,6 +37,14 @@ export const COST_META: Record<CostKey, { icon: LucideIcon; label: string }> = {
   equipment: { icon: Cog, label: 'Дастгоҳ' },
   chickens: { icon: Bird, label: 'Товуқ / жўжа' },
   feed: { icon: Wheat, label: 'Озуқа' },
+}
+
+/** Groups of the Қайта ишлаш (дастгох) page. */
+export const PROCESSING_ICON: Record<ProcessingGroup, LucideIcon> = {
+  slaughter: Factory,
+  cold: Snowflake,
+  feedmill: Wheat,
+  transport: Truck,
 }
 
 export const FACILITY_ICON: Record<'farm' | 'hatchery', LucideIcon> = {

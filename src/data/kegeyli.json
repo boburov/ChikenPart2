@@ -2,7 +2,7 @@
   "meta": {
     "source": "data/Кегейли.xlsx",
     "sha256": "49bdd2dee466bce0bdd135f1d10340e422bc1da3868ca8a502bfcb411d205747",
-    "extractedAt": "2026-09-27T22:32:45",
+    "extractedAt": "2026-09-27T23:03:14",
     "company": "Кегейли Барака Наслли Парранда",
     "units": {
       "kUSD": "thousand US dollars",
@@ -3413,6 +3413,615 @@
       "label": "Жами кредит"
     }
   },
+  "processing": {
+    "sheet": "дастгох",
+    "groups": {
+      "slaughter": "Сўйиш, совитиш ва қадоқлаш",
+      "cold": "Музлатгичлар",
+      "feedmill": "Ем завод",
+      "transport": "Махсус транспорт"
+    },
+    "items": [
+      {
+        "row": 10,
+        "group": "slaughter",
+        "name": {
+          "value": "Сўйиш цехи",
+          "ref": "дастгох!B10"
+        },
+        "count": {
+          "value": 1,
+          "ref": "дастгох!C10"
+        },
+        "capacity": {
+          "value": "3 000 бош/соат",
+          "ref": "дастгох!D10"
+        },
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E10"
+        },
+        "cost": {
+          "total": {
+            "value": 1200,
+            "ref": "дастгох!F10",
+            "formula": "=+G10+H10"
+          },
+          "construction": {
+            "value": 900,
+            "ref": "дастгох!G10",
+            "formula": "=+G11+G12"
+          },
+          "equipment": {
+            "value": 300,
+            "ref": "дастгох!H10",
+            "formula": "=+H11+H12"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 400,
+            "ref": "дастгох!F11",
+            "formula": "=+G11+H11"
+          },
+          "construction": {
+            "value": 400,
+            "ref": "дастгох!G11"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H11"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 800,
+            "ref": "дастгох!F12",
+            "formula": "=+G12+H12"
+          },
+          "construction": {
+            "value": 500,
+            "ref": "дастгох!G12"
+          },
+          "equipment": {
+            "value": 300,
+            "ref": "дастгох!H12"
+          }
+        }
+      },
+      {
+        "row": 19,
+        "group": "slaughter",
+        "name": {
+          "value": "Товуқ гўштини ҳаво линиясида совитиш дастгоҳи",
+          "ref": "дастгох!B19",
+          "sheetText": "Товуқ гўштини ҳаво линиясида совитиш дастгоҳи соатига 3000 бош  (Музлатгич)"
+        },
+        "count": {
+          "value": 1,
+          "ref": "дастгох!C19"
+        },
+        "capacity": {
+          "value": "3 000 бош/соат",
+          "ref": "дастгох!D19"
+        },
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E19"
+        },
+        "cost": {
+          "total": {
+            "value": 250,
+            "ref": "дастгох!F19",
+            "formula": "=+G19+H19"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "дастгох!G19",
+            "formula": "=+G20+G21"
+          },
+          "equipment": {
+            "value": 250,
+            "ref": "дастгох!H19",
+            "formula": "=+H20+H21"
+          }
+        },
+        "own": {
+          "total": {
+            "value": null,
+            "ref": "дастгох!F20"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G20"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H20"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 250,
+            "ref": "дастгох!F21",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G21"
+          },
+          "equipment": {
+            "value": 250,
+            "ref": "дастгох!H21"
+          }
+        }
+      },
+      {
+        "row": 25,
+        "group": "slaughter",
+        "name": {
+          "value": "Қадоқлаш ва қайта ишлаш дастгоҳлари (фарш, сортировка тарози, қадоқлаш, вакуум)",
+          "ref": "дастгох!B25",
+          "sheetText": "Қадоқлаш ва қайта ишлаш дастгохлари учун: фарш, сортировка тарози, товуқларни қадоқлаш, вакум,    "
+        },
+        "count": {
+          "value": 1,
+          "ref": "дастгох!C25"
+        },
+        "capacity": null,
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E25"
+        },
+        "cost": {
+          "total": {
+            "value": 250,
+            "ref": "дастгох!F25",
+            "formula": "=+G25+H25"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "дастгох!G25",
+            "formula": "=+G26+G27"
+          },
+          "equipment": {
+            "value": 250,
+            "ref": "дастгох!H25",
+            "formula": "=+H26+H27"
+          }
+        },
+        "own": {
+          "total": {
+            "value": null,
+            "ref": "дастгох!F26"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G26"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H26"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 250,
+            "ref": "дастгох!F27",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G27"
+          },
+          "equipment": {
+            "value": 250,
+            "ref": "дастгох!H27"
+          }
+        }
+      },
+      {
+        "row": 13,
+        "group": "cold",
+        "name": {
+          "value": "Музлатгич (сақлаш учун)",
+          "ref": "дастгох!B13",
+          "sheetText": "Музлатгич (1000 тонналик) сақлаш учун"
+        },
+        "count": {
+          "value": 1,
+          "ref": "дастгох!C13"
+        },
+        "capacity": {
+          "value": "1 000 т",
+          "ref": "дастгох!B13"
+        },
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E13"
+        },
+        "cost": {
+          "total": {
+            "value": 325,
+            "ref": "дастгох!F13",
+            "formula": "=+G13+H13"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "дастгох!G13",
+            "formula": "=+G14+G15"
+          },
+          "equipment": {
+            "value": 325,
+            "ref": "дастгох!H13",
+            "formula": "=+H14+H15"
+          }
+        },
+        "own": {
+          "total": {
+            "value": null,
+            "ref": "дастгох!F14"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G14"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H14"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 325,
+            "ref": "дастгох!F15",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G15"
+          },
+          "equipment": {
+            "value": 325,
+            "ref": "дастгох!H15"
+          }
+        }
+      },
+      {
+        "row": 16,
+        "group": "cold",
+        "name": {
+          "value": "Шок музлатгич",
+          "ref": "дастгох!B16",
+          "sheetText": "Музлатгич шоковая                            (30 тонналик) "
+        },
+        "count": {
+          "value": 1,
+          "ref": "дастгох!C16"
+        },
+        "capacity": {
+          "value": "30 т",
+          "ref": "дастгох!B16"
+        },
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E16"
+        },
+        "cost": {
+          "total": {
+            "value": 215,
+            "ref": "дастгох!F16",
+            "formula": "=+G16+H16"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "дастгох!G16",
+            "formula": "=+G17+G18"
+          },
+          "equipment": {
+            "value": 215,
+            "ref": "дастгох!H16",
+            "formula": "=+H17+H18"
+          }
+        },
+        "own": {
+          "total": {
+            "value": null,
+            "ref": "дастгох!F17"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G17"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H17"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 215,
+            "ref": "дастгох!F18",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G18"
+          },
+          "equipment": {
+            "value": 215,
+            "ref": "дастгох!H18"
+          }
+        }
+      },
+      {
+        "row": 22,
+        "group": "cold",
+        "name": {
+          "value": "Спирал музлатгич",
+          "ref": "дастгох!B22",
+          "sheetText": "Музлагич спиральная                           (соатига 3 тонналик)"
+        },
+        "count": {
+          "value": 1,
+          "ref": "дастгох!C22"
+        },
+        "capacity": {
+          "value": "3 т/соат",
+          "ref": "дастгох!B22"
+        },
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E22"
+        },
+        "cost": {
+          "total": {
+            "value": 325,
+            "ref": "дастгох!F22",
+            "formula": "=+G22+H22"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "дастгох!G22",
+            "formula": "=+G23+G24"
+          },
+          "equipment": {
+            "value": 325,
+            "ref": "дастгох!H22",
+            "formula": "=+H23+H24"
+          }
+        },
+        "own": {
+          "total": {
+            "value": null,
+            "ref": "дастгох!F23"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G23"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H23"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 325,
+            "ref": "дастгох!F24",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G24"
+          },
+          "equipment": {
+            "value": 325,
+            "ref": "дастгох!H24"
+          }
+        }
+      },
+      {
+        "row": 28,
+        "group": "feedmill",
+        "name": {
+          "value": "Ем завод (бройлер ва тухум йўналиши учун)",
+          "ref": "дастгох!B28",
+          "sheetText": "Ем завод (соатига 10 тн) гранулятор (бройлер учун)  + тухум йўналиши учун соатига 10 тонналик, жами 20 тонна қувватга эга  "
+        },
+        "count": {
+          "value": 1,
+          "ref": "дастгох!C28"
+        },
+        "capacity": {
+          "value": "20 т/соат",
+          "ref": "дастгох!B28"
+        },
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E28"
+        },
+        "cost": {
+          "total": {
+            "value": 2800,
+            "ref": "дастгох!F28",
+            "formula": "=+G28+H28"
+          },
+          "construction": {
+            "value": 300,
+            "ref": "дастгох!G28",
+            "formula": "=+G29+G30"
+          },
+          "equipment": {
+            "value": 2500,
+            "ref": "дастгох!H28",
+            "formula": "=+H29+H30"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 300,
+            "ref": "дастгох!F29",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": 300,
+            "ref": "дастгох!G29"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H29"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 2500,
+            "ref": "дастгох!F30",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G30"
+          },
+          "equipment": {
+            "value": 2500,
+            "ref": "дастгох!H30"
+          }
+        }
+      },
+      {
+        "row": 34,
+        "group": "transport",
+        "name": {
+          "value": "Озуқа ташиш учун махсус транспорт (5 × 25 т, 1 × 15 т)",
+          "ref": "дастгох!B34",
+          "sheetText": "Озуқа ташиш учун махсус транспорт ҳар бири 25тн, бройлерга 2 дона, несушкага 1 дона, 15 тонналик родитель 1 дона ва прородительга 2 дона  "
+        },
+        "count": {
+          "value": 6,
+          "ref": "дастгох!B34",
+          "note": "2 + 1 + 1 + 2 дона in the name; C is empty"
+        },
+        "capacity": {
+          "value": "25 т ва 15 т",
+          "ref": "дастгох!B34"
+        },
+        "country": {
+          "value": "Хитой",
+          "ref": "дастгох!E34"
+        },
+        "cost": {
+          "total": {
+            "value": 292.5,
+            "ref": "дастгох!F34",
+            "formula": "=+G34+H34"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "дастгох!G34",
+            "formula": "=+G35+G36"
+          },
+          "equipment": {
+            "value": 292.5,
+            "ref": "дастгох!H34",
+            "formula": "=+H35+H36"
+          }
+        },
+        "own": {
+          "total": {
+            "value": null,
+            "ref": "дастгох!F35"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G35"
+          },
+          "equipment": {
+            "value": null,
+            "ref": "дастгох!H35"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 292.5,
+            "ref": "дастгох!F36",
+            "sheetValue": null,
+            "note": "Empty or different in the sheet; G + H of the same row"
+          },
+          "construction": {
+            "value": null,
+            "ref": "дастгох!G36"
+          },
+          "equipment": {
+            "value": 292.5,
+            "ref": "дастгох!H36"
+          }
+        }
+      }
+    ],
+    "cost": {
+      "total": {
+        "value": 5657.5,
+        "ref": "дастгох!F7",
+        "formula": "=F10+F13+F16+F19+F22+F25+F28+F34+F37"
+      },
+      "construction": {
+        "value": 1200,
+        "ref": "дастгох!G7",
+        "formula": "=G10+G13+G16+G19+G22+G25+G28+G34+G37"
+      },
+      "equipment": {
+        "value": 4457.5,
+        "ref": "дастгох!H7",
+        "formula": "=H10+H13+H16+H19+H22+H25+H28+H34"
+      }
+    },
+    "own": {
+      "total": {
+        "value": 700,
+        "ref": "дастгох!F8",
+        "formula": "=+F11+F14+F17+F29+F32",
+        "sheetValue": 400,
+        "note": "Formula skips rows; using the sum of the items"
+      },
+      "construction": {
+        "value": 700,
+        "ref": "дастгох!G8",
+        "formula": "=+G11+G14+G17+G29"
+      },
+      "equipment": {
+        "value": 0,
+        "ref": "дастгох!H8",
+        "formula": "=+H11+H14+H17+H29+H32+H35+H38+H41+H44"
+      }
+    },
+    "bank": {
+      "total": {
+        "value": 4957.5,
+        "ref": "дастгох!F9",
+        "formula": "=+F12+F15+F18+F30+F33+F36+F39+F42+F45",
+        "sheetValue": 800,
+        "note": "Formula skips rows; using the sum of the items"
+      },
+      "construction": {
+        "value": 500,
+        "ref": "дастгох!G9",
+        "formula": "=+G12+G15+G18+G30+G33+G36+G39+G42+G45"
+      },
+      "equipment": {
+        "value": 4457.5,
+        "ref": "дастгох!H9",
+        "formula": "=+H12+H15+H18+H30+H33+H36+H39+H42+H45+H21+H24+H27"
+      }
+    }
+  },
   "flags": [
     {
       "level": "unit",
@@ -3590,6 +4199,54 @@
       ],
       "text": "An older three-line summary (Бройлер, Прародитель, Қайта ишлаш; жами кредит 22 042,5).",
       "resolution": "Not used: «Жами Лойиҳа Кегели» is the current summary."
+    },
+    {
+      "level": "error",
+      "refs": [
+        "дастгох!F8",
+        "дастгох!F9"
+      ],
+      "text": "Own and bank totals skip rows: F8 = 400 (misses Ем завод's 300), F9 = 800 (misses every equipment row).",
+      "resolution": "Using the sum of the items: own 700, bank 4 957,5. G8, G9, H8, H9 and F7 are right."
+    },
+    {
+      "level": "total",
+      "refs": [
+        "дастгох!D13",
+        "дастгох!D16",
+        "дастгох!D22",
+        "дастгох!D25",
+        "дастгох!D28",
+        "дастгох!D7"
+      ],
+      "text": "«Бир соатлик қуввати бош сонда» is 3 000 on every row, also for the freezers, packaging and the feed mill; D7 adds them up to 21 000.",
+      "resolution": "3 000 бош/соат shown only for the slaughter and chilling lines; other capacities from the item names."
+    },
+    {
+      "level": "total",
+      "refs": [
+        "дастгох!C34",
+        "дастгох!B34"
+      ],
+      "text": "The feed trucks have no count in C. B34 lists them: бройлерга 2, несушкага 1, родитель 1 (15 т), прородительга 2.",
+      "resolution": "Shown as 6 та (2 + 1 + 1 + 2), with B34 as the source."
+    },
+    {
+      "level": "minor",
+      "refs": [
+        "дастгох!B37",
+        "дастгох!A31:A45"
+      ],
+      "text": "«Инкубатория (прородитель учун)» and several numbered rows have no money.",
+      "resolution": "Skipped. The incubator is on the Прородитель sheet (1 380)."
+    },
+    {
+      "level": "minor",
+      "refs": [
+        "Жами Лойиҳа Кегели!B24"
+      ],
+      "text": "The generator (22 дона, 382,2) is a separate line of the summary, not on the дастгох sheet.",
+      "resolution": "Not in the Қайта ишлаш total; the Жами slide shows it as its own line."
     },
     {
       "level": "client",

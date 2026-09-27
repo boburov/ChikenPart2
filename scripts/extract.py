@@ -529,6 +529,102 @@ def project_json(sheet, sections):
     return {"sheet": PROJECT_SHEET, "lines": lines, **totals, "totalCredit": credit}, bad
 
 
+# ---------- Қайта ишлаш (the дастгох sheet) ----------
+
+PROCESSING_SHEET = "дастгох"
+PROCESSING_GROUPS = {"slaughter": "Сўйиш, совитиш ва қадоқлаш", "cold": "Музлатгичлар", "feedmill": "Ем завод", "transport": "Махсус транспорт"}
+# Each item: its row (own funds on the next row, bank credit on the one after), group, name on the
+# slides and capacity. Column D («Бир соатлик қуввати бош сонда») says 3 000 on every row, which only
+# fits the slaughter and chilling lines; the other capacities come from the item names (column B).
+PROCESSING_ITEMS = [
+    (10, "slaughter", "Сўйиш цехи", ("D", "бош/соат")),
+    (19, "slaughter", "Товуқ гўштини ҳаво линиясида совитиш дастгоҳи", ("D", "бош/соат")),
+    (25, "slaughter", "Қадоқлаш ва қайта ишлаш дастгоҳлари (фарш, сортировка тарози, қадоқлаш, вакуум)", None),
+    (13, "cold", "Музлатгич (сақлаш учун)", ("B", "1 000 т")),
+    (16, "cold", "Шок музлатгич", ("B", "30 т")),
+    (22, "cold", "Спирал музлатгич", ("B", "3 т/соат")),
+    (28, "feedmill", "Ем завод (бройлер ва тухум йўналиши учун)", ("B", "20 т/соат")),
+    (34, "transport", "Озуқа ташиш учун махсус транспорт (5 × 25 т, 1 × 15 т)", ("B", "25 т ва 15 т")),
+]
+PROCESSING_COLS = {"F": "total", "G": "construction", "H": "equipment"}
+PROCESSING_FLAGS = [
+    {"level": "error", "refs": ["дастгох!F8", "дастгох!F9"],
+     "text": "Own and bank totals skip rows: F8 = 400 (misses Ем завод's 300), F9 = 800 (misses every equipment row).",
+     "resolution": "Using the sum of the items: own 700, bank 4 957,5. G8, G9, H8, H9 and F7 are right."},
+    {"level": "total", "refs": ["дастгох!D13", "дастгох!D16", "дастгох!D22", "дастгох!D25", "дастгох!D28", "дастгох!D7"],
+     "text": "«Бир соатлик қуввати бош сонда» is 3 000 on every row, also for the freezers, packaging and the feed mill; D7 adds them up to 21 000.",
+     "resolution": "3 000 бош/соат shown only for the slaughter and chilling lines; other capacities from the item names."},
+    {"level": "total", "refs": ["дастгох!C34", "дастгох!B34"],
+     "text": "The feed trucks have no count in C. B34 lists them: бройлерга 2, несушкага 1, родитель 1 (15 т), прородительга 2.",
+     "resolution": "Shown as 6 та (2 + 1 + 1 + 2), with B34 as the source."},
+    {"level": "minor", "refs": ["дастгох!B37", "дастгох!A31:A45"],
+     "text": "«Инкубатория (прородитель учун)» and several numbered rows have no money.",
+     "resolution": "Skipped. The incubator is on the Прородитель sheet (1 380)."},
+    {"level": "minor", "refs": ["Жами Лойиҳа Кегели!B24"],
+     "text": "The generator (22 дона, 382,2) is a separate line of the summary, not on the дастгох sheet.",
+     "resolution": "Not in the Қайта ишлаш total; the Жами slide shows it as its own line."},
+]
+
+
+def processing_json(sheet, project):
+    """The дастгох sheet item by item, with its totals recomputed from the items."""
+    v = sheet.value
+    for cell, expected in (("B7", "Қайта ишлаш йўналиши бўйича"), ("B8", "ўз маблағи"), ("B9", "банк кредити")):
+        if norm(v(cell)) != expected:
+            sys.exit(f"{sheet.ref(cell)} is «{v(cell)}», expected «{expected}». The layout changed; update extract.py.")
+    items, bad = [], []
+    for row, group, name, capacity in PROCESSING_ITEMS:
+        for offset, expected in ((1, "ўз маблағи"), (2, "банк кредити")):
+            if norm(v(f"B{row + offset}")) != expected:
+                sys.exit(f"{sheet.ref(f'B{row + offset}')} is «{v(f'B{row + offset}')}», expected «{expected}». The layout changed; update extract.py.")
+        money = {key: {name_: sheet.num(f"{col}{row + off}") for col, name_ in PROCESSING_COLS.items()}
+                 for key, off in (("cost", 0), ("own", 1), ("bank", 2))}
+        # own/bank F cells are sometimes empty: the row's total is G + H
+        for key in ("own", "bank"):
+            f = money[key]["total"]
+            parts = (money[key]["construction"]["value"] or 0) + (money[key]["equipment"]["value"] or 0)
+            if (f["value"] or 0) != parts:
+                f.update({"sheetValue": f["value"], "value": parts, "note": "Empty or different in the sheet; G + H of the same row"})
+        if sheet.v[f"C{row}"].value is not None:
+            count = sheet.num(f"C{row}")
+        else:
+            listed = [int(n) for n in re.findall(r"(\d+)\s*дона", norm(v(f"B{row}")))]
+            count = {"value": sum(listed), "ref": sheet.ref(f"B{row}"), "note": " + ".join(map(str, listed)) + " дона in the name; C is empty"}
+        cap = None
+        if capacity and capacity[0] == "D":
+            cap = {"value": f"{fmt(v(f'D{row}'))} {capacity[1]}", "ref": sheet.ref(f"D{row}")}
+        elif capacity:
+            cap = {"value": capacity[1], "ref": sheet.ref(f"B{row}")}
+        items.append({"row": row, "group": group, "name": sheet.text(f"B{row}", name), "count": count,
+                      "capacity": cap, "country": sheet.text(f"E{row}"), **money})
+
+    def n(item):
+        return item["value"] or 0
+
+    for it in items:
+        for col in PROCESSING_COLS.values():
+            if abs(n(it["cost"][col]) - n(it["own"][col]) - n(it["bank"][col])) > 1e-6:
+                bad.append(f"{it['cost'][col]['ref']} ≠ own + bank")
+        for key in ("cost", "own", "bank"):
+            if abs(n(it[key]["total"]) - n(it[key]["construction"]) - n(it[key]["equipment"])) > 1e-6:
+                bad.append(f"{it[key]['total']['ref']} ≠ G + H")
+    totals = {}
+    for key, row in (("cost", 7), ("own", 8), ("bank", 9)):
+        totals[key] = {}
+        for col, name_ in PROCESSING_COLS.items():
+            computed = sum(n(it[key][name_]) for it in items)
+            item = sheet.num(f"{col}{row}")
+            if abs((item["value"] or 0) - computed) > 1e-6:
+                item.update({"sheetValue": item["value"], "value": computed, "note": "Formula skips rows; using the sum of the items"})
+            totals[key][name_] = item
+    line = next(l for l in project["lines"] if l["id"] == "processing")
+    for key in ("cost", "own", "bank"):
+        diff = n(totals[key]["total"]) - n(line[key]["total"])
+        if abs(diff) > 0.5 + 1e-6:
+            bad.append(f"{totals[key]['total']['ref']} ({fmt(n(totals[key]['total']))}) ≠ {line[key]['total']['ref']} ({fmt(n(line[key]['total']))})")
+    return {"sheet": PROCESSING_SHEET, "groups": PROCESSING_GROUPS, "items": items, **totals}, bad
+
+
 # ---------- verification.md ----------
 
 def cell_md(item):
@@ -759,6 +855,15 @@ def main():
     merged[PROJECT_SHEET] = [f"{r} («{norm(project_sheet.v[str(r).split(':')[0]].value or '')[:40]}»)"
                              for r in sorted(project_sheet.f.merged_cells.ranges, key=str)]
 
+    processing_sheet = Sheet(wb_f, wb_v, PROCESSING_SHEET)
+    count, stale = check_cached_values(processing_sheet, wb_v)
+    if stale:
+        sys.exit("Saved values don't match the formulas. Open the file in Excel, save it, and run again:\n" + "\n".join(stale))
+    checks.append(f"`{PROCESSING_SHEET}`: all {count} formulas give the value Excel saved.")
+    processing, bad = processing_json(processing_sheet, project)
+    checks.append(f"`{PROCESSING_SHEET}`: own + bank = item, F = G + H, items add up to rows 7–9 (after fixing F8, F9), "
+                  "total = the summary's Қайта ишлаш line (±0,5): " + ("all pass." if not bad else "FAIL — " + "; ".join(bad)))
+
     companies = {s["company"] for s in sections}
     if len(companies) != 1:
         warnings.append(f"Company name differs between sheets: {companies}")
@@ -773,7 +878,8 @@ def main():
         "sections": sections,
         "summary": summary_json(sections),
         "project": project,
-        "flags": flags + STATIC_FLAGS + PROJECT_FLAGS + [LAND_FLAG],
+        "processing": processing,
+        "flags": flags + STATIC_FLAGS + PROJECT_FLAGS + PROCESSING_FLAGS + [LAND_FLAG],
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

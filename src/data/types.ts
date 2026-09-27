@@ -110,10 +110,39 @@ export interface Project {
   totalCredit: Cell & { label: string }
 }
 
+/** The дастгох sheet: processing equipment, item by item (thousand $). */
+export type ProcessingGroup = 'slaughter' | 'cold' | 'feedmill' | 'transport'
+export interface ProcessingMoney {
+  total: Cell
+  construction: Cell
+  equipment: Cell
+}
+export interface ProcessingItem {
+  row: number
+  group: ProcessingGroup
+  name: Cell<string>
+  count: Cell
+  /** From column D (бош/соат) or from the item's name; null when the sheet gives none. */
+  capacity: Cell<string> | null
+  country: Cell<string>
+  cost: ProcessingMoney
+  own: ProcessingMoney
+  bank: ProcessingMoney
+}
+export interface Processing {
+  sheet: string
+  groups: Record<ProcessingGroup, string>
+  items: ProcessingItem[]
+  cost: ProcessingMoney
+  own: ProcessingMoney
+  bank: ProcessingMoney
+}
+
 export interface DeckData {
   meta: { source: string; sha256: string; extractedAt: string; company: string }
   sections: Section[]
   project: Project
+  processing: Processing
   summary: {
     cost: Record<keyof Money, Summed>
     own: Record<keyof Money, Summed>

@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState, type ReactNode } from 'react'
-import { ChevronLeft, ChevronRight, Maximize2, Minimize2, Sigma, type LucideIcon } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Factory, Maximize2, Minimize2, Sigma, type LucideIcon } from 'lucide-react'
 import { DECK, SECTIONS, SLIDES } from '../data/deck'
 import { SECTION_ICON } from './icons'
 
@@ -57,7 +57,10 @@ function Chip({ active, icon: Icon, label, onClick }: { active: boolean; icon: L
   )
 }
 
-/** Production chain: Прародитель → Родитель → Бройлер, then the separate egg line, then the total. */
+const TOTAL_INDEX = SLIDES.findIndex((s) => s.id === 'total')
+const PROCESSING_INDEX = SLIDES.findIndex((s) => s.id === 'processing')
+
+/** Production chain: Прародитель → Родитель → Бройлер, then the separate egg line, processing, and the total. */
 function ChainNav({ current, onJump }: { current: number; onJump: (i: number) => void }) {
   const [gp, parent, broiler, layer] = SECTIONS
   const arrow = <ChevronRight size={18} className="text-ink-3" aria-hidden />
@@ -75,7 +78,14 @@ function ChainNav({ current, onJump }: { current: number; onJump: (i: number) =>
       {divider}
       {chip(layer)}
       {divider}
-      <Chip active={current === SLIDES.length - 1} icon={Sigma} label="Жами" onClick={() => onJump(SLIDES.length - 1)} />
+      <Chip
+        active={current === PROCESSING_INDEX || current === PROCESSING_INDEX + 1}
+        icon={Factory}
+        label="Қайта ишлаш"
+        onClick={() => onJump(PROCESSING_INDEX)}
+      />
+      {divider}
+      <Chip active={current === TOTAL_INDEX} icon={Sigma} label="Жами" onClick={() => onJump(TOTAL_INDEX)} />
     </nav>
   )
 }

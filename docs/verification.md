@@ -1,6 +1,6 @@
 # Кегейли.xlsx → kegeyli.json: check table
 
-Source `data/Кегейли.xlsx` · SHA-256 `49bdd2dee466bce0…` · extracted 2026-09-27T22:32:45
+Source `data/Кегейли.xlsx` · SHA-256 `49bdd2dee466bce0…` · extracted 2026-09-27T23:03:14
 
 Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes from the JSON the slides use.
 
@@ -19,6 +19,8 @@ Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes 
 - `Несушка`: own + bank = facility, facilities = total, I = J+K+L+M on every row: all pass.
 - `Жами Лойиҳа Кегели`: all 73 formulas give the value Excel saved.
 - `Жами Лойиҳа Кегели`: section rows = their sheets, own + bank = line, D = E+F+G+H, lines add up to Жами, Жами кредит = банк кредити: all pass.
+- `дастгох`: all 37 formulas give the value Excel saved.
+- `дастгох`: own + bank = item, F = G + H, items add up to rows 7–9 (after fixing F8, F9), total = the summary's Қайта ишлаш line (±0,5): all pass.
 
 ## Flags
 
@@ -43,7 +45,12 @@ Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes 
 | 17 | minor | Жами Лойиҳа Кегели!F29 | Adds F24 (the generator's total) instead of F26 (its bank row). | Same value: the generator has no own funds. |
 | 18 | minor | Жами Лойиҳа Кегели!E28:H28 | The own-funds totals skip rows that are 0 (feed reserve, generator, some equipment cells). | No effect. |
 | 19 | text | жами лойиха | An older three-line summary (Бройлер, Прародитель, Қайта ишлаш; жами кредит 22 042,5). | Not used: «Жами Лойиҳа Кегели» is the current summary. |
-| 20 | client | Несушка!B10, Несушка!B13, Несушка!B16, Прородитель!B10, Прородитель!B16, Родилеь!B10, Родилеь!B13, броллер!B10, броллер!B13, броллер!B16, броллер!B19, броллер!B22 | Land areas (ер майдони) are not in the spreadsheet; the client gave them on 27.09.2026 (Несушка 3 × 3 га, Бройлер 5 × 3 га, Прародитель 3 + 2 га, Родитель 8,4 + 15 га; incubators: none). | Shown per facility, per section and in total, with the source «мижоз маълумоти». |
+| 20 | error | дастгох!F8, дастгох!F9 | Own and bank totals skip rows: F8 = 400 (misses Ем завод's 300), F9 = 800 (misses every equipment row). | Using the sum of the items: own 700, bank 4 957,5. G8, G9, H8, H9 and F7 are right. |
+| 21 | total | дастгох!D13, дастгох!D16, дастгох!D22, дастгох!D25, дастгох!D28, дастгох!D7 | «Бир соатлик қуввати бош сонда» is 3 000 on every row, also for the freezers, packaging and the feed mill; D7 adds them up to 21 000. | 3 000 бош/соат shown only for the slaughter and chilling lines; other capacities from the item names. |
+| 22 | total | дастгох!C34, дастгох!B34 | The feed trucks have no count in C. B34 lists them: бройлерга 2, несушкага 1, родитель 1 (15 т), прородительга 2. | Shown as 6 та (2 + 1 + 1 + 2), with B34 as the source. |
+| 23 | minor | дастгох!B37, дастгох!A31:A45 | «Инкубатория (прородитель учун)» and several numbered rows have no money. | Skipped. The incubator is on the Прородитель sheet (1 380). |
+| 24 | minor | Жами Лойиҳа Кегели!B24 | The generator (22 дона, 382,2) is a separate line of the summary, not on the дастгох sheet. | Not in the Қайта ишлаш total; the Жами slide shows it as its own line. |
+| 25 | client | Несушка!B10, Несушка!B13, Несушка!B16, Прородитель!B10, Прородитель!B16, Родилеь!B10, Родилеь!B13, броллер!B10, броллер!B13, броллер!B16, броллер!B19, броллер!B22 | Land areas (ер майдони) are not in the spreadsheet; the client gave them on 27.09.2026 (Несушка 3 × 3 га, Бройлер 5 × 3 га, Прародитель 3 + 2 га, Родитель 8,4 + 15 га; incubators: none). | Shown per facility, per section and in total, with the source «мижоз маълумоти». |
 
 ## Merged cells
 

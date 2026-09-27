@@ -1099,3 +1099,55 @@ I noticed you already committed the banner change
 <sub>session `aa2ea332` · branch `main` · 15 ta qadam</sub>
 
 ---
+
+## 2026-09-27 22:55 — bir xil bo'lsin desigin
+
+**So'rov**
+
+> bir xil bo'lsin desigin
+
+**Buyruqlar (10)**
+
+```sh
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref/src && cat components/SlideView.ts…
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref/src && cat styles/tokens.css; grep…
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref/src/styles && sed -n '60,110p;265,…
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref/src && sed -n '650,1300p' styles/a…
+grep -n "'bar'\|\"bar\"\|'pop'\|'photo'" src/App.tsx | head -8
+grep -rn "data-anim" src/App.tsx src/lib 2>/dev/null | head -12; grep -rln "anim=\"bar\"\|\[data-anim" src | head
+cat > src/slides/company.css <<'EOF' /* The company overview slide, ported from the «Baraka hamkor parranda» page (github.com/boburov/chicken, src/styles/app.cs…
+python3 - <<'EOF' from pathlib import Path def patch(path, pairs): p = Path(path); s = p.read_text() for old, new in pairs: assert s.count(old) == 1, (path, old…
+sed -i '' 's/justify-content: center; gap: 12px;/justify-content: center; gap: 10px;/; s/\.co-title { font-size: 60px;/.co-title { font-size: 58px;/' src/slides…
+npx tsc --noEmit -p . && npm run build 2>&1 | tail -1 && git status --short
+```
+
+**Natija**
+
+Understood: the same design as the reference page, not just the same content. I'll bring its layout over closely: the 50 card with the 70%/30% connector, the large ring with the logo and floating labels, the photo with its rounded corner, and the bottom row. The text stays in Cyrillic like the rest of the deck. Reading the reference's markup and CSS:
+
+Status: writing the slide to match the reference design, then I'll compare the two side by side.
+
+Still about 5px over at the top. Trimming the gaps a bit more:
+
+Now it matches the reference layout. Final build:
+
+Slide 3 (`localhost:5173/#3`) is now built in the same design as chicken-ochre.vercel.app. Build passes, and I compared the result with the original.
+
+- **Left:** a line before «Андижон вилояти», the two-line title «Барака / ҳамкор парранда» with the second line in the blue-purple gradient, then «Хусусий корхонаси».
+- **Project value 50 млн АҚШ доллари:**
+  - Arrows branch to «Банк кредити 35 млн $» with the Микрокредитбанк logo and to «Ўз ҳисобидан 15 млн $».
+  - «70%» and «30%» badges sit on the arrows.
+- **«Андижон вилояти талаби ва бизнинг улуш» card:** same layout. The meat bar shows the excess part striped in purple.
+- **Centre:** the large ring (70% blue, 30% purple) with the logo inside and faint orbit lines. The «Ўз ҳисобидан 30%» and «Банк кредити 70%» labels float beside it.
+- **Right:** the hens photo with the same shape (large rounded corners on one diagonal, small on the other).
+- **Bottom:** «Янги лойиҳа ишга тушгач» with four cards in the «Ҳозир → Лойиҳадан кейин» format, like the original.
+
+Three differences from the original:
+- **Language:** the text is in Cyrillic, like the rest of the deck.
+- **The ring is drawn in CSS, not 3D.** The original uses a Three.js 3D scene. Pulling that library in fo
+
+…(qisqartirildi)
+
+<sub>session `aa2ea332` · branch `main` · 12 ta qadam</sub>
+
+---
