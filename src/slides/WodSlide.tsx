@@ -13,9 +13,9 @@ import { PosterResults } from '../oyat/PosterResults'
  */
 export function WodSlide({ active }: { active: boolean }) {
   return (
-    <div className="absolute inset-x-16 top-[112px] bottom-[70px]">
+    <div className="absolute inset-x-16 top-[108px] bottom-[70px]">
       {active && (
-        <div className="grid h-full grid-rows-[auto_minmax(0,1fr)_auto_auto] gap-3.5">
+        <div className="grid h-full grid-rows-[auto_minmax(0,1fr)_auto_auto] gap-2.5">
           <PosterHeader />
           <PosterOverview />
           <PosterBenefits />
