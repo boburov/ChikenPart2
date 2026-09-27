@@ -2,7 +2,7 @@ import { ArrowUpRight, Info, LandPlot, Warehouse, Wheat } from 'lucide-react'
 import { SECTIONS, SUMMARY } from '../data/deck'
 import { Card, IconTile } from '../components/Blocks'
 import { FundsLegend, StackedBars } from '../components/Charts'
-import { COST_META, FUNDS, SECTION_ICON } from '../components/icons'
+import { COST_META, FUNDS, LINE_ICON, SECTION_ICON } from '../components/icons'
 import { Num } from '../components/Num'
 
 /** Cost types paid entirely from one source, e.g. equipment only from bank credit. */
@@ -22,10 +22,10 @@ export function TotalSlide({ onJump, slide }: { onJump: (index: number) => void;
   const f = SUMMARY.financing
   const notes = singleSourceNotes()
   return (
-    <div className="absolute inset-x-16 top-[124px] bottom-[76px] grid grid-cols-12 grid-rows-[188px_minmax(0,1fr)_252px] gap-6">
+    <div className="absolute inset-x-16 top-[124px] bottom-[76px] grid grid-cols-12 grid-rows-[188px_minmax(0,1fr)_212px] gap-6">
       <div className="col-span-4 flex flex-col justify-end pb-1">
         <div data-anim="rise" className="eyebrow">
-          {String(slide).padStart(2, '0')} · Тўрт йўналиш бўйича
+          {String(slide).padStart(2, '0')} · Барча йўналишлар бўйича
         </div>
         <h1 data-anim="rise" className="mt-2 text-[88px] font-[780] leading-[0.98] tracking-[-0.035em] text-ink">
           Жами
@@ -68,34 +68,44 @@ export function TotalSlide({ onJump, slide }: { onJump: (index: number) => void;
             </div>
           </div>
         ))}
-        <div data-anim="rise" className="flex flex-col justify-between rounded-[24px] bg-brand-deep p-6 text-white shadow-[0_18px_40px_-18px_#123b8fcc]">
-          <div className="flex items-center gap-2 text-[17px] font-semibold text-white/75">
-            <Wheat size={18} />
-            Озуқа заҳираси учун
-          </div>
-          <div>
-            <div className="flex items-baseline gap-2 whitespace-nowrap">
-              <Num fig={SUMMARY.feedReserve} className="text-[46px] font-[800] leading-none tracking-[-0.03em]" />
-              <span className="text-[19px] font-semibold text-white/75">млн $</span>
+        {SUMMARY.feedReserve && (
+          <div data-anim="rise" className="flex flex-col justify-between rounded-[24px] bg-brand-deep p-6 text-white shadow-[0_18px_40px_-18px_#123b8fcc]">
+            <div className="flex items-center gap-2 text-[17px] font-semibold text-white/75">
+              <Wheat size={18} />
+              Озуқа заҳираси учун
             </div>
-            <div className="mt-2 text-[15px] font-medium leading-snug text-white/75">
-              қўшимча банк кредити
-              <br />
-              Жами кредит: <Num fig={SUMMARY.totalCredit} animate={false} className="font-semibold text-white" /> млн $
+            <div>
+              <div className="flex items-baseline gap-2 whitespace-nowrap">
+                <Num fig={SUMMARY.feedReserve} className="text-[46px] font-[800] leading-none tracking-[-0.03em]" />
+                <span className="text-[19px] font-semibold text-white/75">млн $</span>
+              </div>
+              <div className="mt-2 text-[15px] font-medium leading-snug text-white/75">
+                банк кредити ҳисобидан
+                <br />
+                Жами кредит: <Num fig={SUMMARY.totalCredit} animate={false} className="font-semibold text-white" /> млн $
+              </div>
             </div>
           </div>
-        </div>
+        )}
       </div>
 
       <Card className="col-span-6" title="Йўналишлар бўйича" aside={<FundsLegend />}>
         <StackedBars
-          labelWidth={220}
+          dense
+          labelWidth={264}
           valueWidth={186}
-          rowGap={24}
-          rows={SUMMARY.bySection.map((row) => ({
+          rowGap={12}
+          rows={SUMMARY.byLine.map((row) => ({
             key: row.id,
-            icon: SECTION_ICON[row.id],
-            label: row.title,
+            icon: LINE_ICON[row.id],
+            label: row.hint ? (
+              <span className="block">
+                {row.title}
+                <span className="block whitespace-nowrap text-[13px] font-medium text-ink-3">{row.hint}</span>
+              </span>
+            ) : (
+              row.title
+            ),
             total: row.total,
             share: row.share,
             exact: row.exact,

@@ -1,6 +1,6 @@
 # Кегейли.xlsx → kegeyli.json: check table
 
-Source `data/Кегейли.xlsx` · SHA-256 `71110830c082c5eb…` · extracted 2026-09-27T21:40:12
+Source `data/Кегейли.xlsx` · SHA-256 `49bdd2dee466bce0…` · extracted 2026-09-27T22:32:45
 
 Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes from the JSON the slides use.
 
@@ -17,6 +17,8 @@ Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes 
 - `броллер`: own + bank = facility, facilities = total, I = J+K+L+M on every row: all pass.
 - `Несушка`: all 41 formulas give the value Excel saved.
 - `Несушка`: own + bank = facility, facilities = total, I = J+K+L+M on every row: all pass.
+- `Жами Лойиҳа Кегели`: all 73 formulas give the value Excel saved.
+- `Жами Лойиҳа Кегели`: section rows = their sheets, own + bank = line, D = E+F+G+H, lines add up to Жами, Жами кредит = банк кредити: all pass.
 
 ## Flags
 
@@ -35,7 +37,13 @@ Regenerate with `.venv/bin/python scripts/extract.py`. Every number below comes 
 | 11 | text | *!J4 | The cost group header repeats «Лойиҳа йўналиши» from B4. | Shown as «Харажатлар таркиби». |
 | 12 | text | B10:B22 | Building sizes (100*18, 90*14,5, 110*18) have no unit. | Shown in metres (100 × 18 м). |
 | 13 | text | sheet names, B2, B7, B10:B22, F5, H10:H22, M5 | Spelling: Родилеь, броллер, Прородитель, Кеегейли, Гунажу, Трик вазнда, ота на, доллрдан, Дастгох, Лойиха. | Fixed on the slides; the sheet's text is kept in the JSON as sheetText. |
-| 14 | client | Несушка!B10, Несушка!B13, Несушка!B16, Прородитель!B10, Прородитель!B16, Родилеь!B10, Родилеь!B13, броллер!B10, броллер!B13, броллер!B16, броллер!B19, броллер!B22 | Land areas (ер майдони) are not in the spreadsheet; the client gave them on 27.09.2026 (Несушка 3 × 3 га, Бройлер 5 × 3 га, Прародитель 3 + 2 га, Родитель 8,4 + 15 га; incubators: none). | Shown per facility, per section and in total, with the source «мижоз маълумоти». |
+| 14 | total | Жами Лойиҳа Кегели!D18:H20, дастгох!F7:H9 | The processing line (Дастгох) is typed in: 5 657 = 700 own + 4 957 bank. The дастгох sheet gives 5 657,5 (H7 = 4 457,5), and its own F8/F9 totals (400, 800) skip rows. | Using the summary's 5 657, shown as «Қайта ишлаш» (the дастгох sheet's own title). The 0,5 doesn't show at млн $. |
+| 15 | minor | Жами Лойиҳа Кегели!H29 | Formula has H179 instead of H17 (Родитель, feed, bank). | H17 = 0, so no effect. |
+| 16 | minor | Жами Лойиҳа Кегели!F10, Жами Лойиҳа Кегели!H10, Жами Лойиҳа Кегели!H11 | The Несушка line reads Прородитель!K8, M8, M9 instead of Несушка's cells. | All are 0 on both sheets; no effect. |
+| 17 | minor | Жами Лойиҳа Кегели!F29 | Adds F24 (the generator's total) instead of F26 (its bank row). | Same value: the generator has no own funds. |
+| 18 | minor | Жами Лойиҳа Кегели!E28:H28 | The own-funds totals skip rows that are 0 (feed reserve, generator, some equipment cells). | No effect. |
+| 19 | text | жами лойиха | An older three-line summary (Бройлер, Прародитель, Қайта ишлаш; жами кредит 22 042,5). | Not used: «Жами Лойиҳа Кегели» is the current summary. |
+| 20 | client | Несушка!B10, Несушка!B13, Несушка!B16, Прородитель!B10, Прородитель!B16, Родилеь!B10, Родилеь!B13, броллер!B10, броллер!B13, броллер!B16, броллер!B19, броллер!B22 | Land areas (ер майдони) are not in the spreadsheet; the client gave them on 27.09.2026 (Несушка 3 × 3 га, Бройлер 5 × 3 га, Прародитель 3 + 2 га, Родитель 8,4 + 15 га; incubators: none). | Shown per facility, per section and in total, with the source «мижоз маълумоти». |
 
 ## Merged cells
 
@@ -47,6 +55,7 @@ Only titles and column headers are merged; no number sits inside a merged range.
 | Родилеь | A4:A5 («№»), B2:M2 («"Кегейли Барака Наслли Парранда" хусусий»), B4:B5 («Лойиҳа йўналиши»), C4:C5 («Бино сони»), D4:D5 («Бош сони»), E4:G4 («Йиллик Натижа»), H4:H5 («Дастгох етказиб берувчининг номи»), I4:I5 («Лойиҳани қиймати»), J4:M4 («Лойиҳа йўналиши») |
 | броллер | A4:A5 («№»), B2:M2 («"Кегейли Барака Наслли Парранда" хусусий»), B4:B5 («Лойиҳа йўналиши»), C4:C5 («Бино сони»), D4:D5 («Бир маротаба Парранда боқиш сони»), E4:G4 («Йиллик Натижа»), H4:H5 («Дастгох етказиб берувчининг номи»), I4:I5 («Лойиҳани қиймати»), J4:M4 («Лойиҳа йўналиши»), K3:M3 («1000 АКШ доллари») |
 | Несушка | A4:A5 («№»), B2:M2 («"Кегейли Барака Наслли Парранда" хусусий»), B4:B5 («Лойиҳа йўналиши»), C4:C5 («Бино сони»), D4:D5 («Бош сони»), E4:G4 («Йиллик Натижа»), H4:H5 («Дастгох етказиб берувчининг номи»), I4:I5 («Лойиҳани қиймати»), J4:M4 («Лойиҳа йўналиши») |
+| Жами Лойиҳа Кегели | A4:A5 («№»), B2:H2 («2026 йил давомида "Кегейли Барака Наслли»), B4:B5 («Лойиҳа йўналиши»), C4:C5 («Бино сони»), D4:D5 («Лойиҳани қиймати»), E4:H4 («Лойиҳа йўналиши») |
 
 ## Slide 2 · Прародитель — sheet `Прородитель`
 
@@ -182,7 +191,39 @@ Units: I–M in **kUSD** · G revenue in **USD** · F output in **pcs** (table e
 | 17 | ↳ ўз маблағи | — | — | — | — | — | *380* | 380 | — | — | — |
 | 18 | ↳ банк кредити | — | — | — | — | — | *560* | 200 | 360 | — | — |
 
-## Slide 6 · Жами (computed from the four sheets)
+## Slides 1 and 6 · Жами — sheet `Жами Лойиҳа Кегели`
+
+The cover and the Жами slide use these totals. The four section rows are checked against their own sheets (see Automatic checks).
+
+| Row | B | D · Жами | E · Қурилишга | F · Дастгоҳга | G · Жўжа | H · Озуқа |
+|---:|---|---:|---:|---:|---:|---:|
+| 12 | **Прародитель** | *9 520* | *3 292* | *2 628* | *3 600* | *0* |
+| 13 | ↳ ўз маблағи | *3 290* | *1 490* | 0 | 1 800 | 0 |
+| 14 | ↳ банк кредити | *6 230* | 1 802 | 2 628 | *1 800* | 0 |
+| 15 | **Родитель** | *14 270* | *8 390* | *3 360* | *1 260* | *1 260* |
+| 16 | ↳ ўз маблағи | *3 700* | 2 440 | 0 | 0 | 1 260 |
+| 17 | ↳ банк кредити | *10 570* | 5 950 | 3 360 | 1 260 | 0 |
+| 6 | **Бройлер** | *11 270* | *4 530* | *3 225* | *630* | *2 885* |
+| 7 | ↳ ўз маблағи | *5 415* | 1 900 | *0* | 630 | 2 885 |
+| 8 | ↳ банк кредити | *5 855* | 2 630 | 3 225 | 0 | *0* |
+| 9 | **Несушка** | *3 900* | *1 740* | *1 260* | *900* | *0* |
+| 10 | ↳ ўз маблағи | *1 140* | 1 140 | *0* | — | *0* |
+| 11 | ↳ банк кредити | *2 760* | 600 | 1 260 | 900 | *0* |
+| 18 | **Қайта ишлаш** | *5 657* | *1 200* | *4 457* | *0* | *0* |
+| 19 | ↳ ўз маблағи | *700* | 700 | 0 | 0 | 0 |
+| 20 | ↳ банк кредити | *4 957* | 500 | 4 457 | 0 | 0 |
+| 21 | **Озуқа заҳираси** | *6 000* | *0* | *0* | *0* | *6 000* |
+| 22 | ↳ ўз маблағи | *0* | 0 | 0 | 0 | 0 |
+| 23 | ↳ банк кредити | *6 000* | 0 | 0 | 0 | 6 000 |
+| 24 | **Генератор · 22 дона** | *382.2* | *0* | *382.2* | *0* | *0* |
+| 25 | ↳ ўз маблағи | *0* | 0 | 0 | 0 | 0 |
+| 26 | ↳ банк кредити | *382.2* | 0 | 382.2 | 0 | 0 |
+| 27 | **Жами лойиҳалар бўйича** | *50 999.2* | *19 152* | *15 312.2* | *6 390* | *10 145* |
+| 28 | ↳ ўз маблағи | *14 245* | *7 670* | *0* | *2 430* | *4 145* |
+| 29 | ↳ банк кредити | *36 754.2* | *11 482* | *15 312.2* | *3 960* | *6 000* |
+| 34 | **Жами кредит** | *36 754.2* | | | | |
+
+## The four sections added up (buildings and land on the Жами slide)
 
 | What | Value, thousand $ | Sum of |
 |---|---:|---|

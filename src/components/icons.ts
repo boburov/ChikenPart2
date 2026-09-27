@@ -4,20 +4,30 @@ import {
   Dna,
   Drumstick,
   Egg,
+  Factory,
   Hammer,
   Landmark,
   Wallet,
   Warehouse,
   Wheat,
+  Zap,
   type LucideIcon,
 } from 'lucide-react'
-import type { SectionId, CostKey } from '../data/types'
+import type { SectionId, CostKey, LineId } from '../data/types'
 
 export const SECTION_ICON: Record<SectionId, LucideIcon> = {
   praroditel: Dna,
   roditel: Bird,
   broiler: Drumstick,
   nesushka: Egg,
+}
+
+/** Lines of the project summary: the sections, then the lines without a slide. */
+export const LINE_ICON: Record<LineId, LucideIcon> = {
+  ...SECTION_ICON,
+  processing: Factory,
+  feedReserve: Wheat,
+  generator: Zap,
 }
 
 export const COST_META: Record<CostKey, { icon: LucideIcon; label: string }> = {

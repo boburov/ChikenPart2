@@ -6,12 +6,20 @@ import { Donut, SplitBar } from '../components/Charts'
 import { FUNDS, SECTION_ICON } from '../components/icons'
 import { Num } from '../components/Num'
 
+/** «4 йўналиш, қайта ишлаш, озуқа заҳираси ва генератор»: what the project total is made of. */
+function totalParts() {
+  const extras = SUMMARY.extras.map((t) => t.toLowerCase())
+  const sections = `${SECTIONS.length} йўналиш`
+  return extras.length ? `${[sections, ...extras.slice(0, -1)].join(', ')} ва ${extras.at(-1)}` : ''
+}
+
 /** Total project cost splitting into bank credit and own funds. */
 function KpiTree({ f }: { f: Financing }) {
   const line = 'absolute bg-[#b9c6e4]'
+  const parts = totalParts()
   return (
     <div className="w-[760px]">
-      <div data-anim="rise" className="glass-strong mx-auto flex w-[470px] items-center gap-5 rounded-[24px] px-6 py-5">
+      <div data-anim="rise" className="glass-strong mx-auto flex w-[540px] items-center gap-5 rounded-[24px] px-6 py-5">
         <IconTile icon={Banknote} size={56} tone="blue" />
         <div>
           <div className="text-[17px] font-semibold text-ink-2">Лойиҳа қиймати</div>
@@ -19,6 +27,7 @@ function KpiTree({ f }: { f: Financing }) {
             <Num fig={f.total} className="text-[60px] font-[790] leading-none tracking-[-0.03em] text-ink" />
             <span className="text-[22px] font-semibold text-ink-2">млн $</span>
           </div>
+          {parts && <div className="mt-1.5 text-[14px] font-medium text-ink-3">{parts}</div>}
         </div>
       </div>
 

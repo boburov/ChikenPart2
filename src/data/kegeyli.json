@@ -1,8 +1,8 @@
 {
   "meta": {
     "source": "data/Кегейли.xlsx",
-    "sha256": "71110830c082c5ebb378e577853e5041673b8e78f632be92b513391db8d25a54",
-    "extractedAt": "2026-09-27T21:40:12",
+    "sha256": "49bdd2dee466bce0bdd135f1d10340e422bc1da3868ca8a502bfcb411d205747",
+    "extractedAt": "2026-09-27T22:32:45",
     "company": "Кегейли Барака Наслли Парранда",
     "units": {
       "kUSD": "thousand US dollars",
@@ -2729,6 +2729,690 @@
       }
     ]
   },
+  "project": {
+    "sheet": "Жами Лойиҳа Кегели",
+    "lines": [
+      {
+        "id": "praroditel",
+        "title": "Прародитель",
+        "section": true,
+        "label": {
+          "value": "Прародитель",
+          "ref": "Жами Лойиҳа Кегели!B12",
+          "sheetText": "Прородитель"
+        },
+        "cost": {
+          "total": {
+            "value": 9520,
+            "ref": "Жами Лойиҳа Кегели!D12",
+            "formula": "=+D13+D14"
+          },
+          "construction": {
+            "value": 3292,
+            "ref": "Жами Лойиҳа Кегели!E12",
+            "formula": "=+E13+E14"
+          },
+          "equipment": {
+            "value": 2628,
+            "ref": "Жами Лойиҳа Кегели!F12",
+            "formula": "=+F13+F14"
+          },
+          "chickens": {
+            "value": 3600,
+            "ref": "Жами Лойиҳа Кегели!G12",
+            "formula": "=+G13+G14"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H12",
+            "formula": "=+H13+H14"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 3290,
+            "ref": "Жами Лойиҳа Кегели!D13",
+            "formula": "=E13+F13+G13+H13"
+          },
+          "construction": {
+            "value": 1490,
+            "ref": "Жами Лойиҳа Кегели!E13",
+            "formula": "=3290-1800"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F13"
+          },
+          "chickens": {
+            "value": 1800,
+            "ref": "Жами Лойиҳа Кегели!G13"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H13"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 6230,
+            "ref": "Жами Лойиҳа Кегели!D14",
+            "formula": "=E14+F14+G14+H14"
+          },
+          "construction": {
+            "value": 1802,
+            "ref": "Жами Лойиҳа Кегели!E14"
+          },
+          "equipment": {
+            "value": 2628,
+            "ref": "Жами Лойиҳа Кегели!F14"
+          },
+          "chickens": {
+            "value": 1800,
+            "ref": "Жами Лойиҳа Кегели!G14",
+            "formula": "=3600-1800"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H14"
+          }
+        }
+      },
+      {
+        "id": "roditel",
+        "title": "Родитель",
+        "section": true,
+        "label": {
+          "value": "Родитель",
+          "ref": "Жами Лойиҳа Кегели!B15"
+        },
+        "cost": {
+          "total": {
+            "value": 14270,
+            "ref": "Жами Лойиҳа Кегели!D15",
+            "formula": "=+D16+D17"
+          },
+          "construction": {
+            "value": 8390,
+            "ref": "Жами Лойиҳа Кегели!E15",
+            "formula": "=+E16+E17"
+          },
+          "equipment": {
+            "value": 3360,
+            "ref": "Жами Лойиҳа Кегели!F15",
+            "formula": "=+F16+F17"
+          },
+          "chickens": {
+            "value": 1260,
+            "ref": "Жами Лойиҳа Кегели!G15",
+            "formula": "=+G16+G17"
+          },
+          "feed": {
+            "value": 1260,
+            "ref": "Жами Лойиҳа Кегели!H15",
+            "formula": "=+H16+H17"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 3700,
+            "ref": "Жами Лойиҳа Кегели!D16",
+            "formula": "=E16+F16+G16+H16"
+          },
+          "construction": {
+            "value": 2440,
+            "ref": "Жами Лойиҳа Кегели!E16"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F16"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G16"
+          },
+          "feed": {
+            "value": 1260,
+            "ref": "Жами Лойиҳа Кегели!H16"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 10570,
+            "ref": "Жами Лойиҳа Кегели!D17",
+            "formula": "=E17+F17+G17+H17"
+          },
+          "construction": {
+            "value": 5950,
+            "ref": "Жами Лойиҳа Кегели!E17"
+          },
+          "equipment": {
+            "value": 3360,
+            "ref": "Жами Лойиҳа Кегели!F17"
+          },
+          "chickens": {
+            "value": 1260,
+            "ref": "Жами Лойиҳа Кегели!G17"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H17"
+          }
+        }
+      },
+      {
+        "id": "broiler",
+        "title": "Бройлер",
+        "section": true,
+        "label": {
+          "value": "Бройлер",
+          "ref": "Жами Лойиҳа Кегели!B6",
+          "sheetText": "Броллер йўналиши"
+        },
+        "cost": {
+          "total": {
+            "value": 11270,
+            "ref": "Жами Лойиҳа Кегели!D6",
+            "formula": "=+D7+D8"
+          },
+          "construction": {
+            "value": 4530,
+            "ref": "Жами Лойиҳа Кегели!E6",
+            "formula": "=+E7+E8"
+          },
+          "equipment": {
+            "value": 3225,
+            "ref": "Жами Лойиҳа Кегели!F6",
+            "formula": "=+F7+F8"
+          },
+          "chickens": {
+            "value": 630,
+            "ref": "Жами Лойиҳа Кегели!G6",
+            "formula": "=+G7+G8"
+          },
+          "feed": {
+            "value": 2885,
+            "ref": "Жами Лойиҳа Кегели!H6",
+            "formula": "=+H7+H8"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 5415,
+            "ref": "Жами Лойиҳа Кегели!D7",
+            "formula": "=E7+F7+G7+H7"
+          },
+          "construction": {
+            "value": 1900,
+            "ref": "Жами Лойиҳа Кегели!E7"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F7",
+            "formula": "=+броллер!K8"
+          },
+          "chickens": {
+            "value": 630,
+            "ref": "Жами Лойиҳа Кегели!G7"
+          },
+          "feed": {
+            "value": 2885,
+            "ref": "Жами Лойиҳа Кегели!H7"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 5855,
+            "ref": "Жами Лойиҳа Кегели!D8",
+            "formula": "=+E8+F8+G8+H8"
+          },
+          "construction": {
+            "value": 2630,
+            "ref": "Жами Лойиҳа Кегели!E8"
+          },
+          "equipment": {
+            "value": 3225,
+            "ref": "Жами Лойиҳа Кегели!F8"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G8"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H8",
+            "formula": "=+броллер!M9"
+          }
+        }
+      },
+      {
+        "id": "nesushka",
+        "title": "Несушка",
+        "section": true,
+        "label": {
+          "value": "Несушка",
+          "ref": "Жами Лойиҳа Кегели!B9",
+          "sheetText": "Тухум йўналишида Лойиха қиймати"
+        },
+        "cost": {
+          "total": {
+            "value": 3900,
+            "ref": "Жами Лойиҳа Кегели!D9",
+            "formula": "=+D10+D11"
+          },
+          "construction": {
+            "value": 1740,
+            "ref": "Жами Лойиҳа Кегели!E9",
+            "formula": "=+E10+E11"
+          },
+          "equipment": {
+            "value": 1260,
+            "ref": "Жами Лойиҳа Кегели!F9",
+            "formula": "=+F10+F11"
+          },
+          "chickens": {
+            "value": 900,
+            "ref": "Жами Лойиҳа Кегели!G9",
+            "formula": "=+G10+G11"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H9",
+            "formula": "=+H10+H11"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 1140,
+            "ref": "Жами Лойиҳа Кегели!D10",
+            "formula": "=E10+F10+G10+H10"
+          },
+          "construction": {
+            "value": 1140,
+            "ref": "Жами Лойиҳа Кегели!E10"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F10",
+            "formula": "=+Прородитель!K8"
+          },
+          "chickens": {
+            "value": null,
+            "ref": "Жами Лойиҳа Кегели!G10"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H10",
+            "formula": "=+Прородитель!M8"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 2760,
+            "ref": "Жами Лойиҳа Кегели!D11",
+            "formula": "=E11+F11+G11+H11"
+          },
+          "construction": {
+            "value": 600,
+            "ref": "Жами Лойиҳа Кегели!E11"
+          },
+          "equipment": {
+            "value": 1260,
+            "ref": "Жами Лойиҳа Кегели!F11"
+          },
+          "chickens": {
+            "value": 900,
+            "ref": "Жами Лойиҳа Кегели!G11"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H11",
+            "formula": "=+Прородитель!M9"
+          }
+        }
+      },
+      {
+        "id": "processing",
+        "title": "Қайта ишлаш",
+        "section": false,
+        "label": {
+          "value": "Қайта ишлаш",
+          "ref": "Жами Лойиҳа Кегели!B18",
+          "sheetText": "Дастгох"
+        },
+        "cost": {
+          "total": {
+            "value": 5657,
+            "ref": "Жами Лойиҳа Кегели!D18",
+            "formula": "=+D19+D20"
+          },
+          "construction": {
+            "value": 1200,
+            "ref": "Жами Лойиҳа Кегели!E18",
+            "formula": "=+E19+E20"
+          },
+          "equipment": {
+            "value": 4457,
+            "ref": "Жами Лойиҳа Кегели!F18",
+            "formula": "=+F19+F20"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G18",
+            "formula": "=+G19+G20"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H18",
+            "formula": "=+H19+H20"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 700,
+            "ref": "Жами Лойиҳа Кегели!D19",
+            "formula": "=+E19+F19+G19+H19"
+          },
+          "construction": {
+            "value": 700,
+            "ref": "Жами Лойиҳа Кегели!E19"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F19"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G19"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H19"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 4957,
+            "ref": "Жами Лойиҳа Кегели!D20",
+            "formula": "=+E20+F20+G20+H20"
+          },
+          "construction": {
+            "value": 500,
+            "ref": "Жами Лойиҳа Кегели!E20"
+          },
+          "equipment": {
+            "value": 4457,
+            "ref": "Жами Лойиҳа Кегели!F20"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G20"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H20"
+          }
+        }
+      },
+      {
+        "id": "feedReserve",
+        "title": "Озуқа заҳираси",
+        "section": false,
+        "label": {
+          "value": "Озуқа заҳираси",
+          "ref": "Жами Лойиҳа Кегели!B21",
+          "sheetText": "Озуқа заҳираси учун"
+        },
+        "cost": {
+          "total": {
+            "value": 6000,
+            "ref": "Жами Лойиҳа Кегели!D21",
+            "formula": "=+D22+D23"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!E21",
+            "formula": "=+E22+E23"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F21",
+            "formula": "=+F22+F23"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G21",
+            "formula": "=+G22+G23"
+          },
+          "feed": {
+            "value": 6000,
+            "ref": "Жами Лойиҳа Кегели!H21",
+            "formula": "=+H22+H23"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!D22",
+            "formula": "=+E22+F22+G22+H22"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!E22"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F22"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G22"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H22"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 6000,
+            "ref": "Жами Лойиҳа Кегели!D23",
+            "formula": "=+E23+F23+G23+H23"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!E23"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F23"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G23"
+          },
+          "feed": {
+            "value": 6000,
+            "ref": "Жами Лойиҳа Кегели!H23"
+          }
+        }
+      },
+      {
+        "id": "generator",
+        "title": "Генератор",
+        "section": false,
+        "label": {
+          "value": "Генератор",
+          "ref": "Жами Лойиҳа Кегели!B24",
+          "sheetText": "Генератор (движон)           22  дона"
+        },
+        "cost": {
+          "total": {
+            "value": 382.2,
+            "ref": "Жами Лойиҳа Кегели!D24",
+            "formula": "=+D25+D26"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!E24",
+            "formula": "=+E25+E26"
+          },
+          "equipment": {
+            "value": 382.2,
+            "ref": "Жами Лойиҳа Кегели!F24",
+            "formula": "=+F25+F26"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G24",
+            "formula": "=+G25+G26"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H24",
+            "formula": "=+H25+H26"
+          }
+        },
+        "own": {
+          "total": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!D25",
+            "formula": "=+E25+F25+G25+H25"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!E25"
+          },
+          "equipment": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!F25"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G25"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H25"
+          }
+        },
+        "bank": {
+          "total": {
+            "value": 382.2,
+            "ref": "Жами Лойиҳа Кегели!D26",
+            "formula": "=+E26+F26+G26+H26"
+          },
+          "construction": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!E26"
+          },
+          "equipment": {
+            "value": 382.2,
+            "ref": "Жами Лойиҳа Кегели!F26"
+          },
+          "chickens": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!G26"
+          },
+          "feed": {
+            "value": 0,
+            "ref": "Жами Лойиҳа Кегели!H26"
+          }
+        },
+        "count": {
+          "value": 22,
+          "unit": "дона",
+          "ref": "Жами Лойиҳа Кегели!B24"
+        }
+      }
+    ],
+    "cost": {
+      "total": {
+        "value": 50999.2,
+        "ref": "Жами Лойиҳа Кегели!D27",
+        "formula": "=+D18+D9+D6+D12+D15+D21+D24"
+      },
+      "construction": {
+        "value": 19152,
+        "ref": "Жами Лойиҳа Кегели!E27",
+        "formula": "=+E18+E9+E6+E12+E15+E21+E24"
+      },
+      "equipment": {
+        "value": 15312.2,
+        "ref": "Жами Лойиҳа Кегели!F27",
+        "formula": "=+F18+F9+F6+F12+F15+F21+F24"
+      },
+      "chickens": {
+        "value": 6390,
+        "ref": "Жами Лойиҳа Кегели!G27",
+        "formula": "=+G18+G9+G6+G12+G15+G21+G24"
+      },
+      "feed": {
+        "value": 10145,
+        "ref": "Жами Лойиҳа Кегели!H27",
+        "formula": "=+H18+H9+H6+H12+H15+H21+H24"
+      }
+    },
+    "own": {
+      "total": {
+        "value": 14245,
+        "ref": "Жами Лойиҳа Кегели!D28",
+        "formula": "=+D19+D10+D7+D13+D16+D22+D25"
+      },
+      "construction": {
+        "value": 7670,
+        "ref": "Жами Лойиҳа Кегели!E28",
+        "formula": "=+E19+E10+E7+E13+E16"
+      },
+      "equipment": {
+        "value": 0,
+        "ref": "Жами Лойиҳа Кегели!F28",
+        "formula": "=+F19+F10+F7"
+      },
+      "chickens": {
+        "value": 2430,
+        "ref": "Жами Лойиҳа Кегели!G28",
+        "formula": "=+G19+G10+G7+G13+G16"
+      },
+      "feed": {
+        "value": 4145,
+        "ref": "Жами Лойиҳа Кегели!H28",
+        "formula": "=+H19+H10+H7+H13+H16"
+      }
+    },
+    "bank": {
+      "total": {
+        "value": 36754.2,
+        "ref": "Жами Лойиҳа Кегели!D29",
+        "formula": "=+D20+D11+D8+D14+D17+D23+D26"
+      },
+      "construction": {
+        "value": 11482,
+        "ref": "Жами Лойиҳа Кегели!E29",
+        "formula": "=+E20+E11+E8+E14+E17"
+      },
+      "equipment": {
+        "value": 15312.2,
+        "ref": "Жами Лойиҳа Кегели!F29",
+        "formula": "=+F20+F11+F8+F14+F17+F24"
+      },
+      "chickens": {
+        "value": 3960,
+        "ref": "Жами Лойиҳа Кегели!G29",
+        "formula": "=+G20+G11+G8+G14+G17"
+      },
+      "feed": {
+        "value": 6000,
+        "ref": "Жами Лойиҳа Кегели!H29",
+        "formula": "=+H20+H11+H8+H14+H179+H23"
+      }
+    },
+    "totalCredit": {
+      "value": 36754.2,
+      "ref": "Жами Лойиҳа Кегели!D34",
+      "formula": "=+D29",
+      "label": "Жами кредит"
+    }
+  },
   "flags": [
     {
       "level": "unit",
@@ -2855,6 +3539,57 @@
       ],
       "text": "Spelling: Родилеь, броллер, Прородитель, Кеегейли, Гунажу, Трик вазнда, ота на, доллрдан, Дастгох, Лойиха.",
       "resolution": "Fixed on the slides; the sheet's text is kept in the JSON as sheetText."
+    },
+    {
+      "level": "total",
+      "refs": [
+        "Жами Лойиҳа Кегели!D18:H20",
+        "дастгох!F7:H9"
+      ],
+      "text": "The processing line (Дастгох) is typed in: 5 657 = 700 own + 4 957 bank. The дастгох sheet gives 5 657,5 (H7 = 4 457,5), and its own F8/F9 totals (400, 800) skip rows.",
+      "resolution": "Using the summary's 5 657, shown as «Қайта ишлаш» (the дастгох sheet's own title). The 0,5 doesn't show at млн $."
+    },
+    {
+      "level": "minor",
+      "refs": [
+        "Жами Лойиҳа Кегели!H29"
+      ],
+      "text": "Formula has H179 instead of H17 (Родитель, feed, bank).",
+      "resolution": "H17 = 0, so no effect."
+    },
+    {
+      "level": "minor",
+      "refs": [
+        "Жами Лойиҳа Кегели!F10",
+        "Жами Лойиҳа Кегели!H10",
+        "Жами Лойиҳа Кегели!H11"
+      ],
+      "text": "The Несушка line reads Прородитель!K8, M8, M9 instead of Несушка's cells.",
+      "resolution": "All are 0 on both sheets; no effect."
+    },
+    {
+      "level": "minor",
+      "refs": [
+        "Жами Лойиҳа Кегели!F29"
+      ],
+      "text": "Adds F24 (the generator's total) instead of F26 (its bank row).",
+      "resolution": "Same value: the generator has no own funds."
+    },
+    {
+      "level": "minor",
+      "refs": [
+        "Жами Лойиҳа Кегели!E28:H28"
+      ],
+      "text": "The own-funds totals skip rows that are 0 (feed reserve, generator, some equipment cells).",
+      "resolution": "No effect."
+    },
+    {
+      "level": "text",
+      "refs": [
+        "жами лойиха"
+      ],
+      "text": "An older three-line summary (Бройлер, Прародитель, Қайта ишлаш; жами кредит 22 042,5).",
+      "resolution": "Not used: «Жами Лойиҳа Кегели» is the current summary."
     },
     {
       "level": "client",

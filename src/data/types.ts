@@ -84,9 +84,36 @@ export interface Summed {
   sumOf: string[]
 }
 
+/** A line of the client's project summary: the four sections, then the lines without a slide. */
+export type LineId = SectionId | 'processing' | 'feedReserve' | 'generator'
+
+export interface ProjectLine {
+  id: LineId
+  title: string
+  /** True for the four lines that have their own slide. */
+  section: boolean
+  label: Cell<string>
+  /** Taken from the line's text, e.g. «22 дона». */
+  count?: { value: number; unit: string; ref: string }
+  cost: Money
+  own: Money
+  bank: Money
+}
+
+/** «Жами Лойиҳа Кегели»: the whole project as the client totals it. */
+export interface Project {
+  sheet: string
+  lines: ProjectLine[]
+  cost: Money
+  own: Money
+  bank: Money
+  totalCredit: Cell & { label: string }
+}
+
 export interface DeckData {
   meta: { source: string; sha256: string; extractedAt: string; company: string }
   sections: Section[]
+  project: Project
   summary: {
     cost: Record<keyof Money, Summed>
     own: Record<keyof Money, Summed>

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Extract the four presentation sections of Кегейли.xlsx.
+"""Extract the four presentation sections of Кегейли.xlsx and the client's whole-project summary.
 
 Writes
   src/data/kegeyli.json  every value with its sheet!cell, Excel formula and notes
@@ -78,6 +78,38 @@ SECTIONS = [
 
 # Sums of "birds per building" across facilities: not a real total, never shown.
 HIDDEN = {"Прородитель!D7", "Родилеь!D7"}
+
+# The client's summary of the whole project. The cover and the Жами slide show its totals, so they
+# match the file: the four sections plus processing, the feed reserve and the generator. Lines are
+# found by their text in column B, because rows move (they did when the generator was added).
+PROJECT_SHEET = "Жами Лойиҳа Кегели"
+PROJECT_COLS = {"D": "total", "E": "construction", "F": "equipment", "G": "chickens", "H": "feed"}
+PROJECT_LINES = [  # column B starts with, id, name on the slides; section lines must match their sheets
+    ("Прородитель", "praroditel", "Прародитель"),
+    ("Родитель", "roditel", "Родитель"),
+    ("Броллер", "broiler", "Бройлер"),
+    ("Тухум", "nesushka", "Несушка"),
+    ("Дастгох", "processing", "Қайта ишлаш"),
+    ("Озуқа заҳираси", "feedReserve", "Озуқа заҳираси"),
+    ("Генератор", "generator", "Генератор"),
+]
+PROJECT_FLAGS = [
+    {"level": "total", "refs": [f"{PROJECT_SHEET}!D18:H20", "дастгох!F7:H9"],
+     "text": "The processing line (Дастгох) is typed in: 5 657 = 700 own + 4 957 bank. The дастгох sheet gives 5 657,5 "
+             "(H7 = 4 457,5), and its own F8/F9 totals (400, 800) skip rows.",
+     "resolution": "Using the summary's 5 657, shown as «Қайта ишлаш» (the дастгох sheet's own title). The 0,5 doesn't show at млн $."},
+    {"level": "minor", "refs": [f"{PROJECT_SHEET}!H29"],
+     "text": "Formula has H179 instead of H17 (Родитель, feed, bank).", "resolution": "H17 = 0, so no effect."},
+    {"level": "minor", "refs": [f"{PROJECT_SHEET}!F10", f"{PROJECT_SHEET}!H10", f"{PROJECT_SHEET}!H11"],
+     "text": "The Несушка line reads Прородитель!K8, M8, M9 instead of Несушка's cells.", "resolution": "All are 0 on both sheets; no effect."},
+    {"level": "minor", "refs": [f"{PROJECT_SHEET}!F29"],
+     "text": "Adds F24 (the generator's total) instead of F26 (its bank row).", "resolution": "Same value: the generator has no own funds."},
+    {"level": "minor", "refs": [f"{PROJECT_SHEET}!E28:H28"],
+     "text": "The own-funds totals skip rows that are 0 (feed reserve, generator, some equipment cells).", "resolution": "No effect."},
+    {"level": "text", "refs": ["жами лойиха"],
+     "text": "An older three-line summary (Бройлер, Прародитель, Қайта ишлаш; жами кредит 22 042,5).",
+     "resolution": f"Not used: «{PROJECT_SHEET}» is the current summary."},
+]
 
 # Changes the client asked for on top of the sheet. Money moves from one cell to another,
 # then every formula on that sheet is recalculated, so all totals and slides follow.
@@ -246,7 +278,11 @@ class Sheet:
         return item
 
 
-def check_cached_values(sheet):
+# A cell in a formula, optionally on another sheet: K8 or броллер!K8.
+CELL_REF = re.compile(r"(?:(\w+)!)?([A-Z]+\d+)")
+
+
+def check_cached_values(sheet, wb_values):
     """Recompute every formula from the saved inputs; a mismatch means the file wasn't recalculated."""
     problems, count = [], 0
     for row in sheet.f.iter_rows():
@@ -254,7 +290,7 @@ def check_cached_values(sheet):
             if not sheet.formula(c.coordinate):
                 continue
             count += 1
-            expr = re.sub(r"[A-Z]+\d+", lambda m: str(sheet.v[m.group(0)].value or 0), c.value[1:])
+            expr = CELL_REF.sub(lambda m: str((wb_values[m.group(1)] if m.group(1) else sheet.v)[m.group(2)].value or 0), c.value[1:])
             if not re.fullmatch(r"[\d.+\-*/() ]+", expr):
                 problems.append(f"{sheet.ref(c.coordinate)}: can't recompute {c.value}")
                 continue
@@ -433,6 +469,66 @@ def summary_json(sections):
     }
 
 
+def project_json(sheet, sections):
+    """Every line and the grand totals of the project summary, checked against the section sheets.
+
+    Returns the JSON block and the list of checks that failed.
+    """
+    labels = {r: norm(sheet.v[f"B{r}"].value) for r in range(1, sheet.f.max_row + 1) if sheet.v[f"B{r}"].value is not None}
+
+    def row_of(text, prefix=True):
+        rows = [r for r, t in labels.items() if (t.startswith(text) if prefix else t == text)]
+        if len(rows) != 1:
+            sys.exit(f"{PROJECT_SHEET}: expected one row «{text}» in column B, found {len(rows)}. The layout changed; update extract.py.")
+        return rows[0]
+
+    def block(r):
+        """A line and the two rows under it: own funds, then bank credit."""
+        for offset, expected in ((1, "ўз маблағи"), (2, "банк кредити")):
+            if labels.get(r + offset) != expected:
+                sys.exit(f"{sheet.ref(f'B{r + offset}')} is «{labels.get(r + offset)}», expected «{expected}». The layout changed; update extract.py.")
+        return {key: {name: sheet.num(f"{col}{r + offset}") for col, name in PROJECT_COLS.items()} for key, offset in MONEY_ROWS.items()}
+
+    by_id = {s["id"]: s for s in sections}
+    lines = []
+    for text, line_id, title in PROJECT_LINES:
+        r = row_of(text)
+        line = {"id": line_id, "title": title, "section": line_id in by_id, "label": sheet.text(f"B{r}", title), **block(r)}
+        count = re.search(r"(\d+)\s*дона", labels[r])
+        if count:
+            line["count"] = {"value": int(count.group(1)), "unit": "дона", "ref": sheet.ref(f"B{r}")}
+        lines.append(line)
+    totals = block(row_of("Жами лойиҳалар бўйича", prefix=False))
+    credit_row = row_of("Жами кредит", prefix=False)
+    credit = {**sheet.num(f"D{credit_row}"), "label": sheet.text(f"B{credit_row}")["value"]}
+
+    def v(item):
+        return item["value"] or 0
+
+    parts = [c for c in COST_COLS.values() if c != "total"]
+    bad = []
+    for owner in lines + [totals]:
+        for key in MONEY_ROWS:
+            if abs(v(owner[key]["total"]) - sum(v(owner[key][c]) for c in parts)) > 1e-6:
+                bad.append(f"{owner[key]['total']['ref']} ≠ E+F+G+H")
+        for col in COST_COLS.values():
+            if abs(v(owner["cost"][col]) - v(owner["own"][col]) - v(owner["bank"][col])) > 1e-6:
+                bad.append(f"{owner['cost'][col]['ref']} ≠ own + bank")
+    for key in MONEY_ROWS:
+        for col in COST_COLS.values():
+            if abs(v(totals[key][col]) - sum(v(line[key][col]) for line in lines)) > 1e-6:
+                bad.append(f"{totals[key][col]['ref']} ≠ sum of the lines")
+    for line in (x for x in lines if x["section"]):
+        section = by_id[line["id"]]["totals"]
+        for key in MONEY_ROWS:
+            for col in COST_COLS.values():
+                if abs(v(line[key][col]) - v(section[key][col])) > 1e-6:
+                    bad.append(f"{line[key][col]['ref']} = {fmt(v(line[key][col]))}, but {section[key][col]['ref']} = {fmt(v(section[key][col]))}")
+    if abs(v(credit) - v(totals["bank"]["total"])) > 1e-6:
+        bad.append(f"{credit['ref']} ≠ {totals['bank']['total']['ref']}")
+    return {"sheet": PROJECT_SHEET, "lines": lines, **totals, "totalCredit": credit}, bad
+
+
 # ---------- verification.md ----------
 
 def cell_md(item):
@@ -485,6 +581,26 @@ def text_md(sec):
     for it in items:
         sheet_text = norm(it.get("sheetText", it["value"]))
         lines.append(f"| {it['ref'].split('!')[1]} | {sheet_text} | {it.get('shown', it['value'])} |")
+    return lines
+
+
+def project_md(project):
+    """The project summary laid out like the sheet: each line, its own funds and its bank credit."""
+    names = {"D": "Жами", "E": "Қурилишга", "F": "Дастгоҳга", "G": "Жўжа", "H": "Озуқа"}
+    lines = ["| Row | B | " + " | ".join(f"{c} · {names[c]}" for c in PROJECT_COLS) + " |", "|---:|---|" + "---:|" * len(PROJECT_COLS)]
+
+    def add(owner, label):
+        for key, row_label in (("cost", f"**{label}**"), ("own", "↳ ўз маблағи"), ("bank", "↳ банк кредити")):
+            row = owner[key]
+            lines.append(f"| {row['total']['ref'].split('!')[1][1:]} | {row_label} | "
+                         + " | ".join(cell_md(row[name]) for name in PROJECT_COLS.values()) + " |")
+
+    for line in project["lines"]:
+        count = f" · {line['count']['value']} {line['count']['unit']}" if line.get("count") else ""
+        add(line, f"{line['title']}{count}")
+    add(project, "Жами лойиҳалар бўйича")
+    credit = project["totalCredit"]
+    lines.append(f"| {credit['ref'].split('!')[1][1:]} | **{credit['label']}** | {cell_md(credit)} | | | | |")
     return lines
 
 
@@ -566,7 +682,13 @@ def write_markdown(data, checks, flags, merged, warnings):
         ]
     s = data["summary"]
     md += [
-        "## Slide 6 · Жами (computed from the four sheets)",
+        f"## Slides 1 and 6 · Жами — sheet `{PROJECT_SHEET}`",
+        "",
+        "The cover and the Жами slide use these totals. The four section rows are checked against their own sheets (see Automatic checks).",
+        "",
+        *project_md(data["project"]),
+        "",
+        "## The four sections added up (buildings and land on the Жами slide)",
         "",
         "| What | Value, thousand $ | Sum of |",
         "|---|---:|---|",
@@ -605,7 +727,7 @@ def main():
         for cell, expected in (("B8", "ўз маблағи"), ("B9", "банк кредити"), ("I4", "Лойиҳани қиймати")):
             if norm(sheet.v[cell].value) != expected:
                 sys.exit(f"{sheet.ref(cell)} is «{sheet.v[cell].value}», expected «{expected}». The layout changed; update extract.py.")
-        count, stale = check_cached_values(sheet)
+        count, stale = check_cached_values(sheet, wb_v)
         if stale:
             sys.exit("Saved values don't match the formulas. Open the file in Excel, save it, and run again:\n" + "\n".join(stale))
         checks.append(f"`{sheet.name}`: all {count} formulas give the value Excel saved.")
@@ -626,6 +748,17 @@ def main():
                               for r in sorted(sheet.f.merged_cells.ranges, key=str)]
         sections.append(section_json(sheet, section, warnings))
 
+    project_sheet = Sheet(wb_f, wb_v, PROJECT_SHEET)
+    count, stale = check_cached_values(project_sheet, wb_v)
+    if stale:
+        sys.exit("Saved values don't match the formulas. Open the file in Excel, save it, and run again:\n" + "\n".join(stale))
+    checks.append(f"`{PROJECT_SHEET}`: all {count} formulas give the value Excel saved.")
+    project, bad = project_json(project_sheet, sections)
+    checks.append(f"`{PROJECT_SHEET}`: section rows = their sheets, own + bank = line, D = E+F+G+H, lines add up to Жами, "
+                  "Жами кредит = банк кредити: " + ("all pass." if not bad else "FAIL — " + "; ".join(bad)))
+    merged[PROJECT_SHEET] = [f"{r} («{norm(project_sheet.v[str(r).split(':')[0]].value or '')[:40]}»)"
+                             for r in sorted(project_sheet.f.merged_cells.ranges, key=str)]
+
     companies = {s["company"] for s in sections}
     if len(companies) != 1:
         warnings.append(f"Company name differs between sheets: {companies}")
@@ -639,7 +772,8 @@ def main():
         },
         "sections": sections,
         "summary": summary_json(sections),
-        "flags": flags + STATIC_FLAGS + [LAND_FLAG],
+        "project": project,
+        "flags": flags + STATIC_FLAGS + PROJECT_FLAGS + [LAND_FLAG],
     }
     OUT_JSON.parent.mkdir(parents=True, exist_ok=True)
     OUT_JSON.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")

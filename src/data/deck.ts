@@ -3,7 +3,7 @@
 import raw from './kegeyli.json'
 import { formatNumber } from '../lib/format'
 import { splitRound } from '../lib/round'
-import type { Cell, CostKey, DeckData, Facility, Land, Money, Section, SectionId, Summed, Totals, Unit } from './types'
+import type { Cell, CostKey, DeckData, Facility, Land, LineId, Money, Section, SectionId, Summed, Totals, Unit } from './types'
 
 export const data = raw as unknown as DeckData
 
@@ -57,8 +57,9 @@ export interface Financing {
   exact: { total: number; bank: number; own: number }
 }
 
-function financing(total: Source, bank: Source, own: Source): Financing {
-  const [b, o] = splitRound([val(bank), val(own)], MLN_STEP)
+/** `target`: the total in rounding steps when it is fixed elsewhere (see LINE_STEPS). */
+function financing(total: Source, bank: Source, own: Source, target?: number): Financing {
+  const [b, o] = splitRound([val(bank), val(own)], MLN_STEP, target)
   const [bp, op] = splitRound([val(bank), val(own)], val(total) / 100)
   return {
     total: mln(b + o, refsOf(total), true),
@@ -84,8 +85,8 @@ export interface CostRow {
 type MoneyLike = Record<keyof Money, Source>
 
 /** The four cost types, rounded so they add up to the rounded project cost. */
-function costRows(cost: MoneyLike, bank: MoneyLike, own: MoneyLike): CostRow[] {
-  const totals = splitRound(COST_KEYS.map((k) => val(cost[k])), MLN_STEP)
+function costRows(cost: MoneyLike, bank: MoneyLike, own: MoneyLike, target?: number): CostRow[] {
+  const totals = splitRound(COST_KEYS.map((k) => val(cost[k])), MLN_STEP, target)
   const shares = splitRound(COST_KEYS.map((k) => val(cost[k])), val(cost.total) / 100)
   return COST_KEYS.map((key, i) => {
     const [b, o] = splitRound([val(bank[key]), val(own[key])], MLN_STEP, totals[i])
@@ -257,6 +258,13 @@ export interface SectionView {
   group?: GroupView
 }
 
+const project = data.project
+
+// The Жами slide splits the grand total across the project lines, and each section page rounds
+// to that same share, so the figures on every slide add up to the cover's total.
+const LINE_STEPS = splitRound(project.lines.map((l) => val(l.cost.total)), MLN_STEP)
+const lineSteps = (id: LineId) => LINE_STEPS[project.lines.findIndex((l) => l.id === id)]
+
 const OUTPUT_UNIT: Record<SectionId, string> = {
   praroditel: 'ота-она жўжа / йил',
   roditel: 'тухум / йил',
@@ -304,8 +312,8 @@ function sectionView(section: Section, slide: number): SectionView {
         hint: hatcheries ? `${hatcheries} таси инкубатория` : undefined,
       },
     ],
-    financing: financing(t.cost.total, t.bank.total, t.own.total),
-    costs: costRows(t.cost, t.bank, t.own),
+    financing: financing(t.cost.total, t.bank.total, t.own.total, lineSteps(section.id)),
+    costs: costRows(t.cost, t.bank, t.own, lineSteps(section.id)),
     facilities: section.facilities.map((f) => facilityView(section, f)),
     group: groupView(section),
   }
@@ -314,27 +322,35 @@ function sectionView(section: Section, slide: number): SectionView {
 export const SECTIONS: SectionView[] = data.sections.map((sec, i) => sectionView(sec, i + 2))
 
 const sum = data.summary
-const FEED_RESERVE_STEPS = 600 // 6 mln $ in 10 thousand $ steps
-const totalFinancing = financing(sum.cost.total, sum.bank.total, sum.own.total)
-const sectionShares = splitRound(SECTIONS.map((x) => x.financing.exact.total), sum.cost.total.value / 100)
+const totalFinancing = financing(project.cost.total, project.bank.total, project.own.total)
+const lineShares = splitRound(project.lines.map((l) => val(l.cost.total)), val(project.cost.total) / 100)
+const feedReserve = project.lines.find((l) => l.id === 'feedReserve')
+
+/** What a line without a slide of its own consists of (the дастгох sheet's items). */
+const LINE_HINT: Partial<Record<LineId, string>> = { processing: 'сўйиш цехи, музлатгич, ем завод' }
 
 export const SUMMARY = {
+  /** The client's grand totals: the four sections, processing, the feed reserve and the generator. */
   financing: totalFinancing,
-  costs: costRows(sum.cost, sum.bank, sum.own),
-  /** Project cost per section, with its share of the four-section total. */
-  bySection: SECTIONS.map((x, i) => ({
-    id: x.id,
-    title: x.title,
-    total: x.financing.total,
-    share: exact(sectionShares[i], [...x.financing.total.src, ...sum.cost.total.sumOf]),
-    exact: x.financing.exact,
+  costs: costRows(project.cost, project.bank, project.own),
+  /** Every project line with its share of the grand total. */
+  byLine: project.lines.map((l, i) => ({
+    id: l.id,
+    title: l.title,
+    hint: l.count ? `${formatNumber(l.count.value)} ${l.count.unit}` : LINE_HINT[l.id],
+    total: mln(LINE_STEPS[i], [l.cost.total.ref], true),
+    share: exact(lineShares[i], [l.cost.total.ref, project.cost.total.ref]),
+    exact: { total: val(l.cost.total), bank: val(l.bank.total), own: val(l.own.total) },
   })),
+  /** Lines without a slide, named on the cover so that its total reads right. */
+  extras: project.lines.filter((l) => !l.section).map((l) => l.title),
   buildings: exact(sum.buildings.value, sum.buildings.sumOf),
   hatcheries: exact(sum.hatcheries.value, sum.hatcheries.refs),
   land: hectares(sum.land),
-  /** Bank credit for the feed reserve. Not in the sheets: 6 mln $, given by the client. */
-  feedReserve: mln(FEED_RESERVE_STEPS, [], true),
-  totalCredit: mln(Math.round(totalFinancing.bank.value * 100) + FEED_RESERVE_STEPS, totalFinancing.bank.src, true),
+  /** The feed reserve line: all bank credit. */
+  feedReserve: feedReserve ? mln(lineSteps('feedReserve'), [feedReserve.cost.total.ref], true) : undefined,
+  /** «Жами кредит» equals the bank credit total (extract.py checks it), so it reuses that rounding. */
+  totalCredit: { ...totalFinancing.bank, trim: true, src: [project.totalCredit.ref] },
 }
 
 export type SlideId = 'cover' | SectionId | 'total'

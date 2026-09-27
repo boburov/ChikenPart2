@@ -120,7 +120,20 @@ export interface BarRow {
  * Horizontal stacked bars (bank | own), one per row, scaled to the largest row.
  * The total sits at the bar's end; the split shows on hover.
  */
-export function StackedBars({ rows, labelWidth = 200, valueWidth = 190, rowGap = 22 }: { rows: BarRow[]; labelWidth?: number; valueWidth?: number; rowGap?: number }) {
+export function StackedBars({
+  rows,
+  labelWidth = 200,
+  valueWidth = 190,
+  rowGap = 22,
+  dense = false,
+}: {
+  rows: BarRow[]
+  labelWidth?: number
+  valueWidth?: number
+  rowGap?: number
+  /** Smaller icons and type, for charts with many rows. */
+  dense?: boolean
+}) {
   const [active, setActive] = useState<{ row: string; fund: Fund } | null>(null)
   const max = Math.max(...rows.map((r) => r.exact.total))
 
@@ -131,10 +144,14 @@ export function StackedBars({ rows, labelWidth = 200, valueWidth = 190, rowGap =
         const width = (row.exact.total / max) * 100
         return (
           <div key={row.key} className="grid items-center gap-4" style={{ gridTemplateColumns: `${labelWidth}px 1fr ${valueWidth}px` }}>
-            <div className="flex items-center gap-3 text-[18px] font-semibold text-ink">
+            <div className={`flex items-center gap-3 font-semibold text-ink ${dense ? 'text-[17px]' : 'text-[18px]'}`}>
               {row.icon && (
-                <span className="grid size-10 shrink-0 place-items-center rounded-[12px] bg-white/80 text-brand-deep shadow-[0_2px_8px_-3px_#123b8f40]">
-                  <row.icon size={20} strokeWidth={2} />
+                <span
+                  className={`grid shrink-0 place-items-center bg-white/80 text-brand-deep shadow-[0_2px_8px_-3px_#123b8f40] ${
+                    dense ? 'size-[34px] rounded-[10px]' : 'size-10 rounded-[12px]'
+                  }`}
+                >
+                  <row.icon size={dense ? 18 : 20} strokeWidth={2} />
                 </span>
               )}
               <span className="leading-tight">{row.label}</span>
@@ -178,7 +195,7 @@ export function StackedBars({ rows, labelWidth = 200, valueWidth = 190, rowGap =
             <div className="flex items-baseline justify-end gap-2 whitespace-nowrap">
               {row.exact.total > 0 ? (
                 <>
-                  <Num fig={row.total} className="text-[24px] font-[720] text-ink" />
+                  <Num fig={row.total} className={`${dense ? 'text-[22px]' : 'text-[24px]'} font-[720] text-ink`} />
                   <span className="text-[16px] font-medium text-ink-2">млн $</span>
                   {row.share && (
                     <span className="ml-1 w-[48px] text-right text-[16px] font-semibold text-ink-3">
