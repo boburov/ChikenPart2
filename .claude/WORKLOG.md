@@ -1207,3 +1207,77 @@ Three
 <sub>session `aa2ea332` · branch `main` · 6 ta qadam</sub>
 
 ---
+
+## 2026-09-27 23:07 — put qayta ishlash before jami
+
+**So'rov**
+
+> put qayta ishlash before jami
+
+**Buyruqlar (7)**
+
+```sh
+git log --oneline -4 && git status --short && sed -n '/export const SLIDES/,/^]/p' src/data/deck.ts && grep -n "Chip\b\|chip(\|TOTAL_INDEX\|PROCESSING_INDEX\|di…
+curl -s http://localhost:5173/src/data/deck.ts | grep -o "id: 'processing'[^}]*}\|id: 'total'[^}]*}" | head -3
+curl -s http://localhost:5173/src/data/deck.ts | grep -n "processing-table\|'total'" | head -5; lsof -nP -iTCP:5173 -sTCP:LISTEN | tail -1
+curl -s http://localhost:5173/src/data/deck.ts | grep -n '"processing-table"\|"total",' | head; for d in chicken_part2 ChickenPart3; do echo "=== $d"; cd /Users…
+for d in chicken_part2 ChickenPart3; do echo "=== $d"; cd /Users/shukrullo/Desktop/$d && git fetch -q origin && git status -sb | head -1 && git log --oneline or…
+git show origin/main:src/data/deck.ts | grep -n "id: 'processing'\|id: 'processing-table'\|id: 'total'"; git diff .claude/WORKLOG.md | sed -n 1,70p
+git add .claude/WORKLOG.md && git commit -q -m "docs: log moving Қайта ишлаш before Жами Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>" && git push -q…
+```
+
+**Natija**
+
+Your screenshot still shows Қайта ишлаш as slide 8, after Жами. My change put it at 7, so either the page wasn't reloaded or something changed the files since. Checking what's on disk:
+
+The files on disk already have the right order. Confirming the running server on port 5173 serves that same order:
+
+Both repos are on `main` with GitHub remotes. Part3's changes are already committed, and in chicken_part2 only `.claude/WORKLOG.md` is uncommitted. Checking what's committed but not yet pushed:
+
+The pushed code already has Қайта ишлаш before Жами. The remaining change is just the auto-generated work log entry for this step. Committing and pushing it:
+
+Both projects are committed and pushed to GitHub, and `main` matches `origin/main` in each.
+
+- **Kegeyli (chicken_part2), [boburov/ChikenPart2](https://github.com/boburov/ChikenPart2):** all the code was already in your commit `de7b9c6`, including Қайта ишлаш before Жами. The only thing left was the work-log note (`.claude/WORKLOG.md`), which I committed and pushed as `ce96a52`.
+- **Барака Ҳамкор (ChickenPart3), [boburov/chickenPart3](https://github.com/boburov/chickenPart3):** everything was already committed and pushed (latest `06a22cd`), so there was nothing to add.
+
+About your screenshot: Safari is showing an old copy of the page. The files and the running server already have the new order, Несушка (6) → Қайта ишлаш (7–8) → Жами (9). Reload the Kegeyli tab with ⌘R to see it.
+
+<sub>session `aa2ea332` · branch `main` · 7 ta qadam</sub>
+
+---
+
+## 2026-09-27 23:10 — dastgox qismida son hato chiqmoqda yani jadval bilan bir xil emas fix 
+
+**So'rov**
+
+> dastgox qismida son hato chiqmoqda yani jadval bilan bir xil emas fix qiling
+
+**Buyruqlar (4)**
+
+```sh
+cd /Users/shukrullo/Desktop/ChickenPart3 && git status --short; grep -n "summaryCosts" -A32 src/data/deck.ts | head -45
+cd /Users/shukrullo/Desktop/ChickenPart3 && python3 - <<'EOF' from pathlib import Path def patch(path, pairs): p = Path(path); s = p.read_text() for old, new in…
+cd /Users/shukrullo/Desktop/ChickenPart3 && python3 - <<'EOF' from pathlib import Path p = Path("src/components/Charts.tsx"); s = p.read_text() old = ''' <div c…
+cd /Users/shukrullo/Desktop/ChickenPart3 && npm run build 2>&1 | tail -1 && git status --short
+```
+
+**Natija**
+
+You're right: on the Part3 Жами slide, Дастгоҳ shows 19,87, but the Excel table has 20,25 (`жами лойиха!E15` = 20 251,2). I had subtracted the generator from it. I'll put Дастгоҳ back to the sheet's 20,25 and show the generator underneath as «шу жумладан» (of which), so it isn't counted twice and the rows still add up to 47,84.
+
+Дастгоҳ now shows 20,25 (42%), the same as the table. The generator sits under it as «шу жумладан Генератор · 22 та · 0,38 млн $». Running the build:
+
+Fixed. On the Жами slide of Барака Ҳамкор (`localhost:5174/#8`), «Дастгоҳ» is **20,25 млн $** again, matching the table (`жами лойиха!E15` = 20 251,2).
+
+The mismatch came from how I split out the generator. When I made it a separate row, I subtracted its 0,38 from Дастгоҳ, which is why it showed 19,87. Now:
+
+- **Дастгоҳ 20,25 млн $ · 42%:** the sheet's own figure, generator included.
+- **The generator sits right under it:** «шу жумладан Генератор · 22 та · 0,38 млн $». It has no percentage of its own because its share is already inside Дастгоҳ's.
+- **The main rows add up correctly:** 12,38 + 20,25 + 9,16 + 6,05 = 47,84 млн $, and the percentages total 100%.
+
+No overflow on any slide, and the build passes. I haven't committed or pushed this change (3 files in ChickenPart3), because your earlier push request covered the previous state. Say so if you want it pushed.
+
+<sub>session `aa2ea332` · branch `main` · 7 ta qadam</sub>
+
+---
