@@ -1151,3 +1151,59 @@ Three differences from the original:
 <sub>session `aa2ea332` · branch `main` · 12 ta qadam</sub>
 
 ---
+
+## 2026-09-27 23:06 — put qayta ishlash before jami
+
+**So'rov**
+
+> put qayta ishlash before jami
+
+**Buyruqlar (4)**
+
+```sh
+python3 - <<'EOF' from pathlib import Path def patch(path, pairs): p = Path(path); s = p.read_text() for old, new in pairs: assert s.count(old) == 1, (path, old…
+sed -i '' 's/border-brand-deep\/25 text-navy"/border-brand-deep\/25"/' src/slides/ProcessingTableSlide.tsx S=/private/tmp/claude-501/-Users-shukrullo-Desktop-ch…
+npm run build 2>&1 | tail -1 && git status --short
+git log --oneline -3
+```
+
+**Natija**
+
+Moving Қайта ишлаш to before Жами. In Part3 it's already placed that way, so nothing changes there.
+
+Order is now: … Несушка (6) → Қайта ишлаш (7–8) → Жами (9). Capturing the new slides to check them:
+
+Қайта ишлаш now comes right before Жами. The Kegeyli deck has 9 slides:
+
+… Несушка (6) → **Қайта ишлаш (7)** → **Дастгоҳ ва транспорт (8)** → Жами (9)
+
+A «Қайта ишлаш» chip was added to the top navigation, before «Жами». In Part3 (Барака Ҳамкор), Қайта ишлаш was already before Жами, so nothing there changed.
+
+**Where the data comes from:** the Excel «дастгох» sheet, item by item, and I checked every row against the sheet:
+
+| Item | Сони | Қуввати | Қиймати | Банк | Ўз маблағи |
+|---|---|---|---|---|---|
+| Сўйиш цехи | 1 | 3 000 бош/соат | 1 200 | 800 | 400 |
+| Ҳаво линиясида совитиш | 1 | 3 000 бош/соат | 250 | 250 | 0 |
+| Қадоқлаш дастгоҳлари | 1 | — | 250 | 250 | 0 |
+| Музлатгич | 1 | 1 000 т | 325 | 325 | 0 |
+| Шок музлатгич | 1 | 30 т | 215 | 215 | 0 |
+| Спирал музлатгич | 1 | 3 т/соат | 325 | 325 | 0 |
+| Ем завод | 1 | 20 т/соат | 2 800 | 2 500 | 300 |
+| Озуқа ташиш транспорти | 6 | 25 т ва 15 т | 292,5 | 292,5 | 0 |
+| **Жами** | | | **5 657,5** | **4 957,5** | **700** |
+
+The overview slide shows 5,66 млн $ (88% bank, 12% own funds), the same as the Жами slide.
+
+**Fix these cells in the Excel file itself** (the deck shows the correct sums):
+- **`дастгох!F8` (own funds) says 400, but the rows add up to 700.** The formula leaves out the feed mill's 300.
+- **`дастгох!F9` (bank) says 800, but the rows add up to 4 957,5.** The formula leaves out every equipment row.
+- **Жами is 0,5 lower than the detail sheet.** The summary sheet has 4 457 typed in (5 657 total), while the «дастгох» sheet gives 4 457,5. At млн $ both show as 5,66, so it isn't visible on the slides.
+
+Three
+
+…(qisqartirildi)
+
+<sub>session `aa2ea332` · branch `main` · 6 ta qadam</sub>
+
+---
