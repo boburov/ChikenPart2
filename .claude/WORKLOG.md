@@ -869,3 +869,78 @@ Ikkinchi loyiha haqidagi savolim endi kerak emas: "ikkalasi" shu loyihaning ikki
 <sub>session `aa2ea332` · branch `main` · 27 ta qadam</sub>
 
 ---
+
+## 2026-09-27 22:23 — @"/Users/shukrullo/Downloads/Кегейли.xlsx" bu chickenpart2 uchun yang
+
+**So'rov**
+
+> @"/Users/shukrullo/Downloads/Кегейли.xlsx"
+> bu chickenpart2 uchun yangilangan baza malumotlari hulals buni oqib chiqing vashu filedagialrni tadbi qiling agar conflikt chiqsa uchubu filedagilarni to'gti variant sifatda oling
+
+**O'zgargan fayllar (9)**
+
+- `scripts/extract.py` — tahrirlandi
+- `src/data/types.ts` — tahrirlandi
+- `src/data/deck.ts` — tahrirlandi
+- `src/components/Charts.tsx` — tahrirlandi
+- `src/components/icons.ts` — tahrirlandi
+- `src/slides/TotalSlide.tsx` — tahrirlandi
+- `src/slides/CoverSlide.tsx` — tahrirlandi
+- `README.md` — tahrirlandi
+- `/Users/shukrullo/.claude/projects/-Users-shukrullo-Desktop-chicken-part2/memory/kegeyli-deck-project.md` — tahrirlandi
+
+**Buyruqlar (15)**
+
+```sh
+ls -la -T ~/Downloads/Кегейли*.xlsx; cd /Users/shukrullo/Desktop/chicken_part2 && ls -la -T data/; shasum -a 256 ~/Downloads/Кегейли*.xlsx data/*.xlsx | cut -c1…
+SP=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad cd /Users/shukrullo/Desktop/chicken_part2 && .…
+SP=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad cat > "$SP/xdump.py" <<'EOF' import openpyxl, …
+ls -la -T scripts/ src/data/ src/slides/ docs/; grep -n "Жами Лойиҳа\|SUMMARY_SHEET\|дастгох\|summary\|def main\|FEED\|reserve\|Озуқа заҳира" scripts/extract.py…
+cat .claude/launch.json; grep -rn "SUMMARY\.\|feedReserve\|totalCredit" src --include=*.tsx | grep -v "^src/slides/TotalSlide" | head; ls src/components; lsof -…
+lsof -a -p 50822 -d cwd 2>/dev/null | tail -1; lsof -a -p 67288 -d cwd 2>/dev/null | tail -1; grep -n "export function StackedBars" -A 60 src/components/Charts.…
+SP=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad cd "$SP/shots" && cat shoot.mjs | head -30 && …
+sed -n 1,122p src/components/Charts.tsx | grep -n "BarRow\|interface\|export\|type " ; sed -n 183,215p src/components/Charts.tsx; cat src/components/icons.ts
+git log --oneline -3 -- data/Кегейли.xlsx 2>&1 | head -3; git status --short 2>&1 | head -20; cp ~/Downloads/Кегейли.xlsx data/Кегейли.xlsx && shasum -a 256 dat…
+git log --oneline -4; .venv/bin/python -c " import json; d=json.load(open('src/data/kegeyli.json')); p=d['project'] for l in p['lines']: print(f\"{l['id']:12} {…
+npx tsc --noEmit 2>&1 | head -20; echo "tsc exit ${pipestatus[1]}"; grep -rn "bySection\|FEED_RESERVE" src | head
+SP=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad cd "$SP/shots" && sleep 1 && node check.mjs ht…
+SP=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad cd "$SP/shots" && sed -i '' 's/if (bottom > 10…
+npm run build 2>&1 | tail -4; grep -n "6 млн\|feed\|Озуқа заҳира\|summary\|Жами\|четыре\|four\|ADJUSTMENTS\|total credit\|31,4" README.md | head -20; grep -n "S…
+SP=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad cd "$SP/shots" && head -12 func.mjs; node func…
+```
+
+**Natija**
+
+The new file (22:20) differs from the project copy, which is the earlier `Кегейли (1).xlsx`. Diffing them cell by cell:
+
+Buildings (59) match the file, so no conflict there. Taking a baseline screenshot of the current Жами slide to plan the layout for 7 lines instead of 4:
+
+I'm partway through the extractor change: it now checks formulas that point to other sheets. Next it reads the 7 project lines. Then the Жами slide.
+
+Now the check-table section for the project summary, plus the wiring in `main()`:
+
+Extractor done. Copying the new Excel into the project (the old copy stays in git if it's tracked) and running the extraction:
+
+All checks pass, including the 73 summary-sheet formulas, several of which point to other sheets. The four section rows match their sheets cell for cell. Checking the extracted project block:
+
+Now the line split (shared by the section pages and Жами) and the new `SUMMARY`:
+
+**3. Chart and icons:** a `dense` option for `StackedBars` so seven rows fit in the card, and icons for the three new lines.
+
+**4. Жами slide:** seven lines, the file's credit, and a slightly shorter bottom row to make room:
+
+**5. Cover:** the headline becomes 51 млн $ while the four section cards still add to 38,96, so the total card now names the lines that make up the difference:
+
+Type-check passes, no stale references. Rendering and checking every slide for overflow:
+
+Those flags are false alarms. The checker's limits (1006 / 1850) were set for Part3's margins, and part 2's content edge is exactly 1004 / 1856. Rerunning with part 2's limits:
+
+The seven rows are evenly spaced and the hint fits on one line. Section pages are unchanged (Прародитель 9,52 = 6,23 + 3,29). Now the build, the README and the check table:
+
+Build passes, and the check table lays out every line exactl
+
+…(qisqartirildi)
+
+<sub>session `11be82df` · branch `HEAD` · 63 ta qadam</sub>
+
+---
