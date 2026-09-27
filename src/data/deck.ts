@@ -7,6 +7,15 @@ import type { Cell, CostKey, DeckData, Facility, Land, LineId, Money, Section, S
 
 export const data = raw as unknown as DeckData
 
+/** The joint-venture banner from the client's picture (moved here from the Барака Ҳамкор deck). */
+export const JOINT_VENTURE = {
+  label: 'Qo‘shma korxona',
+  partners: [
+    { flag: 'uz', name: '“KEGEYLI BARAKA NASLLI PARRANDA” H.K' },
+    { flag: 'cn', name: '“BEIJING HUA DU YOUKOU POULTRY CO., LTD”' },
+  ],
+}
+
 export const DECK = {
   brand: 'Shuxrat ōgli',
   byline: 'By «Baraka hamkor parranda» XK',

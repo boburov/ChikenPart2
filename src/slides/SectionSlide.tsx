@@ -2,7 +2,7 @@ import { Cog, LandPlot, MapPin } from 'lucide-react'
 import { DECK, type CostRow, type SectionView } from '../data/deck'
 import { PHOTOS } from '../data/photos'
 import type { SectionId } from '../data/types'
-import { Card, FacilityCard, GroupCard, IconTile, PhotoSlot } from '../components/Blocks'
+import { Card, FacilityCard, GroupCard, IconTile, JointVentureBanner, PhotoSlot } from '../components/Blocks'
 import { Donut, FundsLegend, StackedBars } from '../components/Charts'
 import { COST_META, FUNDS, SECTION_ICON } from '../components/icons'
 import { Num, Src } from '../components/Num'
@@ -43,7 +43,14 @@ export function SectionSlide({ s }: { s: SectionView }) {
         </div>
       </div>
 
-      <PhotoSlot className="col-span-4 row-span-2" src={PHOTOS[s.id]} icon={SECTION_ICON[s.id]} alt={`${s.title}: сурат`} />
+      {s.id === 'praroditel' ? (
+        <>
+          <JointVentureBanner className="col-span-4 col-start-9 row-start-1" />
+          <PhotoSlot className="col-span-4 col-start-9 row-start-2" src={PHOTOS[s.id]} icon={SECTION_ICON[s.id]} alt={`${s.title}: сурат`} />
+        </>
+      ) : (
+        <PhotoSlot className="col-span-4 row-span-2" src={PHOTOS[s.id]} icon={SECTION_ICON[s.id]} alt={`${s.title}: сурат`} />
+      )}
 
       {/* 2. what the district gets */}
       <Card className="col-span-4 flex flex-col">

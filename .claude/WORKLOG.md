@@ -944,3 +944,97 @@ Build passes, and the check table lays out every line exactl
 <sub>session `11be82df` · branch `HEAD` · 63 ta qadam</sub>
 
 ---
+
+## 2026-09-27 22:41 — dont add 5 "зуқа заҳираси" and set as 32,63
+
+**So'rov**
+
+> dont add 5 "зуқа заҳираси" and set as 32,63
+
+**O'zgargan fayllar (2)**
+
+- `/Users/shukrullo/Desktop/ChickenPart3/scripts/extract.py` — tahrirlandi
+- `/Users/shukrullo/Desktop/ChickenPart3/src/data/deck.ts` — tahrirlandi
+
+**Buyruqlar (7)**
+
+```sh
+cd /Users/shukrullo/Desktop/ChickenPart3 && grep -rn "feedReserve\|totalCredit\|projectCredit\|захира\|заҳира\|37,63\|37 631" src README.md --include=*.ts --inc…
+cd /Users/shukrullo/Desktop/ChickenPart3 && grep -rn "feedReserve\|totalCredit\|projectCredit\|захира\|заҳира\|37,63\|37 631" src README.md docs/verification.md…
+cd /Users/shukrullo/Desktop/ChickenPart3 && grep -n "no count in the sheet\|CLIENT_COUNTS\|flags\b\|\"flags\"\|flags +=\|feed_reserve\|feedReserve\|totalCredit"…
+cd /Users/shukrullo/Desktop/ChickenPart3/src/slides && python3 - <<'EOF' from pathlib import Path def patch(path, pairs): p = Path(path); s = p.read_text() for …
+OLD=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad NEW=/private/tmp/claude-501/-Users-shukrullo-…
+cd /Users/shukrullo/Desktop/ChickenPart3 && npm run build 2>&1 | tail -1 cd /Users/shukrullo/Desktop/chicken_part2 && npx tsx -e " import { SUMMARY } from './sr…
+cd /Users/shukrullo/.claude/projects/-Users-shukrullo-Desktop-chicken-part2/memory && python3 - <<'EOF' from pathlib import Path p = Path("chicken-part3-project…
+```
+
+**Natija**
+
+You want Жами кредит to be 32,63, with the 5 млн feed reserve left out. First I'm finding everywhere the 5 is added or mentioned:
+
+The Part3 search didn't run (a zsh quoting error). Rerunning it:
+
+The extractor already records client decisions as flags, so I'll add one for this. Now the edits: data first, then the two slides.
+
+The extractor passes all checks and `verification.md` now records the decision (flag 15). Checking the result visually, and glancing at how the Kegeyli deck handles its own feed reserve:
+
+Build passes. The Kegeyli deck has its own 6 млн feed-reserve card, and its Жами кредит is 36,75. I haven't touched it. Updating the project memory:
+
+Tayyor: Жами кредит endi **32,63 млн $**, 5 млн озуқа заҳираси qo'shilmaydi. Build o'tdi, 8 ta slaydning birortasida ham chiqib ketish yo'q.
+
+**Muqova (1-slayd):**
+- «Жами кредит» kartasi: **32,63 млн $**. Ostidagi yozuv «лойиҳалар 32,63 + озуқа заҳираси 5» o'rniga endi «лойиҳа қийматининг 68%».
+- Moliyalashtirish kartasi tagidagi «Озуқа заҳираси учун: +5 млн $» qatori olib tashlandi.
+
+**Жами (8-slayd):**
+- Kredit kartasi **32,63 млн $ · банк кредити · 68% жамидан** bo'ldi.
+- Yonida «Банк кредити 32,63» kartasi ham bor edi. Endi ikkalasi bir xil raqam bo'lib qolgani uchun ularni bitta «Жами кредит» kartasiga birlashtirdim.
+- Tepada 3 ta karta qoldi: Лойиҳа қиймати 47,84 → Ўз маблағи 15,21 → Жами кредит 32,63. Alohida «Банк кредити» kartasi kerak bo'lsa, qaytaraman.
+
+Excel'dagi «Жами кредит» katagi (`жами лойиха!C22` = 37,63) 5 млн ni qo'shib hisoblaydi. Endi deck uning o'rniga loyihalarning bank kreditini (`C17` = 32,63) ko'rsatadi. S tugmasi bosilganda manba ham shunday chiqadi.
+
+**Savol:** Kegeyli loyihasida ham alohida «Озуқа заҳираси учун — 6 млн $» kartasi bor, u yerda Жами кредит 36,75 млн $ ko'rsatilgan. U ye
+
+…(qisqartirildi)
+
+<sub>session `aa2ea332` · branch `main` · 13 ta qadam</sub>
+
+---
+
+## 2026-09-27 22:48 — http://localhost:5174/#1 took and move to http://localhost:5173/#2 thi
+
+**So'rov**
+
+> http://localhost:5174/#1 took and move to 
+> http://localhost:5173/#2 this page quickly
+
+**Buyruqlar (6)**
+
+```sh
+git status --short && ls src/slides src/components && grep -n "kind\|key:" src/data/deck.ts | grep -n "SLIDES\|cover\|section\|total" | head; grep -rn "SLIDES" …
+grep -n "@utility\|--color-brand\|--color-navy" src/index.css | head -30; grep -n "SectionId =" src/data/types.ts src/data/deck.ts; grep -n "export const SECTIO…
+mkdir -p /Users/shukrullo/Desktop/chicken_part2/public/img/flags && cp /Users/shukrullo/Desktop/ChickenPart3/node_modules/flag-icons/flags/4x3/{uz,cn}.svg /User…
+python3 - <<'EOF' from pathlib import Path def patch(path, pairs): p = Path(path); s = p.read_text() for old, new in pairs: assert s.count(old) == 1, (path, old…
+npx tsc --noEmit -p . && echo p2-tsc-ok S=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2; N=$S/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad c…
+npm run build 2>&1 | tail -1; cd ../ChickenPart3 && npm run build 2>&1 | tail -1
+```
+
+**Natija**
+
+The Kegeyli deck has the same colour tokens and glass styles, but no flag icons. I'll copy the two flag SVGs over and build the banner as a compact card above the Прародитель photo.
+
+The banner sits cleanly above the photo on 5173/#2. Quick look at the Part3 cover without it:
+
+Both decks are right. Final build of both:
+
+«Qo'shma korxona» banneri endi Kegeyli loyihasida, Прародитель sahifasida (`localhost:5173/#2`).
+
+- **Joylashuvi:** o'ng ustunda, rasm joyining tepasida. Ikki hamkor bayroqlari bilan: “KEGEYLI BARAKA NASLLI PARRANDA” H.K va “BEIJING HUA DU YOUKOU POULTRY CO., LTD”.
+- **Rasm joyi:** banner uchun joy bo'shatish maqsadida biroz qisqardi. Sahifadagi qolgan kartalar joyida qoldi.
+- **Barakа Ҳамкор muqovasi (`localhost:5174/#1`):** siz "move" deganingiz uchun banner u yerdan olib tashlandi. Tepada endi faqat logo va slayd raqami turibdi. U yerda ham qolishi kerak bo'lsa, ayting, qaytaraman.
+
+Ikkala loyihaning build'i o'tdi va skrinshotlarda tekshirdim. Hech narsa commit yoki push qilinmadi.
+
+<sub>session `aa2ea332` · branch `main` · 10 ta qadam</sub>
+
+---

@@ -1,9 +1,29 @@
 import type { ReactNode } from 'react'
-import { LandPlot, MapPin, Truck, type LucideIcon } from 'lucide-react'
-import type { FacilityView, GroupRow, GroupView } from '../data/deck'
+import { Handshake, LandPlot, MapPin, Truck, type LucideIcon } from 'lucide-react'
+import { JOINT_VENTURE, type FacilityView, type GroupRow, type GroupView } from '../data/deck'
 import { SplitBar } from './Charts'
 import { FACILITY_ICON } from './icons'
 import { Num, Src } from './Num'
+
+/** The two partners of the joint venture, stacked to fit one column. */
+export function JointVentureBanner({ className = '' }: { className?: string }) {
+  return (
+    <div data-anim="rise" className={`glass flex flex-col justify-center gap-2.5 rounded-[26px] px-6 ${className}`}>
+      <div className="flex items-center gap-2.5">
+        <span className="grid size-7 place-items-center rounded-full bg-[linear-gradient(135deg,#176bff,#7b3ff2)] text-white">
+          <Handshake size={15} />
+        </span>
+        <span className="eyebrow">{JOINT_VENTURE.label}</span>
+      </div>
+      {JOINT_VENTURE.partners.map((p) => (
+        <div key={p.flag} className="flex items-center gap-3 rounded-[14px] bg-white/85 py-1.5 pl-2 pr-4 ring-1 ring-brand-deep/10">
+          <img src={`/img/flags/${p.flag}.svg`} alt="" className="h-6 w-8 shrink-0 rounded-[4px] object-cover ring-1 ring-brand-deep/10" />
+          <span className="truncate text-[15px] font-[800] uppercase text-brand-deep">{p.name}</span>
+        </div>
+      ))}
+    </div>
+  )
+}
 
 export function Card({ title, aside, className = '', children }: { title?: ReactNode; aside?: ReactNode; className?: string; children: ReactNode }) {
   return (
