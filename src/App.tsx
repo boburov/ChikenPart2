@@ -4,6 +4,7 @@ import { SECTIONS, SLIDES } from './data/deck'
 import { Backdrop, Footer, Header, Stage, type DeckControls } from './components/Frame'
 import { SourcesContext } from './components/Num'
 import { gsap, playEntrance, prefersReducedMotion, settleCounters } from './lib/motion'
+import { CompanySlide } from './slides/CompanySlide'
 import { CoverSlide } from './slides/CoverSlide'
 import { SectionSlide } from './slides/SectionSlide'
 import { TotalSlide } from './slides/TotalSlide'
@@ -193,6 +194,7 @@ export default function App() {
                 <Header index={i} controls={controls} />
                 {slide.id === 'cover' && <CoverSlide onJump={jump} />}
                 {section && <SectionSlide s={section} />}
+                {slide.id === 'company' && <CompanySlide slide={i + 1} />}
                 {slide.id === 'total' && <TotalSlide onJump={jump} slide={i + 1} />}
                 <Footer controls={{ ...controls, index: i }} />
               </section>

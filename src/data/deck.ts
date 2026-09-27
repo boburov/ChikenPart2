@@ -328,7 +328,8 @@ function sectionView(section: Section, slide: number): SectionView {
   }
 }
 
-export const SECTIONS: SectionView[] = data.sections.map((sec, i) => sectionView(sec, i + 2))
+// Slide 3 is the company overview (CompanySlide), so the sections after Прародитель move one down.
+export const SECTIONS: SectionView[] = data.sections.map((sec, i) => sectionView(sec, i === 0 ? 2 : i + 3))
 
 const sum = data.summary
 const totalFinancing = financing(project.cost.total, project.bank.total, project.own.total)
@@ -362,9 +363,12 @@ export const SUMMARY = {
   totalCredit: { ...totalFinancing.bank, trim: true, src: [project.totalCredit.ref] },
 }
 
-export type SlideId = 'cover' | SectionId | 'total'
+export type SlideId = 'cover' | SectionId | 'company' | 'total'
 export const SLIDES: { id: SlideId; title: string }[] = [
   { id: 'cover', title: 'Муқова' },
-  ...SECTIONS.map((sec) => ({ id: sec.id as SlideId, title: sec.title })),
+  ...SECTIONS.flatMap((sec, i) => [
+    { id: sec.id as SlideId, title: sec.title },
+    ...(i === 0 ? [{ id: 'company' as SlideId, title: 'Корхона' }] : []),
+  ]),
   { id: 'total', title: 'Жами' },
 ]

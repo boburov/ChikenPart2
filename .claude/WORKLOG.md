@@ -1038,3 +1038,64 @@ Ikkala loyihaning build'i o'tdi va skrinshotlarda tekshirdim. Hech narsa commit 
 <sub>session `aa2ea332` · branch `main` · 10 ta qadam</sub>
 
 ---
+
+## 2026-09-27 22:51 — https://github.com/boburov/chicken.git add this page after localhost:5
+
+**So'rov**
+
+> https://github.com/boburov/chicken.git add this page after  localhost:5173/#2 this page
+
+**Buyruqlar (13)**
+
+```sh
+N=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad; cd $N && rm -rf chicken-ref && git clone --dep…
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref && wc -l src/data/slides.ts src/co…
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref && npm install --silent 2>&1 | tai…
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref && cat vite.log | tail -5; grep -n…
+cd /private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref && head -3 vite.log; (npx vite --p…
+S=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2; cd $S/11be82df-54de-4a81-b4af-1493a9b6c7ae/scratchpad/shots && node shoot.mjs http://localhost…
+grep -n "SLIDES\|SlideSpec\|kind\|sectionView(sec" src/data/deck.ts | head -20; sed -n '/export const SLIDES/,/^]/p' src/data/deck.ts; grep -n "kind\|SectionSli…
+sed -n '355,380p' src/data/deck.ts; grep -n "SlideId" src/data/*.ts | head; sed -n '170,200p' src/App.tsx; sed -n '55,95p' src/components/Frame.tsx; grep -n "ex…
+grep -n "export function Num\|export function Src" -A3 src/components/Num.tsx; sed -n '28,56p' src/components/Blocks.tsx; sed -n '1,20p' src/data/photos.ts; gre…
+R=/private/tmp/claude-501/-Users-shukrullo-Desktop-chicken-part2/aa2ea332-da17-4261-a0b0-b2d3dbec7f93/scratchpad/chicken-ref cd /Users/shukrullo/Desktop/chicken…
+python3 - <<'EOF' from pathlib import Path p = Path("src/data/deck.ts"); s = p.read_text() s = s.replace("export const COMPANY_SLIDE = 3\n", ""); p.write_text(s…
+npx tsx -e "import { SLIDES, SECTIONS } from './src/data/deck.ts'; console.log(SLIDES.map((s,i)=>(i+1)+':'+s.id).join(' '), '|', SECTIONS.map(s=>s.id+'='+s.slid…
+git log --oneline -3 && git show --stat HEAD | head -15
+```
+
+**Natija**
+
+It's a separate presentation (a Three.js one). Let me see what pages it has:
+
+Writing the data file, the slide, and the wiring:
+
+Slide 3 matches the reference page's content, restyled in the Kegeyli deck's look. Checking that the following slides renumbered correctly, building, and stopping the temporary server:
+
+I added the page from `boburov/chicken` to the Kegeyli deck as slide 3, right after Прародитель (`localhost:5173/#3`). The deck now has 7 slides, and the build passes.
+
+The repo holds a single page, the «Baraka hamkor parranda» company overview. I rebuilt it in the deck's own style instead of copying its 3D scene, so it looks like the other slides. The text is converted to Cyrillic like the rest of the deck. All numbers are kept exactly as they are in the repo.
+
+The slide contains:
+- **Title:** Барака ҳамкор парранда · хусусий корхонаси · Корхона раҳбари.
+- **Лойиҳа қиймати 50 млн АҚШ доллари:** bank credit 35 (70%, with the Микрокредитбанк logo) and own funds 15 (30%), shown as a ring chart.
+- **Андижон вилояти талаби ва бизнинг улуш:**
+  - Тухум: 720 → 418 млн дона, 58%.
+  - Гўшт: 52 → 60 минг тонна, 115%, +8 минг тонна ортиқча.
+- **Photo:** the hens picture from the repo.
+- **Янги лойиҳа ишга тушгач:**
+  - Товуқ гўшти 10 → 60 минг тонна
+  - Тухум 90 → 418 млн дона
+  - Айланма 300 млрд → 1,4 трлн сўм
+  - Иш ўринлари 305 → 705 нафар
+
+Two things to know:
+- **These figures don't match the Kegeyli Excel.** The 50 / 35 / 15 are the company's own overall numbers, not from `Кегейли.xlsx`. In S mode their source reads «корхона маълумоти».
+- **The navigation bar has no chip for this slide.** It's reachable with the arrows or `#3`. Родитель, Бройлер and Несушка are now slides 4–6, and the chips jump to the right ones.
+
+I noticed you already committed the banner change 
+
+…(qisqartirildi)
+
+<sub>session `aa2ea332` · branch `main` · 15 ta qadam</sub>
+
+---
